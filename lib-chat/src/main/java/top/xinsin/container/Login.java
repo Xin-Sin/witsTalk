@@ -1,7 +1,7 @@
 package top.xinsin.container;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Author xinxin
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Version 1.0
  */
 
-@Controller
+@RestController
 public class Login {
-    @RequestMapping("/")
-    public String hello() {
+    @PostMapping("/api/login")
+    public String login() {
         return "dsa";
     }
 }
