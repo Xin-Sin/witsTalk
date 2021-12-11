@@ -14,8 +14,12 @@
         insert into witstalk.user set username = #{username}, password = #{password}, auth = #{auth};
     </insert>
 
+    <update id="changePassword" parameterType="top.xinsin.pojo.User">
+        update witstalk.user set password = #{password} where username = #{username};
+    </update>
+
     <select id="canLogin" parameterType="top.xinsin.pojo.User" resultType="top.xinsin.pojo.User">
-        select * from witstalk.user where username=#{username} and password=#{password};
+        select * from witstalk.user where username = #{username} and password = #{password};
     </select>
 
 </mapper>

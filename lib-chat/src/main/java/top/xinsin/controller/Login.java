@@ -39,4 +39,13 @@ public class Login {
         logger.info("adduser");
         return jsonObject.toJSONString();
     }
+
+    @PostMapping("/api/changepassword")
+    public String changePassword(@RequestBody User user) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("status",200);
+        userService.changePassword(user);
+        logger.info("changepassword");
+        return jsonObject.toJSONString();
+    }
 }
