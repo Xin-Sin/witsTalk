@@ -17,8 +17,8 @@ import top.xinsin.services.UserService;
  */
 
 @RestController
-public class Login {
-    private final Logger logger = LogManager.getLogger(Login.class);
+public class LoginController {
+    private final Logger logger = LogManager.getLogger(LoginController.class);
     @Autowired
     UserService userService;
 
