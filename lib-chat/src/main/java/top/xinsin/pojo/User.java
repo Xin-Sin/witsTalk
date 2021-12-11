@@ -19,4 +19,19 @@ public class User {
     private Auth auth;
     private int online;
     private String last_login;
+    public User(){
+        this.username = null;
+        this.password = null;
+        this.auth = Auth.user;
+    }
+    public User(String username,String password){
+        this.username = username;
+        this.password = password;
+        this.auth = Auth.user;
+    }
+    public User(String username,String password,String auth){
+        this.username = username;
+        this.password = password;
+        this.auth = Auth.valueOf(auth);
+    }
 }
