@@ -2,9 +2,9 @@ server:
   port: 8080
 spring:
   datasource:
-    username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/book_collecion?serverTimezone=UTC-8
+    username: witstalk
+    password: withTalk
+    url: jdbc:mysql://wzpmc.cn:3306/witstalk?serverTimezone=UTC-8
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
     static-path-pattern: /res/**
