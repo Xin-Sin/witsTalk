@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.xinsin.dao.MessageMapper">
+    <insert id="SendMessage" parameterType="top.xinsin.pojo.Message">
+        insert into witstalk.message set content = #{content},sender = #{sender};
+    </insert>
+    <update id="ReCall" parameterType="top.xinsin.pojo.Message">
+        update witstalk.message set recall = 1 where id=#{id} and content = #{content};
+    </update>
+    <select id="GetSomeMessage" resultType="top.xinsin.pojo.Message">
+        select * from witstalk.message where id >= #{id_min} AND id &lt;= #{id_max};
+    </select>
+    <select id="GetAllMessage" resultType="top.xinsin.pojo.Message">
+        select * from witstalk.message
+    </select>
+</mapper>

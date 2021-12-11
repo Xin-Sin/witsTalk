@@ -17,7 +17,7 @@ import java.util.Random;
  * @Version 1.0
  */
 @RestController
-public class VerificationCode {
+public class VerificationCodeController {
     @GetMapping("/api/getverificationcode")
     public String GetVerificationCode() throws IOException {
         //定义宽高

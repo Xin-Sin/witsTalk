@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.xinsin.dao.UserMapper">
-
-    <resultMap id="BaseResultMap" type="top.xinsin.pojo.User">
-        <result column="id" jdbcType="INTEGER" property="id" />
-        <result column="username" jdbcType="VARCHAR" property="username" />
-        <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="auth" jdbcType="VARCHAR" property="auth" />
-        <result column="online" jdbcType="INTEGER" property="online" />
-        <result column="last_login" jdbcType="VARCHAR" property="last_login" />
-    </resultMap>
     <insert id="addUser" parameterType="top.xinsin.pojo.User">
         insert into witstalk.user set username = #{username}, password = #{password}, auth = #{auth};
     </insert>
