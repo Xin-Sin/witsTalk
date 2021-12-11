@@ -1,5 +1,6 @@
 package top.xinsin.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import top.xinsin.pojo.User;
 
@@ -12,4 +13,5 @@ import top.xinsin.pojo.User;
 public interface UserMapper {
     User canLogin(User user);
     void addUser(User user);
+    void changePassword(User user);
 }

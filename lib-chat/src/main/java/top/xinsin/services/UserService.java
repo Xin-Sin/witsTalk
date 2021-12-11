@@ -21,4 +21,7 @@ public class UserService {
     public void addUser(User user){
         userMapper.addUser(user);
     }
+    public void changePassword(User user){
+        userMapper.changePassword(user);
+    }
 }
