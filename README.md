@@ -1,6 +1,3 @@
-# witsTalk
-For Voice Chat and File Transfer
-
 ## [WitsTalk]智慧语音
 
 **本项目名称为:**`WitsTalk`
@@ -11,7 +8,5 @@ For Voice Chat and File Transfer
 
 **该项目成员**`成员列表`
 - `[UI设计、前端]Mo_Yi`  `[后端、前端]xinxin`  `[后端、前端]wzp`
-- 
-
 
 - 本只能语音项目是面向大众的，所以我们将会吧这个项目进行开源处理，具体请遵守开源 [Apache License 2.0](https://github.com/XinSin-top/witsTalk/blob/main/LICENSE) 的规则.
