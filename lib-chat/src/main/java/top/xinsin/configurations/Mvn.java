@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 
 @SpringBootConfiguration
-public class mvn implements WebMvcConfigurer {
+public class Mvn implements WebMvcConfigurer {
     /**
      * 解决跨域问题
      */

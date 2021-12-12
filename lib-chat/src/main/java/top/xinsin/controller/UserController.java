@@ -5,8 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.apache.logging.log4j.LogManager;
+import org.springframework.web.bind.annotation.RestController;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
 
@@ -17,8 +17,8 @@ import top.xinsin.services.UserService;
  */
 
 @RestController
-public class LoginController {
-    private final Logger logger = LogManager.getLogger(LoginController.class);
+public class UserController {
+    private final Logger logger = LogManager.getLogger(UserController.class);
     @Autowired
     UserService userService;
 
@@ -48,4 +48,5 @@ public class LoginController {
         logger.info("changepassword");
         return jsonObject.toJSONString();
     }
+
 }
