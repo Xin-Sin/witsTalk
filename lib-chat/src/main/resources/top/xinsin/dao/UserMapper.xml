@@ -9,6 +9,14 @@
         update witstalk.user set password = #{password} where username = #{username};
     </update>
 
+    <update id="setOnline" parameterType="top.xinsin.pojo.User">
+        update witstalk.user set online = 1 where username = #{username} and password=#{password};
+    </update>
+
+    <update id="setOffline" parameterType="top.xinsin.pojo.User">
+        update witstalk.user set online = 0 where username = #{username} and password=#{password};
+    </update>
+
     <select id="canLogin" parameterType="top.xinsin.pojo.User" resultType="top.xinsin.pojo.User">
         select * from witstalk.user where username = #{username} and password = #{password};
     </select>

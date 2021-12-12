@@ -14,4 +14,6 @@ public interface UserMapper {
     User canLogin(User user);
     void addUser(User user);
     void changePassword(User user);
+    void setOnline(User user);
+    void setOffline(User user);
 }

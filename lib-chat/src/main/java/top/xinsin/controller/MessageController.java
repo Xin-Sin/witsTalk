@@ -20,7 +20,7 @@ import java.util.ArrayList;
 @RestController
 public class MessageController {
 
-    private final Logger logger = LogManager.getLogger(LoginController.class);
+    private final Logger logger = LogManager.getLogger(MessageController.class);
 
     @Autowired
     MessageService messageService;
