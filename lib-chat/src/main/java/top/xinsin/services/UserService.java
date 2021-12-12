@@ -24,4 +24,12 @@ public class UserService {
     public void changePassword(User user){
         userMapper.changePassword(user);
     }
+    public void setOnline(User user){
+        userMapper.setOnline(user);
+        user.setOnline(1);
+    }
+    public void setOffline(User user){
+        userMapper.setOffline(user);
+        user.setOnline(0);
+    }
 }
