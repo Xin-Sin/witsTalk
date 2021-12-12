@@ -7,7 +7,7 @@ spring:
     url: jdbc:mysql://wzpmc.cn:3306/witstalk?serverTimezone=UTC-8
     driver-class-name: com.mysql.cj.jdbc.Driver
   mvc:
-    static-path-pattern: /res/**
+    static-path-pattern: /static/**
   mybatis:
     mapper-locations: classpath:top/xinsin/dao/*Mapping.xml
     type-aliases-package: top.xinsin.dao
