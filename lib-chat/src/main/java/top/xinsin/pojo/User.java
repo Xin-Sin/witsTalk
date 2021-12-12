@@ -2,8 +2,10 @@ package top.xinsin.pojo;
 
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 import top.xinsin.Utils.Auth;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -14,7 +16,9 @@ import java.util.Objects;
 
 //Entity User
 @Data
+@Accessors(chain = true)
 public class User {
+
     private int id;
     private String username;
     private String password;
@@ -35,18 +39,5 @@ public class User {
         this.username = username;
         this.password = password;
         this.auth = Auth.valueOf(auth);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return username.equals(user.username) && password.equals(user.password);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(username, password);
     }
 }
