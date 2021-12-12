@@ -1,14 +1,16 @@
 package top.xinsin.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.apache.logging.log4j.LogManager;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import top.xinsin.Utils.JWTTokenUtils;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author xinxin
@@ -17,17 +19,25 @@ import top.xinsin.services.UserService;
  */
 
 @RestController
+@Slf4j
 public class UserController {
-    private final Logger logger = LogManager.getLogger(UserController.class);
     @Autowired
     UserService userService;
 
     @PostMapping("/api/login")
     public String login(@RequestBody User user) {
+        boolean isLogin = userService.canLogin(user);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status",200);
-        jsonObject.put("canLogin",userService.canLogin(user));
-        logger.info("login");
+        jsonObject.put("canLogin",isLogin);
+        if (isLogin){
+            Map<String,String>  payload = new HashMap<>();
+            payload.put("id",String.valueOf(user.getId()));
+            payload.put("username",user.getUsername());
+            String token = JWTTokenUtils.getToken(payload);
+            jsonObject.put("token",token);
+        }
+        log.info("login");
         return jsonObject.toJSONString();
     }
 
@@ -36,7 +46,7 @@ public class UserController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status",200);
         userService.addUser(user);
-        logger.info("adduser");
+        log.info("adduser");
         return jsonObject.toJSONString();
     }
 
@@ -45,7 +55,7 @@ public class UserController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status",200);
         userService.changePassword(user);
-        logger.info("changepassword");
+        log.info("changepassword");
         return jsonObject.toJSONString();
     }
 
