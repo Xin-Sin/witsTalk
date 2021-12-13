@@ -25,20 +25,9 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/api/login")
-    public String login(@RequestBody User user) {
-        boolean isLogin = userService.canLogin(user);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
-        jsonObject.put("canLogin",isLogin);
-        if (isLogin){
-            Map<String,String>  payload = new HashMap<>();
-            payload.put("id",String.valueOf(user.getId()));
-            payload.put("username",user.getUsername());
-            String token = JWTTokenUtils.getToken(payload);
-            jsonObject.put("token",token);
-        }
-        log.info("login");
-        return jsonObject.toJSONString();
+    public String login(@RequestBody User user,HttpServletResponse response) {
+        log.info("user--->login");
+        return userService.canLogin(user,response);
     }
 
     @PostMapping("/api/adduser")
