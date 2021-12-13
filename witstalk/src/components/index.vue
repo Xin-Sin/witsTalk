@@ -119,6 +119,7 @@ export default {
     height: 100%;
     width: 100%;
     background: #E5E5E5;
+    border-radius: 8px;
   }
 
   #outout{
@@ -131,7 +132,7 @@ export default {
     left: 200px;
     top:1.5%;
     /* White (#FFFFFF) */
-
+    border-radius: 8px;
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 24px;
@@ -153,6 +154,7 @@ export default {
     right: 0px;
     top: -0.25px;
     bottom: -0.25px;
+    border-radius: 8px;
   }
 
   #img{
@@ -171,6 +173,7 @@ export default {
     order: 0;
     align-self: stretch;
     flex-grow: 1;
+    border-radius: 8px;
     margin: 0px 0px;
   }
 
@@ -189,6 +192,7 @@ export default {
     left: 0px;
     right: 0px;
     top: -0.25px;
+    border-radius: 8px;
     bottom: -0.25px;
 
   }
@@ -219,6 +223,7 @@ export default {
 
     flex: none;
     order: 1;
+    border-radius: 8px;
   }
 
   #frame28985{
@@ -246,6 +251,7 @@ export default {
     align-self: stretch;
     flex-grow: 0;
     margin: 228px 0px;
+    border-radius: 8px;
   }
 
   #signinforms{
@@ -282,6 +288,7 @@ export default {
     align-self: stretch;
     flex-grow: 0;
     margin: 48px 0px;
+    border-radius: 8px;
   }
 
   #signinformweb{
