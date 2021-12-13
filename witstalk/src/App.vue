@@ -14,9 +14,3 @@ export default {
   }
 }
 </script>
-
-<style>
-#app {
-  margin-top: 15px;
-}
-</style>
