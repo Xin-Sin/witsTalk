@@ -27,12 +27,13 @@ export function getItemInfo(datas) {
     })
 }
 export function Login(datas){
+  console.log(datas)
   return Axios({
     url: "/api/login",
     method: "post",
-    "headers":{
+    headers:{
       "Content-Type" : 'application/json'
     },
-    data: datas,
+    data: datas
   });
 }

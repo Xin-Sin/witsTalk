@@ -48,4 +48,13 @@ public class UserController {
         return jsonObject.toJSONString();
     }
 
+    @PostMapping("/api/debug")
+    public String changePassword(@RequestBody String user) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("status",200);
+        log.info("debug");
+        log.info(user);
+        return jsonObject.toJSONString();
+    }
+
 }
