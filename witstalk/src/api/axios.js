@@ -46,7 +46,7 @@ Axios .interceptors.request.use((config) => {
         /*数据转换: axios post方式默认是json格式提交数据，如果使用application/x-www-form-urlencoded数据格式提交，要用qs.stringify()进行转换,个人建议不在拦截器中全局配置，因为不够灵活，还有一点是，如果
       设置了重新请求的配置，那么重新请求时，请求体中的config里面的传参就会被再次进行qs.stringify()转
       换，会使得参数丢失，造成请求失败。*/
-        config.data = qs.stringify(config.data)
+        config.data = JSON.stringify(config.data)
     }
     return config;
 },(error) =>{

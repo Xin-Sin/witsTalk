@@ -12,22 +12,23 @@
                     <div id="frame28977">
                         <label id="texttitle">欢 迎 来 到 登 录 页 面</label>
                         <div id="inputdiv">
-                          <input class="inputbox" id="username"/>
+                          <input class="inputbox" id="username" ref="username"/>
                           <label id="inputdivtext">账号</label>
                         </div>
                         <div id="inputdiv">
-                          <input class="inputbox" id="password"/>
+                          <input class="inputbox" id="password" ref="password"/>
                           <label id="inputdivtext">密码</label>
                         </div>
                         <div id="inputdivbelow">
                           <label id="inputdivtext">验证码</label>
-                          <div class="inputboxbelow">
-                            <input class="inputboxbelow" id="code"/>
+                          <div>
+                            <input class="inputboxbelow" id="code" ref="code"/>
                             <img id="codeimg" @click="gettingCaptcha"></img>
                           </div>
                         </div>
                     </div>
                   </div>
+                  <label id="text" ref="info"></label>
                 </div>
               </div>
             </div>
@@ -42,32 +43,44 @@
 <script>
 import qs from 'qs' //引入 node中自带的qs模块（对application/x-www-form-urlencoded数据格式转换）
 import { getverificationcode} from '@/api'  // 导入 封装的请求函数
+import {Login} from '@/api'
 export default {
     name:'Login',
       data(){
         return{
           getverificationcode:{},
-          username:'',
-          password:'',
           captchaa:''
         }
       },
       methods:{
         login(){
-          console.log(this.username)
-          console.log(this.password)
-          console.log(this.captchaa)
-        },
-        onUsernameVerify(){
-          if (this.$refs.username.value === ""){
-            this.$refs.errorUsername.innerText = "账号不能为空";
+          let captcha = this.$refs.code.value;
+          let username = this.$refs.username.value;
+          let password = this.$refs.password.value;
+          if(captcha.toUpperCase() != this.captchaa.toUpperCase()){
+            this.$refs.info.innerText = "验证码错误！";
+            this.$refs.code.style.border = "1px solid red";
+            this.gettingCaptcha();
+          }else{
+            this.$refs.info.innerText = "";
+            this.$refs.code.style.border = "1px solid #E5E5E5";
+            Login({"username":username,"password":hex_md5(password)}).then(res=>{
+              console.log("login");
+              if(res.data.canLogin){
+                this.$refs.info.innerText = "";
+                this.$refs.username.style.border = "1px solid #E5E5E5";
+                this.$refs.password.style.border = "1px solid #E5E5E5";
+                console.log("logined");
+              }else{
+                this.$refs.info.innerText = "用户名或密码错误";
+                this.$refs.username.style.border = "1px solid red";
+                this.$refs.password.style.border = "1px solid red";
+                this.gettingCaptcha();
+              }
+            }).catch(err=>{
+              console.log(err);
+            });
           }
-        },
-        onUsernameVerify1(){
-          this.$refs.errorUsername.innerText = "";
-        },
-        onPasswordVerify(){
-
         },
         gettingCaptcha(){
           getverificationcode().then(res=>{
@@ -82,7 +95,7 @@ export default {
           const b64data = data.split(",")[0];
           //分离取出
           let capt = data.split(",")[1];
-          console.log(capt);
+          this.captchaa = capt;
           a += b64data;
           $("#codeimg")[0].src = a;
         }
@@ -116,7 +129,7 @@ export default {
     width: 1440px;
     height: 900px;
     left: 200px;
-
+    top:1.5%;
     /* White (#FFFFFF) */
 
     background: #FFFFFF;
@@ -541,6 +554,7 @@ export default {
   #codeimg{
     width: 100;
     height: 50;
+    margin: 17px 0px;
   }
 
   #frame28978{
@@ -576,12 +590,44 @@ export default {
     position: absolute;
     left: 71.46%;
     right: 3.54%;
-    top: 65.51%;
-    bottom: 30.04%;
+    top: 63.51%;
+    bottom: 32.04%;
 
     /* System-Blue (#007AFF) */
 
     background: #007AFF;
     border-radius: 6px;
+  }
+  #text{
+    /* info */
+
+
+    position: static;
+    width: 200px;
+    height: 20px;
+    left: 0px;
+    top: 312px;
+
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 20px;
+    /* identical to box height, or 133% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.3px;
+
+    color: #FB0000;
+
+
+    /* Inside Auto Layout */
+
+    flex: none;
+    order: 2;
+    flex-grow: 0;
+    margin: 26.5% 0px;
   }
 </style>
