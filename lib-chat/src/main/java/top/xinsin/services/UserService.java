@@ -44,11 +44,17 @@ public class UserService {
         }
         return jsonObject.toJSONString();
     }
-    public void addUser(User user){
+    public String addUser(User user){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("status",200);
         userMapper.addUser(user);
+        return jsonObject.toJSONString();
     }
-    public void changePassword(User user){
+    public String changePassword(User user){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("status",200);
         userMapper.changePassword(user);
+        return jsonObject.toJSONString();
     }
     public void setOnline(User user){
         userMapper.setOnline(user);
