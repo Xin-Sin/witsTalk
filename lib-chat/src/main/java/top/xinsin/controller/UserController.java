@@ -32,20 +32,16 @@ public class UserController {
 
     @PostMapping("/api/adduser")
     public String addUser(@RequestBody User user) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
-        userService.addUser(user);
-        log.info("adduser");
-        return jsonObject.toJSONString();
+        String addUser = userService.addUser(user);
+        log.info(user.getUsername() + "--->adduser");
+        return addUser;
     }
 
     @PostMapping("/api/changepassword")
     public String changePassword(@RequestBody User user) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
-        userService.changePassword(user);
-        log.info("changepassword");
-        return jsonObject.toJSONString();
+        String changePassword = userService.changePassword(user);
+        log.info(user.getUsername() + "--->changepassword");
+        return changePassword;
     }
 
     @PostMapping("/api/debug")

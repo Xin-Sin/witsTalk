@@ -1,5 +1,6 @@
 package top.xinsin.controller;
 
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,12 @@ import java.util.Random;
 @RestController
 public class VerificationCodeController {
     @GetMapping("/api/vc")
-    public String GetVerificationCode() throws IOException {
+    public String GetVerificationCode() {
+        String vc = vc();
+        return vc;
+    }
+    @SneakyThrows
+    private String vc(){
         //定义宽高
         int height=50;
         int width=100;
