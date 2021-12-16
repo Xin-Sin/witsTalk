@@ -3,10 +3,7 @@ package top.xinsin.pojo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import top.xinsin.Utils.Auth;
-
-import java.io.Serializable;
-import java.util.Objects;
+import top.xinsin.enums.Auth;
 
 /**
  * @Auther wzp

@@ -1,19 +1,16 @@
 package top.xinsin.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.exceptions.AlgorithmMismatchException;
-import com.auth0.jwt.exceptions.SignatureGenerationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import top.xinsin.enums.HttpStatus;
 import top.xinsin.Utils.JWTTokenUtils;
+import top.xinsin.Utils.ResponseData;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
 
 /**
  * @Author xinxin
@@ -26,24 +23,25 @@ public class AuthenticationInterceptor implements HandlerInterceptor  {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 从http请求头中取出token
         final String token = request.getHeader("token");
-        JSONObject jsonObject = new JSONObject();
+        ResponseData responseData;
         try {
             JWTTokenUtils.verify(token);
+            return true;
         } catch (SignatureVerificationException e) {
             log.info("用户验证了无效签名");
-            jsonObject.put("msg","无效签名");
+            responseData = new ResponseData("无效签名", HttpStatus.UNAUTHORIZED);
         }catch (TokenExpiredException e){
             log.info("用户验证的签名已过期");
-            jsonObject.put("msg","签名已过期");
+            responseData = new ResponseData("签名已过期", HttpStatus.UNAUTHORIZED);
         }catch (AlgorithmMismatchException e){
             log.info("用户验证的token算法不一致");
-            jsonObject.put("msg","算法不一致");
+            responseData = new ResponseData("token算法不一致", HttpStatus.UNAUTHORIZED);
         }catch (Exception e){
             log.info("token无效或者是空的");
-            jsonObject.put("msg","token无效");
+            responseData = new ResponseData("token无效", HttpStatus.UNAUTHORIZED);
         }
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(jsonObject.toJSONString());
+        response.getWriter().write(responseData.toString());
         return false;
     }
 }
