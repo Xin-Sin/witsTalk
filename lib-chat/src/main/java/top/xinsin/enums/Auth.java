@@ -1,4 +1,4 @@
-package top.xinsin.Utils;
+package top.xinsin.enums;
 
 /**
  * @Auther wzp

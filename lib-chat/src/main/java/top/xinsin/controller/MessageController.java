@@ -20,50 +20,26 @@ import java.util.ArrayList;
 @RestController
 public class MessageController {
 
-    private final Logger logger = LogManager.getLogger(MessageController.class);
-
     @Autowired
     MessageService messageService;
 
     @GetMapping("/api/message/get")
     public String getMessage(@RequestParam("min") int min,@RequestParam("max") int max){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
-        ArrayList<Message> messages = messageService.GetSomeMessage(min, max);
-        JSONArray objects = new JSONArray();
-        objects.addAll(messages);
-        jsonObject.put("data",objects);
-        logger.info("getMessage");
-        return jsonObject.toJSONString();
+        return messageService.GetSomeMessage(min,max).toString();
     }
 
     @GetMapping("/api/message/getAll")
     public String getMessageAll(){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
-        ArrayList<Message> messages = messageService.GetAllMessage();
-        JSONArray objects = new JSONArray();
-        objects.addAll(messages);
-        jsonObject.put("data",objects);
-        logger.info("getMessage");
-        return jsonObject.toJSONString();
+        return messageService.GetAllMessage().toString();
     }
 
     @PostMapping("/api/message/send")
     public String SendMessage(@RequestBody Message message){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
-        messageService.SendMessage(message);
-        logger.info("sendMessage");
-        return jsonObject.toJSONString();
+        return messageService.SendMessage(message).toString();
     }
 
     @PostMapping("/api/message/recall")
     public String Recall(@RequestBody Message message){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
-        messageService.ReCall(message);
-        logger.info("recallMessage");
-        return jsonObject.toJSONString();
+        return messageService.ReCall(message).toString();
     }
 }

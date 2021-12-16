@@ -15,38 +15,23 @@ import javax.servlet.http.HttpServletResponse;
  * @Version 1.0
  */
 @RestController
-@Slf4j
 public class UserController {
     @Autowired
     UserService userService;
 
     @PostMapping("/api/login")
     public String login(@RequestBody User user,HttpServletResponse response) {
-        log.info("user--->login");
-        return userService.canLogin(user,response);
+        return userService.canLogin(user,response).toString();
     }
 
     @PostMapping("/api/adduser")
     public String addUser(@RequestBody User user) {
-        String addUser = userService.addUser(user);
-        log.info(user.getUsername() + "--->adduser");
-        return addUser;
+        return userService.addUser(user).toString();
     }
 
     @PostMapping("/api/changepassword")
     public String changePassword(@RequestBody User user) {
-        String changePassword = userService.changePassword(user);
-        log.info(user.getUsername() + "--->changepassword");
-        return changePassword;
-    }
-
-    @PostMapping("/api/debug")
-    public String changePassword(@RequestBody String user) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
-        log.info("debug");
-        log.info(user);
-        return jsonObject.toJSONString();
+        return userService.changePassword(user).toString();
     }
 
 }

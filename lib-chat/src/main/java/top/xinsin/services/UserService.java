@@ -6,6 +6,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.xinsin.Utils.JWTTokenUtils;
+import top.xinsin.Utils.ResponseData;
 import top.xinsin.dao.UserMapper;
 import top.xinsin.pojo.User;
 
@@ -23,7 +24,8 @@ import java.util.Map;
 public class UserService {
     @Autowired
     UserMapper userMapper;
-    public String canLogin(User user, HttpServletResponse response){
+    public ResponseData canLogin(User user, HttpServletResponse response){
+        log.info("canLogin args:user=" + user);
         JSONObject jsonObject = new JSONObject();
         String password = user.getPassword();
         String sha512Hex = DigestUtils.sha512Hex(password);
@@ -35,26 +37,20 @@ public class UserService {
             payload.put("username",user1.getUsername());
             String token = JWTTokenUtils.getToken(payload);
             response.setHeader("token",token);
-            jsonObject.put("status",200);
             jsonObject.put("canLogin",true);
-            log.info("username->" + user1.getUsername() + "->login");
         }else{
-            jsonObject.put("status",200);
             jsonObject.put("canLogin",false);
         }
-        return jsonObject.toJSONString();
+        return new ResponseData(jsonObject);
     }
-    public String addUser(User user){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
+    public ResponseData addUser(User user){
+        log.info("addUser args:user=" + user);
         userMapper.addUser(user);
-        return jsonObject.toJSONString();
+        return new ResponseData();
     }
-    public String changePassword(User user){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",200);
+    public ResponseData changePassword(User user){
         userMapper.changePassword(user);
-        return jsonObject.toJSONString();
+        return new ResponseData();
     }
     public void setOnline(User user){
         userMapper.setOnline(user);
@@ -65,4 +61,3 @@ public class UserService {
         user.setOnline(0);
     }
 }
-//edbd881f1ee2f76ba0bd70fd184f87711be991a0401fd07ccd4b199665f00761afc91731d8d8ba6cbb188b2ed5bfb465b9f3d30231eb0430b9f90fe91d136648
