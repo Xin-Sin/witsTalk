@@ -1,42 +1,35 @@
 <template>
-  <div id="outoutout">
-    <div id="outout">
-      <div id="out">
-        <div id="img"></div>
-        <div id="frame28986">
-          <div id="fram28985">
-            <div id="signinform">
-              <div id="signinformweb">
-                <div id="frame28976">
-                  <div id="frame28968">
-                    <div id="frame28977">
-                        <label id="texttitle">欢 迎 来 到 登 录 页 面</label>
-                        <div id="inputdiv">
-                          <input class="inputbox" id="username" ref="username"/>
-                          <label id="inputdivtext">账号</label>
-                        </div>
-                        <div id="inputdiv">
-                          <input class="inputbox" id="password" ref="password"/>
-                          <label id="inputdivtext">密码</label>
-                        </div>
-                        <div id="inputdivbelow">
-                          <label id="inputdivtext">验证码</label>
-                          <div>
-                            <input class="inputboxbelow" id="code" ref="code"/>
-                            <img id="codeimg" @click="gettingCaptcha"></img>
-                          </div>
-                        </div>
+  <div id="frame28986">
+    <div id="fram28985">
+      <div id="signinform">
+        <div id="signinformweb">
+          <div id="frame28976">
+            <div id="frame28968">
+              <div id="frame28977">
+                  <label id="texttitle">欢 迎 来 到 登 录 页 面</label>
+                  <div id="inputdiv">
+                    <input class="inputbox" id="username" ref="username"/>
+                    <label id="inputdivtext">账号</label>
+                  </div>
+                  <div id="inputdiv">
+                    <input class="inputbox" id="password" ref="password"/>
+                    <label id="inputdivtext">密码</label>
+                  </div>
+                  <div id="inputdivbelow">
+                    <label id="inputdivtext">验证码</label>
+                    <div>
+                      <input class="inputboxbelow" id="code" ref="code"/>
+                      <img id="codeimg" @click="gettingCaptcha"></img>
                     </div>
                   </div>
-                  <label id="text" ref="info"></label>
-                </div>
               </div>
             </div>
+            <label id="text" ref="info"></label>
           </div>
-          <button id="loginbutton" @click="login">登录</button>
         </div>
       </div>
     </div>
+    <button id="loginbutton" @click="login">登录</button>
   </div>
 </template>
 
@@ -46,7 +39,7 @@ import {Login} from './static/login'
 import {getDeviceType} from './static/device'
 import md5 from 'js-md5'
 export default {
-    name:'Login',
+    name:'LoginMobile',
       data(){
         return{
           getverificationcode:{},
@@ -102,10 +95,7 @@ export default {
         }
       },
       created() {
-        let device = getDeviceType();
-        if(device === "mobile"){
-          window.location.href = "LoginMobile.html#/";
-        }
+        getDeviceType();
         getverificationcode().then(res=>{
           this.getCaptcha(res.data);
         }).catch(err=>{
@@ -260,15 +250,6 @@ export default {
   }
 
   #signinforms{
-    1440x900
-    Width
-    360px
-    Height
-    288px
-    Blend
-    Pass through
-    Fill container
-    Hug contents
     /* Sign-In-Forms */
 
 
@@ -602,8 +583,8 @@ export default {
     position: absolute;
     left: 71.46%;
     right: 3.54%;
-    top: 63.51%;
-    bottom: 32.04%;
+    top: 73.51%;
+    bottom: 22.04%;
 
     /* System-Blue (#007AFF) */
 

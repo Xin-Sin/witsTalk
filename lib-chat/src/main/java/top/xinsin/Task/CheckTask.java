@@ -1,5 +1,6 @@
 package top.xinsin.Task;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,6 +19,7 @@ import static top.xinsin.controller.CheckController.checklist;
  */
 @Configuration
 @EnableScheduling
+@Slf4j
 public class CheckTask {
     @Autowired
     UserService userService;
@@ -29,7 +31,9 @@ public class CheckTask {
             if(time.getTime() + 5000 <= now.getTime()){
                 userService.setOffline(user);
                 checklist.remove(user);
+                log.info("CheckList remove user=" + user);
             }
+            log.info("CheckTask user=" + user);
         }
     }
 }
