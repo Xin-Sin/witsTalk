@@ -13,36 +13,15 @@
 
   <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
-  <script>
-    var getDeviceType = function(){
-      if (/(Android)/i.test(navigator.userAgent) && /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-        console.log("mobile");
-        return 'mobile';
-      } else {
-        console.log("desktop");
-        return 'desktop';
-      };
-    }
 
-  </script>
   <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-  <script>
-    window.onload = function (){
-      let deviceType = getDeviceType();
-      if(deviceType === "desktop") {
-        window.location.href = "Login.html#/"
-      }else if(deviceType === "mobile"){
-        window.location.href = "LoginMobile.html#/"
-      }
-    }
-  </script>
 </head>
 <body>
 <noscript>
   <strong>We're sorry but default doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
 </noscript>
-<div id="index">
+<div id="login">
 </div>
 <!-- built files will be auto injected -->
 </body>
