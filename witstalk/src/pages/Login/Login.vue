@@ -66,7 +66,7 @@ export default {
             this.$refs.code.style.border = "1px solid #E5E5E5";
             Login({"username":username,"password":md5(password)}).then(res=>{
               console.log("login");
-              if(res.data.canLogin){
+              if(res.data.data.canLogin){
                 this.$refs.info.innerText = "";
                 this.$refs.username.style.border = "1px solid #E5E5E5";
                 this.$refs.password.style.border = "1px solid #E5E5E5";
