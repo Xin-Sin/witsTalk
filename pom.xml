@@ -16,6 +16,7 @@
         <version>2.6.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+<!--    不要在依赖库中添加spring-boot相关依赖的版本号-->
 
     <modules>
         <module>lib-voice</module>
@@ -28,28 +29,30 @@
     </properties>
 
     <dependencies>
+
+        <!--spring-boot启动依赖-->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>2.6.1</version>
         </dependency>
 
+        <!--spring-boot测试依赖-->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.6.1</version>
             <scope>test</scope>
         </dependency>
 
+        <!--spring-boot web模块-->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>2.6.1</version>
         </dependency>
 
+        <!--log4j核心依赖-->
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -57,6 +60,7 @@
             <version>2.15.0</version>
         </dependency>
 
+        <!--log4j api依赖-->
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -64,6 +68,7 @@
             <version>2.15.0</version>
         </dependency>
 
+        <!--fastjson依赖-->
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -71,6 +76,7 @@
             <version>1.2.78</version>
         </dependency>
 
+        <!--spring-boot mybatis依赖-->
         <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -78,6 +84,7 @@
             <version>2.2.0</version>
         </dependency>
 
+        <!--druid连接池依赖-->
         <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -85,6 +92,7 @@
             <version>1.2.8</version>
         </dependency>
 
+        <!--mysqlJDBC依赖-->
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
@@ -92,6 +100,7 @@
             <version>8.0.26</version>
         </dependency>
 
+        <!--netty框架依赖-->
         <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
         <dependency>
             <groupId>io.netty</groupId>
@@ -99,13 +108,7 @@
             <version>4.1.70.Final</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.security</groupId>-->
-<!--            <artifactId>spring-security-core</artifactId>-->
-<!--            <version>5.6.0</version>-->
-<!--        </dependency>-->
-
+        <!--JWT依赖-->
         <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
         <dependency>
             <groupId>com.auth0</groupId>
@@ -113,14 +116,7 @@
             <version>3.18.2</version>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>2.6.1</version>
-        </dependency>
-
+        <!--lombok依赖-->
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -128,12 +124,18 @@
             <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--commons依赖-->
+        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
+            <version>1.15</version>
         </dependency>
+
     </dependencies>
 
+    <!--使用maven构建-->
     <build>
         <plugins>
             <plugin>
@@ -141,6 +143,17 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
-    
 </project>

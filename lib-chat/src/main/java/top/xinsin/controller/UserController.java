@@ -33,5 +33,4 @@ public class UserController {
     public String changePassword(@RequestBody User user) {
         return userService.changePassword(user).toString();
     }
-
 }

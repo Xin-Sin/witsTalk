@@ -2,7 +2,6 @@ package top.xinsin;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
@@ -13,9 +12,9 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
  */
 @MapperScan("top.xinsin.dao")
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
-public class Start {
+public class ChatStart {
 
     public static void main(String[] args) {
-        SpringApplication.run(Start.class,args);
+        SpringApplication.run(ChatStart.class,args);
     }
 }

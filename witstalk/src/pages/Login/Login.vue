@@ -10,7 +10,7 @@
                 <div id="frame28976">
                   <div id="frame28968">
                     <div id="frame28977">
-                        <label id="texttitle" ref="title">欢 迎 来 到 登 录 页 面</label>
+                        <label id="texttitle">欢 迎 来 到 登 录 页 面</label>
                         <div id="inputdiv">
                           <input class="inputbox" id="username" ref="username"/>
                           <label id="inputdivtext">账号</label>
@@ -43,9 +43,8 @@
 <script>
 import { getverificationcode} from './static/login'  // 导入 封装的请求函数
 import {Login} from './static/login'
-import {getOneMessage} from './static/login'
 import {getDeviceType} from './static/device'
-import md5 from 'js-md5' //MD5库
+import md5 from 'js-md5'
 export default {
     name:'Login',
       data(){
@@ -55,25 +54,25 @@ export default {
         }
       },
       methods:{
-        login(){//登录函数
+        login(){
           let captcha = this.$refs.code.value;
           let username = this.$refs.username.value;
-          let password = this.$refs.password.value;//获取用户名密码和验证码的值
-          if(captcha.toUpperCase() != this.captchaa.toUpperCase()){//判断
+          let password = this.$refs.password.value;
+          if(captcha.toUpperCase() != this.captchaa.toUpperCase()){
             this.$refs.info.innerText = "验证码错误！";
-            this.$refs.code.style.border = "1px solid red";//设置边框颜色为红色
-            this.gettingCaptcha();//重新获取验证码
+            this.$refs.code.style.border = "1px solid red";
+            this.gettingCaptcha();
           }else{
             this.$refs.info.innerText = "";
-            this.$refs.code.style.border = "1px solid #E5E5E5";//设置边框颜色为灰色
-            Login({"username":username,"password":md5(password)}).then(res=>{//调用登录API
+            this.$refs.code.style.border = "1px solid #E5E5E5";
+            Login({"username":username,"password":md5(password)}).then(res=>{
               console.log("login");
-              if(res.data.data.canLogin){//获取返回中的canLogin字段若为true
+              if(res.data.data.canLogin){
                 this.$refs.info.innerText = "";
                 this.$refs.username.style.border = "1px solid #E5E5E5";
                 this.$refs.password.style.border = "1px solid #E5E5E5";
                 console.log("logined");
-              }else{//否则
+              }else{
                 this.$refs.info.innerText = "用户名或密码错误";
                 this.$refs.username.style.border = "1px solid red";
                 this.$refs.password.style.border = "1px solid red";
@@ -84,13 +83,15 @@ export default {
             });
           }
         },
-        gettingCaptcha(){//获取验证码API封装
+        gettingCaptcha(){
           getverificationcode().then(res=>{
             console.log("ds");
             this.getCaptcha(res.data);
-          }).catch(err=>{});
+          }).catch(err=>{
+
+          });
         },
-        getCaptcha(data){//设置验证码
+        getCaptcha(data){
           let a = "data:image/jpg;base64,";
           const b64data = data.split(",")[0];
           //分离取出
@@ -100,18 +101,17 @@ export default {
           $("#codeimg")[0].src = a;
         }
       },
-      created() {//当页面打开时
-        let device = getDeviceType(); //获取设备类型
+      created() {
+        let device = getDeviceType();
         if(device === "mobile"){
-          window.location.href = "LoginMobile.html#/";//跳转到手机登录页面
+          window.location.href = "LoginMobile.html#/";
         }
-        getOneMessage().then(res => {//获取一言
-          let message = res.data.hitokoto;
-          this.$refs.title.innerHTML = message;
-        }).catch(err=>{})
-        getverificationcode().then(res=>{//获取验证码
+        getverificationcode().then(res=>{
           this.getCaptcha(res.data);
-        }).catch(err=>{});
+        }).catch(err=>{
+
+        });
+
       }
 }
 
