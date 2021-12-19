@@ -27,7 +27,6 @@ export function getItemInfo(datas) {
     })
 }
 export function Login(datas){
-  console.log(datas)
   return Axios({
     url: "/api/login",
     method: "post",
@@ -35,5 +34,15 @@ export function Login(datas){
       "Content-Type" : 'application/json'
     },
     data: datas
+  });
+}
+
+export function getOneMessage(){
+  return Axios({
+    url : "https://v1.hitokoto.cn/",
+    method: "get",
+    headers:{
+      "Content-Type" : 'application/json'
+    },
   });
 }
