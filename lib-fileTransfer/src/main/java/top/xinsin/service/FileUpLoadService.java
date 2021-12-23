@@ -20,6 +20,8 @@ public class FileUpLoadService {
         if (file.isEmpty()) {
             return "上传失败，请选择文件";
         }
+        System.out.println();
+
         String fileName = file.getOriginalFilename();
         String filePath = "file";
         File dest = new File(filePath + fileName);
