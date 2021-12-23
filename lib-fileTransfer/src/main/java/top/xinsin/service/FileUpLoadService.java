@@ -35,6 +35,8 @@ public class FileUpLoadService {
         if (file.isEmpty()) {
             return new ResponseData(HttpStatus.BAD_REQUEST);
         }
+        System.out.println();
+
         String fileName = file.getOriginalFilename();
         File dest = new File(FileSaveFolder + File.separator + fileName);
         try {
