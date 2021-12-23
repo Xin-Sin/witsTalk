@@ -5,7 +5,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
-import top.xinsin.enums.HttpStatus;
+import org.springframework.http.HttpStatus;
 import top.xinsin.Utils.JWTTokenUtils;
 import top.xinsin.Utils.ResponseData;
 
