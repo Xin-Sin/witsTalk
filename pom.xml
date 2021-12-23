@@ -22,6 +22,7 @@
         <module>lib-voice</module>
         <module>lib-chat</module>
         <module>lib-fileTransfer</module>
+        <module>lib-utils</module>
     </modules>
 
     <properties>

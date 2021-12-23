@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import top.xinsin.Utils.ResponseData;
 import top.xinsin.service.FileUpLoadService;
 
 /**
@@ -18,6 +19,6 @@ public class FileUpLoadController {
     @PostMapping("/api/fileUpload")
     @ResponseBody
     public String fileUpload(@RequestParam("file")MultipartFile file){
-        return fileUpLoadService.fileUpload(file);
+        return fileUpLoadService.fileUpload(file).toString();
     }
 }

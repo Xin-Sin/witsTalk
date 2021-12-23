@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
-import top.xinsin.enums.HttpStatus;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Map;
@@ -82,8 +82,8 @@ public class ResponseData {
     @Override
     public String toString() {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status",this.Status.code);
-        jsonObject.put("msg",this.Status.status);
+        jsonObject.put("status",this.Status.value());
+        jsonObject.put("msg",this.Status.getReasonPhrase());
         if(this.data != null) {
             jsonObject.put("data", data);
         }else if(this.array != null){
