@@ -22,6 +22,7 @@ public class FileUpLoadController {
     FileUpLoadService fileUpLoadService;
     @PostMapping("/api/fileUpload")
     public String fileUpload(@RequestBody MultipartFile file) throws NoSuchAlgorithmException, IOException {
+        //todo sdad
         return fileUpLoadService.fileUpload(file).toString();
     }
 
