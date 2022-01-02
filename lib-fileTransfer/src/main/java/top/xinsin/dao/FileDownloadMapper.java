@@ -10,7 +10,6 @@ import top.xinsin.pojo.FileObject;
  * @Version 1.0
  */
 @Repository
-public interface FileUpLoadMapper {
+public interface FileDownloadMapper {
     String getFileName(FileObject fileObject);
-    void addFile(FileObject fileObject);
 }

@@ -22,17 +22,6 @@ public class FileUpLoadController {
     FileUpLoadService fileUpLoadService;
     @PostMapping("/api/fileUpload")
     public String fileUpload(@RequestBody MultipartFile file) throws NoSuchAlgorithmException, IOException {
-        //todo sdad
         return fileUpLoadService.fileUpload(file).toString();
-    }
-
-    @GetMapping("/api/getName")
-    public String getFileName(@RequestParam("md5") String md5){
-        return fileUpLoadService.getFileName(new FileObject(md5)).toString();
-    }
-
-    @GetMapping("/api/getFile")
-    public ResponseEntity<InputStreamResource> getFile(@RequestParam("md5") String md5,@RequestParam("filename") String filename) throws IOException {
-        return fileUpLoadService.getFile(md5,filename);
     }
 }
