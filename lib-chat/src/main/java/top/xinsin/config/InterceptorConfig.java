@@ -18,6 +18,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 addPathPatterns("/**"). //拦截
                 excludePathPatterns("/api/login").//放行登录接口
                 excludePathPatterns("/api/debug").//放行debug接口
-                excludePathPatterns("/api/vc");//放行验证码接口
+                excludePathPatterns("/api/vc").//放行验证码接口
+                excludePathPatterns("/api/adduser");//放行添加用户接口
     }
 }

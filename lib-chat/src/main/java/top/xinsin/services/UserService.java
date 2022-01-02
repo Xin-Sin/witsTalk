@@ -45,6 +45,7 @@ public class UserService {
     }
     public ResponseData addUser(User user){
         log.info("addUser args:user=" + user);
+        user.setPassword(DigestUtils.sha512Hex(user.getPassword()));
         userMapper.addUser(user);
         return new ResponseData();
     }

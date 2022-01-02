@@ -16,7 +16,7 @@
                           <label id="inputdivtext">账号</label>
                         </div>
                         <div id="inputdiv">
-                          <input class="inputbox" id="password" ref="password"/>
+                          <input class="inputbox" id="password" ref="password" type="password"/>
                           <label id="inputdivtext">密码</label>
                         </div>
                         <div id="inputdivbelow">
