@@ -22,6 +22,8 @@ public class User {
     private Auth auth;
     private int online;
     private String last_login;
+    private String base64;
+
     public User(){
         this.username = null;
         this.password = null;
@@ -36,5 +38,11 @@ public class User {
         this.username = username;
         this.password = password;
         this.auth = Auth.valueOf(auth);
+    }
+    public User(String username,String password,String auth,String base64){
+        this.username = username;
+        this.password = password;
+        this.auth = Auth.valueOf(auth);
+        this.base64 = base64;
     }
 }
