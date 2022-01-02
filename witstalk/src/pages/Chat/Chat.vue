@@ -1,18 +1,30 @@
 <template>
-  <div id="background">
-    <div id="chatdiv">
-      <div id="chat" ref="chat">
+  <div id="Group245">
+    <div id="Admin_Panel">
+      <div id="Rectangle178">
 
       </div>
-    </div>
-    <div id="users">
-    </div>
-    <div id="lists">
-      <div id="list1" ref="list1">
+      <div id="Rectangle177">
 
       </div>
-    </div>
-    <div id="searchbox">
+      <div id="Rectangle79">
+
+      </div>
+      <div id="Frame296">
+
+      </div>
+      <div id="Rectangle33">
+
+      </div>
+      <div id="Rectangle1">
+
+      </div>
+      <div id="h4heading">
+
+      </div>
+      <div id="Rectangle2">
+
+      </div>
     </div>
   </div>
 </template>
@@ -21,101 +33,105 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#background{
-  /* 底图 */
+  #Group245{
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+  }
+  #Admin_Panel{
+    /* Admin Panel */
 
 
-  position: absolute;
-  width: 1920px;
-  height: 1080px;
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
 
-  background: #1C1A1D;
-  border: 1px solid #000000;
-  box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 25px;
-}
-
-
-#chatdiv{
-  /* 聊天基本功能 */
+    background: #FFFFFF;
+    border-radius: 30px;
+  }
+  #Rectangle1{
+    /* Rectangle 1 */
 
 
-  /* Auto Layout */
+    position: absolute;
+    width: 268px;
+    height: 1080px;
+    left: 0px;
+    top: 0px;
 
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-
-  position: relative;
-  width: 1215px;
-  height: 901.87px;
-
-  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-#chat{
-  /* 聊天窗口 */
+    background: #383F51;
+  }
+  #Rectangle2{
+    /* Rectangle 2 */
 
 
-  position: static;
-  width: 1215px;
-  height: 795px;
-  left: 0px;
-  top: 0px;
+    position: absolute;
+    width: 1652px;
+    height: 70px;
+    left: 268px;
+    top: 0px;
 
-  background: #36393F;
-  border-radius: 15px;
+    background: #FFFFFF;
+    /* Regular */
 
-  /* Inside Auto Layout */
-
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-  margin: 1px 0px;
-}
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.15);
+  }
+  #Rectangle33{
+    /* Rectangle 33 */
 
 
-#users{
-  position: relative;
-  width: 315px;
-  height: 795px;
+    position: absolute;
+    width: 268px;
+    height: 80px;
+    left: 0px;
+    top: 0px;
 
-  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-#lists{
-  /* 列表综合 */
+    /* Light/White */
 
-
-  position: relative;
-  width: 294px;
-  height: 677px;
-
-  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-#list1{
-  /* 列表 - 1 */
+    background: #FFFFFF;
+    opacity: 0.03;
+  }
+  #Rectangle79{
+    /* Rectangle 79 */
 
 
-  position: absolute;
-  width: 281px;
-  height: 61px;
-  left: 0px;
-  top: 0px;
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    left: calc(50% - 36px/2 + 922px);
+    top: calc(50% - 36px/2 - 505px);
 
-  background: #282B30;
-  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 15px;
-}
+    background: url();
+    /* Light/White */
 
-#searchbox{
-  /* 搜索框 */
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.1));
+    border-radius: 20px;
+  }
+  #Rectangle177{
+    /* Rectangle 177 */
 
 
-  position: relative;
-  width: 826px;
-  height: 65px;
+    position: absolute;
+    width: 1563px;
+    height: 720px;
+    left: 309px;
+    top: 115px;
 
-  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
+    background: #C4C4C4;
+    border-radius: 40px;
+  }
+  #Rectangle178{
+    /* Rectangle 178 */
+
+
+    position: absolute;
+    width: 119px;
+    height: 35px;
+    left: 1767px;
+    top: 1027px;
+
+    background: #C4C4C4;
+  }
 </style>
