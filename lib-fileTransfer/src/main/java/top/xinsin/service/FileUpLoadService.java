@@ -55,6 +55,7 @@ public class FileUpLoadService {
         log.info("fileSaved,SavedName:{},md5:{}",savePath,md5);
         input.close();//关闭输入流
         out.close();//关闭输出流
+        System.gc();//清除缓存
         log.info("closeIOStream");
         log.info("fileRename to {}",md5);
         String newSavePath = FileSaveFolder + File.separator + md5;//获取使用md5拼接的文件名

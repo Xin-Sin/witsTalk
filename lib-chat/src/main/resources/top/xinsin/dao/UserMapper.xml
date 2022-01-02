@@ -18,7 +18,10 @@
     </update>
 
     <select id="canLogin" parameterType="top.xinsin.pojo.User" resultType="top.xinsin.pojo.User">
-        select * from user where username = #{username} and password = #{password};
+        select base64 from user where username = #{username} and password = #{password};
     </select>
 
+    <update id="setHeadPortrait" parameterType="top.xinsin.pojo.User">
+        update user set base64 = #{base64} where username = #{username};
+    </update>
 </mapper>

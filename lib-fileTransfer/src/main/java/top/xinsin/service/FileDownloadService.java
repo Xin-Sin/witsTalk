@@ -21,9 +21,11 @@ import java.io.IOException;
  * @Date 2022/1/2 15:14
  * @Version 1.0
  */
+
 @Service
 @Slf4j
 public class FileDownloadService {
+
     @Autowired
     private FileDownloadMapper fileDownloadMapper;
 
