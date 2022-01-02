@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.xinsin.Utils.FileUtils;
 import top.xinsin.Utils.ResponseData;
-import top.xinsin.dao.FileUpLoadMapper;
+import top.xinsin.dao.FileDownloadMapper;
+import top.xinsin.dao.FileUploadMapper;
 import top.xinsin.pojo.FileObject;
 
 import java.io.File;
@@ -34,7 +35,7 @@ import java.security.NoSuchAlgorithmException;
 public class FileUpLoadService {
 
     @Autowired
-    FileUpLoadMapper fileUpLoadMapper;
+    FileUploadMapper fileUploadMapper;
 
     @Value("${saveFolder}")//从Application.yml中读取上传文件存储的位置
     private String FileSaveFolder;//将其写入变量
@@ -71,30 +72,10 @@ public class FileUpLoadService {
             log.info("fileRenamed,Succeed:{}",b);
             log.info("Sending to database");
             FileObject fileObject = new FileObject(originalFilename,file.getSize(),md5);//新建FileObject
-            fileUpLoadMapper.addFile(fileObject);//上传数据库
+            fileUploadMapper.addFile(fileObject);//上传数据库
             log.info("Sanded");
             log.info("fileUpload done");
         }
         return new ResponseData(md5);
     }
-
-    public ResponseData getFileName(FileObject fileObject){
-        String fileName = fileUpLoadMapper.getFileName(fileObject);
-        return new ResponseData(fileName);
-    }
-
-    public ResponseEntity<InputStreamResource> getFile(String md5, String filename) throws IOException {
-        FileSystemResource file = new FileSystemResource(FileSaveFolder + File.separator + md5);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
-
-        return ResponseEntity.ok().headers(headers)
-                .contentLength(file.contentLength())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new InputStreamResource(file.getInputStream()));
-    }
-
 }
