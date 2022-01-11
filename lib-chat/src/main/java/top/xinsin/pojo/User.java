@@ -39,10 +39,5 @@ public class User {
         this.password = password;
         this.auth = Auth.valueOf(auth);
     }
-    public User(String username,String password,String auth,String base64){
-        this.username = username;
-        this.password = password;
-        this.auth = Auth.valueOf(auth);
-        this.base64 = base64;
-    }
+
 }

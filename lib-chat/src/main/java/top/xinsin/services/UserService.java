@@ -37,6 +37,7 @@ public class UserService {
             payload.put("username",user1.getUsername());
             String token = JWTTokenUtils.getToken(payload);
             response.setHeader("token",token);
+            jsonObject.put("base64",user1.getBase64());
             jsonObject.put("canLogin",true);
         }else{
             jsonObject.put("canLogin",false);
@@ -60,5 +61,15 @@ public class UserService {
     public void setOffline(User user){
         userMapper.setOffline(user);
         user.setOnline(0);
+    }
+    public ResponseData setHeadPortrait(User user){
+        User user1 = userMapper.setHeadPortrait(user);
+        if (user1 != null){
+            log.info("username{}changeInto{}",user1.getUsername(),user1.getBase64());
+
+        }else{
+            log.info("username{}failToEdit",user.getUsername());
+        }
+        return new ResponseData();
     }
 }

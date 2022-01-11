@@ -16,4 +16,5 @@ public interface UserMapper {
     void changePassword(User user);
     void setOnline(User user);
     void setOffline(User user);
+    User setHeadPortrait(User user);
 }

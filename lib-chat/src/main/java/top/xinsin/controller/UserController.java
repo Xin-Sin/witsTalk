@@ -18,19 +18,18 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
     @Autowired
     UserService userService;
+    //
 
+    //登录接口
     @PostMapping("/api/login")
-    public String login(@RequestBody User user,HttpServletResponse response) {
-        return userService.canLogin(user,response).toString();
-    }
-
+    public String login(@RequestBody User user,HttpServletResponse response) {return userService.canLogin(user,response).toString();}
+    //添加用户
     @PostMapping("/api/adduser")
-    public String addUser(@RequestBody User user) {
-        return userService.addUser(user).toString();
-    }
-
+    public String addUser(@RequestBody User user) {return userService.addUser(user).toString();}
+    //修改密码
     @PostMapping("/api/changepassword")
-    public String changePassword(@RequestBody User user) {
-        return userService.changePassword(user).toString();
-    }
+    public String changePassword(@RequestBody User user) {return userService.changePassword(user).toString();}
+    //修改头像
+    @PostMapping("/api/setHeadPortrait")
+    public String setHeadPortrait(@RequestBody User user){return userService.setHeadPortrait(user).toString();}
 }
