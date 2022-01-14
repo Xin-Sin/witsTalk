@@ -14,4 +14,3 @@
 - [Dongyifengs 的 GitHub](https://github.com/Dongyifengs)
 - [XinSin-top 的 GitHub](https://github.com/XinSin-top)
 - [Wzp-2008 的 GitHub](https://github.com/Wzp-2008)
-- [taiyanggegebang 的 GitHub](https://github.com/taiyanggegebang)
