@@ -10,22 +10,6 @@ export function getverificationcode(datas) {
     data: datas
   })
 }
-export function getItem(datas) {
-  return Axios({
-    url: "/api/getItem",
-    method: "post",
-    headers: {
-      'Content-Type': 'application/json' //设置请求头请求格式为json
-    },
-    data: datas
-  })
-}
-export function getItemInfo(datas) {
-  return Axios({
-    url: "/api/getItemInfo"+datas,
-    method: "get",
-  })
-}
 export function Login(datas){
   return Axios({
     url: "/api/login",

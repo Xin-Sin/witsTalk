@@ -27,19 +27,20 @@ public class MessageController {
     public String getMessage(@RequestParam("min") int min,@RequestParam("max") int max){
         return messageService.GetSomeMessage(min,max).toString();
     }
-
     @GetMapping("/api/message/getAll")
     public String getMessageAll(){
         return messageService.GetAllMessage().toString();
     }
-
     @PostMapping("/api/message/send")
     public String SendMessage(@RequestBody Message message){
         return messageService.SendMessage(message).toString();
     }
-
     @PostMapping("/api/message/recall")
     public String Recall(@RequestBody Message message){
         return messageService.ReCall(message).toString();
+    }
+    @GetMapping("/api/message/getOnlineUser")
+    public String getPlayerCount(){
+        return messageService.getPlayerCount().toString();
     }
 }

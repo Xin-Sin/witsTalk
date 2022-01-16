@@ -40,4 +40,9 @@ public class MessageService {
         messageMapper.ReCall(message);
         return new ResponseData();
     }
+
+    public ResponseData getPlayerCount(){
+        log.info("getPlayerCount");
+        return new ResponseData(messageMapper.getPlayerCount());
+    }
 }

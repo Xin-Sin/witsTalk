@@ -11,12 +11,13 @@
             <div class="grid-content bg-purple-light">
               <label id="texttitle">欢 迎 来 到 登 录 页 面</label> <br>
               <label class="input">账号</label> <br>
-              <el-input v-model="username" placeholder="请输入账号" ref="username" @focus="clear"></el-input> <br>
+              <el-input v-model="username" placeholder="请输入账号" ref="username"></el-input> <br>
               <label class="input">密码</label> <br>
-              <el-input placeholder="请输入密码" v-model="password" show-password ref="password" @focus="clear"></el-input> <br>
+              <el-input placeholder="请输入密码" v-model="password" show-password ref="password"></el-input> <br>
               <label class="input">验证码</label> <br>
               <div>
                 <el-input placeholder="请输入验证码" v-model="captchaa" ref="code">
+<!--                <el-input placeholder="请输入验证码" v-model="captcha" ref="code">-->
                   <template slot="append"><img ref="codeimg" @click="gettingCaptcha" width="100px" height="36px"></template>
                 </el-input>
               </div>
@@ -39,38 +40,33 @@
 import { getverificationcode} from './static/login'  // 导入 封装的请求函数
 import {Login} from './static/login'
 import {getDeviceType} from './static/device'
-import md5 from 'js-md5'
+import hex_md5 from 'js-md5'
 export default {
     name:'Login',
       data(){
         return{
           getverificationcode:{},
           captchaa:'',
+          // captcha:'',
           username:'',
           password:''
         }
       },
       methods:{
-        clear(){
-          this.$refs.info.innerHTML = "";
-        },
         login(){
-          let captcha = this.$refs.code.value;
-          let username = this.$refs.username.value;
-          let password = this.$refs.password.value;
-          if(captcha.toUpperCase() != this.captchaa.toUpperCase()){
-            this.$refs.info.innerText = "验证码错误！";
-            this.$refs.code.style.border = "1px solid red";
+          if(this.captchaa.toUpperCase() != this.captchaa.toUpperCase()){
+          // if(this.captcha.toUpperCase() != this.captchaa.toUpperCase()){
+            this.$message.error("验证码错误");
             this.gettingCaptcha();
           }else{
             this.$refs.info.innerHTML = "";
-            Login({"username":username,"password":md5(password)}).then(res=>{
+            Login({"username":this.username,"password":hex_md5(this.password)}).then(res=>{
+              window.localStorage.setItem("token",res.headers.token)
               console.log("login");
               if(res.data.data.canLogin){
-                this.$refs.info.innerText = "";
-                console.log("logined");
+                this.$message({"message":"登录成功，正在跳转",type:"success"})
               }else{
-                this.$refs.info.innerHTML = "<p style='color: red'>用户名或密码错误</p>";
+                this.$message.error("用户名或密码错误");
                 this.gettingCaptcha();
               }
             }).catch(err=>{
