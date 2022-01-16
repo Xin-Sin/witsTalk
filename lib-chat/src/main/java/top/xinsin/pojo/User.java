@@ -39,5 +39,4 @@ public class User {
         this.password = password;
         this.auth = Auth.valueOf(auth);
     }
-
 }

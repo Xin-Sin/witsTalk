@@ -37,6 +37,7 @@ public class UserService {
             payload.put("username",user1.getUsername());
             String token = JWTTokenUtils.getToken(payload);
             response.setHeader("token",token);
+            response.setHeader("Access-Control-Expose-Headers","token");
             jsonObject.put("base64",user1.getBase64());
             jsonObject.put("canLogin",true);
         }else{
