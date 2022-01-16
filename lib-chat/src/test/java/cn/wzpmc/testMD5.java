@@ -17,7 +17,7 @@ import java.security.MessageDigest;
 public class testMD5 {
     @Test
     public void MD5(){
-        String admin = DigestUtils.md5Hex("admin");
+        String admin = DigestUtils.md5Hex("xinxin");
         System.out.println("admin = " + admin);
         String bytes = DigestUtils.sha512Hex(admin);
         System.out.println("s = " + bytes);

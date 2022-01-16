@@ -1,43 +1,38 @@
 <template>
-  <div id="outoutout">
-    <div id="outout">
-      <div id="out">
-        <div id="img"></div>
-        <div id="frame28986">
-          <div id="fram28985">
-            <div id="signinform">
-              <div id="signinformweb">
-                <div id="frame28976">
-                  <div id="frame28968">
-                    <div id="frame28977">
-                        <label id="texttitle">欢 迎 来 到 登 录 页 面</label>
-                        <div id="inputdiv">
-                          <input class="inputbox" id="username" ref="username"/>
-                          <label id="inputdivtext">账号</label>
-                        </div>
-                        <div id="inputdiv">
-                          <input class="inputbox" id="password" ref="password" type="password"/>
-                          <label id="inputdivtext">密码</label>
-                        </div>
-                        <div id="inputdivbelow">
-                          <label id="inputdivtext">验证码</label>
-                          <div>
-                            <input class="inputboxbelow" id="code" ref="code"/>
-                            <img id="codeimg" @click="gettingCaptcha"></img>
-                          </div>
-                        </div>
-                    </div>
-                  </div>
-                  <label id="text" ref="info"></label>
-                </div>
-              </div>
+  <el-container>
+    <el-main>
+      <el-row :gutter="10" type="flex">
+          <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" class="hidden-lg-and-down" >
+            <div class="grid-content bg-purple-light">
+              <img src="./assets/img.png" alt="这是一张图片" width="984" height="901" style="box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); border-radius: 30px">
             </div>
-          </div>
-          <button id="loginbutton" @click="login">登录</button>
-        </div>
-      </div>
-    </div>
-  </div>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
+            <div class="grid-content bg-purple-light">
+              <label id="texttitle">欢 迎 来 到 登 录 页 面</label> <br>
+              <label class="input">账号</label> <br>
+              <el-input v-model="username" placeholder="请输入账号" ref="username" @focus="clear"></el-input> <br>
+              <label class="input">密码</label> <br>
+              <el-input placeholder="请输入密码" v-model="password" show-password ref="password" @focus="clear"></el-input> <br>
+              <label class="input">验证码</label> <br>
+              <div>
+                <el-input placeholder="请输入验证码" v-model="captchaa" ref="code">
+                  <template slot="append"><img ref="codeimg" @click="gettingCaptcha" width="100px" height="36px"></template>
+                </el-input>
+              </div>
+              <div class="register">
+                <el-button type="text">注册</el-button>
+                <el-button class="forgotPassword" type="text">忘记密码</el-button>
+              </div>
+              <div class="login">
+                <el-button type="primary" id="loginbutton" @click="login">登录</el-button>
+              </div>
+              <span ref="info"></span>
+            </div>
+          </el-col>
+      </el-row>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
@@ -50,10 +45,15 @@ export default {
       data(){
         return{
           getverificationcode:{},
-          captchaa:''
+          captchaa:'',
+          username:'',
+          password:''
         }
       },
       methods:{
+        clear(){
+          this.$refs.info.innerHTML = "";
+        },
         login(){
           let captcha = this.$refs.code.value;
           let username = this.$refs.username.value;
@@ -63,19 +63,14 @@ export default {
             this.$refs.code.style.border = "1px solid red";
             this.gettingCaptcha();
           }else{
-            this.$refs.info.innerText = "";
-            this.$refs.code.style.border = "1px solid #E5E5E5";
+            this.$refs.info.innerHTML = "";
             Login({"username":username,"password":md5(password)}).then(res=>{
               console.log("login");
               if(res.data.data.canLogin){
                 this.$refs.info.innerText = "";
-                this.$refs.username.style.border = "1px solid #E5E5E5";
-                this.$refs.password.style.border = "1px solid #E5E5E5";
                 console.log("logined");
               }else{
-                this.$refs.info.innerText = "用户名或密码错误";
-                this.$refs.username.style.border = "1px solid red";
-                this.$refs.password.style.border = "1px solid red";
+                this.$refs.info.innerHTML = "<p style='color: red'>用户名或密码错误</p>";
                 this.gettingCaptcha();
               }
             }).catch(err=>{
@@ -85,27 +80,22 @@ export default {
         },
         gettingCaptcha(){
           getverificationcode().then(res=>{
-            console.log("ds");
             this.getCaptcha(res.data);
           }).catch(err=>{
 
           });
         },
         getCaptcha(data){
-          let a = "data:image/jpg;base64,";
+          let a = "data:image/ico;base64,";
           const b64data = data.split(",")[0];
           //分离取出
           let capt = data.split(",")[1];
           this.captchaa = capt;
           a += b64data;
-          $("#codeimg")[0].src = a;
+          this.$refs.codeimg.src = a;
         }
       },
       created() {
-        let device = getDeviceType();
-        if(device === "mobile"){
-          window.location.href = "LoginMobile.html#/";
-        }
         getverificationcode().then(res=>{
           this.getCaptcha(res.data);
         }).catch(err=>{
@@ -118,528 +108,70 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  #outoutout{
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    background: #E5E5E5;
-    border-radius: 8px;
-  }
+<style>
+#loginbutton{
+  margin-left: -7%;
+  width: 80%;
+}
+.login{
+  text-align: center;
+  align-content: center;
+  align-items: center;
+  align-self: center;
+}
+.register{
+  margin-left: 30px;
+}
+
+.forgotPassword{
+  margin-left: 60% !important;
+}
+
+.el-input-group__append, .el-input-group__prepend{
+  padding: 0;
+}
+.el-input{
+  padding-left: 6.5%;
+  width: 80%;
+}
+.input {
+  padding-left: 6%;
+}
+#texttitle{
+  padding-left: 2%;
+  font-family: Helvetica;
+  font-weight: bolder;
+  font-size: 20px;
+}
+.el-main {
+  background-color: #DCDFE6;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  color: #333;
+  /*text-align: center;*/
+  line-height: 40px;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 20px;
+}
+
+body > .el-container {
+  margin-bottom: 40px;
+}
+
+.el-container:nth-child(5) .el-aside,
+.el-container:nth-child(6) .el-aside {
+  line-height: 260px;
+}
+
+.el-container:nth-child(7) .el-aside {
+  line-height: 320px;
+}
+.el-col {
+  border-radius: 4px;
+}
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
 
-  #outout{
-    /* 1440x900 */
-
-
-    position: relative;
-    width: 1440px;
-    height: 900px;
-    left: 200px;
-    top:1.5%;
-    /* White (#FFFFFF) */
-    border-radius: 8px;
-    background: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 24px;
-  }
-
-  #out{
-    /* Sign-In-Form-Desktop */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: -0.25px;
-    bottom: -0.25px;
-    border-radius: 8px;
-  }
-
-  #img{
-    position: static;
-    width: 984px;
-    height: 900.5px;
-    left: 984px;
-    top: 0px;
-
-    background: url(./assets/img.png);
-    transform: matrix(-1, 0, 0, 1, 0, 0);
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 1;
-    border-radius: 8px;
-    margin: 0px 0px;
-  }
-
-  #maindiv{
-    /* Sign-In-Form-Desktop */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: absolute;
-    left: 0px;
-    right: 0px;
-    top: -0.25px;
-    border-radius: 8px;
-    bottom: -0.25px;
-
-  }
-
-  #frame28986{
-    /* Frame 28986 */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 48px;
-
-    position: static;
-    width: 456px;
-    height: 900.5px;
-    left: 984px;
-    top: 0px;
-
-    /* White (#FFFFFF) */
-
-    background: #FFFFFF;
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 1;
-    border-radius: 8px;
-  }
-
-  #frame28985{
-    /* Frame 28985 */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: static;
-    width: 360px;
-    height: 288px;
-    left: 48px;
-    top: 48px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 228px 0px;
-    border-radius: 8px;
-  }
-
-  #signinforms{
-    1440x900
-    Width
-    360px
-    Height
-    288px
-    Blend
-    Pass through
-    Fill container
-    Hug contents
-    /* Sign-In-Forms */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0px;
-
-    position: static;
-    width: 360px;
-    height: 288px;
-    left: 0px;
-    top: 0px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 48px 0px;
-    border-radius: 8px;
-  }
-
-  #signinformweb{
-    /* Sign-In-Form-Web */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: static;
-    width: 360px;
-    height: 288px;
-    left: 0px;
-    top: 0px;
-
-    border-radius: 8px;
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 24px 0px;
-  }
-
-  #frame28976{
-    /* Frame 28976 */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: static;
-    width: 360px;
-    height: 288px;
-    left: 0px;
-    top: 0px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 32px 0px;
-  }
-
-  #frame28968{
-    /* Frame 28968 */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: static;
-    width: 360px;
-    height: 236px;
-    left: 0px;
-    top: 52px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 1;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 24px 0px;
-  }
-
-  #frame28977{
-    /* Frame 28977 */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: static;
-    width: 360px;
-    height: 236px;
-    left: 0px;
-    top: 0px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 20px 0px;
-  }
-
-  #texttitle{
-    /* 48 000,00 ₽ */
-
-
-    position: static;
-    width: 360px;
-    height: 28px;
-    left: calc(50% - 360px/2);
-    top: calc(50% - 28px/2 - 130px);
-
-    /* Title */
-
-    font-family: Poppins;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 28px;
-    /* identical to box height, or 140% */
-
-    display: flex;
-    align-items: center;
-  }
-
-  #inputdiv{
-    /* Input-Configurator */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: static;
-    align-self: stretch;
-    width: 360px;
-    height: 68px;
-    left: 0px;
-    top: 168px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-    margin: 16px 0px;
-  }
-
-  #inputdivbelow{
-    /* Input-Configurator */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: static;
-    width: 360px;
-    height: 68px;
-    left: 0px;
-    top: 168px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-    margin: 16px 0px;
-  }
-
-  #inputdivtext{
-    /* Satellite-Input */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px 16px;
-
-    position: static;
-    width: 360px;
-    height: 12px;
-    left: 0px;
-    top: 0px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 0;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 8px 0px;
-  }
-
-  .inputbox{
-    /* Password-Input */
-
-
-    position: static;
-    width: 360px;
-    height: 48px;
-    left: 0px;
-    top: 20px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 1;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 8px 0px;
-    /* Input-BG */
-
-    background: #F2F2F2;
-    /* Black-100 (#E5E5E5) */
-
-    border: 0.5px solid #E5E5E5;
-    box-sizing: border-box;
-    border-radius: 6px;
-  }
-
-  .inputboxbelow{
-    /* Password-Input */
-
-
-    position: static;
-    width: 360px;
-    height: 48px;
-    left: 0px;
-    top: 20px;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 1;
-    flex-grow: 0;
-    margin: 8px 0px;
-    /* Input-BG */
-
-    background: #F2F2F2;
-    /* Black-100 (#E5E5E5) */
-
-    border: 0.5px solid #E5E5E5;
-    box-sizing: border-box;
-    border-radius: 6px;
-  }
-
-  #codeimg{
-    width: 100;
-    height: 50;
-    margin: 17px 0px;
-  }
-
-  #frame28978{
-    /* Frame 28978 */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: absolute;
-    left: 71.46%;
-    right: 3.54%;
-    top: 40.29%;
-    bottom: 57.49%;
-
-  }
-  #loginbutton{
-    /* Primary-button-40px */
-
-
-    /* Auto Layout */
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 10px 24px;
-
-    position: absolute;
-    left: 71.46%;
-    right: 3.54%;
-    top: 63.51%;
-    bottom: 32.04%;
-
-    /* System-Blue (#007AFF) */
-
-    background: #007AFF;
-    border-radius: 6px;
-  }
-  #text{
-    /* info */
-
-
-    position: static;
-    width: 200px;
-    height: 20px;
-    left: 0px;
-    top: 312px;
-
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 15px;
-    line-height: 20px;
-    /* identical to box height, or 133% */
-
-    display: flex;
-    align-items: center;
-    text-align: center;
-    letter-spacing: 0.3px;
-
-    color: #FB0000;
-
-
-    /* Inside Auto Layout */
-
-    flex: none;
-    order: 2;
-    flex-grow: 0;
-    margin: 26.5% 0px;
-  }
 </style>
