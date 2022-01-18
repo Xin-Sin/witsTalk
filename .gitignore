@@ -3,4 +3,4 @@ target
 out
 *.class
 *.iml
-witstalk/node_modules
+web/node_modules
