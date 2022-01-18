@@ -39,7 +39,7 @@
 <script>
 import { getverificationcode} from '@/components/axios/request'  // 导入 封装的请求函数
 import {Login} from '@/components/axios/request'
-import hex_md5 from '@/components/js/md5'
+import hex_md5 from 'js-md5'
 export default {
   name:'Login',
   data(){
@@ -63,10 +63,12 @@ export default {
           window.localStorage.setItem("token",res.headers.token)
           console.log("login");
           if(res.data.data.canLogin){
-            this.$message({"message":"登录成功，正在跳转",type:"success"})
+            this.$message({"message":"登录成功，正在跳转",type:"success"});
+            this.$router.push("chat");
           }else{
             this.$message.error("用户名或密码错误");
             this.gettingCaptcha();
+
           }
         }).catch(err=>{
           console.log(err);

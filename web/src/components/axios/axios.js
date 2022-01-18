@@ -2,11 +2,13 @@
 import axios from 'axios'        //引入 axios库
 
 /* 2.全局默认配置 */
-let baseURL
-// 判断开发环境（一般用于本地代理）
+// let baseURL
+// baseURL = 'http://localhost:8003'
+let baseURL = 'http://wzpmc.cn:8003'
+/*// 判断开发环境（一般用于本地代理）
 if (process.env.NODE_ENV === 'development') { // 开发环境
-    baseURL = 'http://localhost:8003'
-    // baseURL = 'http://wzpmc.cn:8003'
+    // baseURL = 'http://localhost:8003'
+    baseURL = 'http://wzpmc.cn:8003'
     // 你设置的本地代理请求（跨域代理），下文会详细介绍怎么进行跨域代理
 } else {                                      // 编译环境
     if (process.env.type === 'test') {        // 测试环境
@@ -14,7 +16,7 @@ if (process.env.NODE_ENV === 'development') { // 开发环境
     } else {                                  // 正式环境
         baseURL = 'http://122.233.64.22:8003'
     }
-}
+}*/
 // 配置axios的属性
 axios.defaults.timeout = 6000;    // 请求超时时间1分钟
 axios.defaults.baseURL =baseURL; // 你的接口地址
@@ -38,8 +40,6 @@ const Axios = axios.create({
 Axios .interceptors.request.use((config) => {
     //发送请求前进行拦截
     //  可在此处配置请求头信息
-    config.headers["appkey"] ="...";
-    config.headers["token"] ="...";
 // ...
     if (config.method == "post") {
         /*数据转换: axios post方式默认是json格式提交数据，如果使用application/x-www-form-urlencoded数据格式提交，要用qs.stringify()进行转换,个人建议不在拦截器中全局配置，因为不够灵活，还有一点是，如果

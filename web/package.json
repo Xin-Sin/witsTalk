@@ -1,8 +1,11 @@
 {
-  "name": "web",
+  "name": "witstalk",
   "version": "1.0.0",
-  "description": "witstalk",
-  "author": "xinxin <2890826955@qq.com>",
+  "description": "witstalk vue web project",
+  "author": [
+    "xinxin <2890826955@qq.com>",
+    "wzpMC <335722099@qq.com>"
+  ],
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -10,10 +13,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.24.0",
+    "axios": "0.25.0",
     "element-ui": "^2.15.6",
-    "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "js-md5": "^0.7.3",
+    "vue": "2.6.14",
+    "vue-router": "3.5.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
