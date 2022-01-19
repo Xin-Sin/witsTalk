@@ -60,15 +60,12 @@ export default {
       }else{
         this.$refs.info.innerHTML = "";
         Login({"username":this.username,"password":hex_md5(this.password)}).then(res=>{
-          window.localStorage.setItem("token",res.headers.token)
           console.log("login");
           if(res.data.data.canLogin){
-            this.$message({"message":"登录成功，正在跳转",type:"success"});
-            this.$router.push("chat");
+            this.$message({"message":"登录成功，正在跳转",type:"success"})
           }else{
             this.$message.error("用户名或密码错误");
             this.gettingCaptcha();
-
           }
         }).catch(err=>{
           console.log(err);

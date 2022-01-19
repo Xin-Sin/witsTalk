@@ -5,7 +5,7 @@ export function getverificationcode(datas) {
     url: "api/vc",
     method: "get",
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded', //设置请求头请求格式form
+      'Content-Type': 'application/x-www-form-urlencoded' //设置请求头请求格式form
     },
     data: datas
   })
@@ -58,7 +58,6 @@ export function getAllUserOnline(){
     method: "get",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
-      'token': window.localStorage.getItem("token"),
     },
   })
 }
