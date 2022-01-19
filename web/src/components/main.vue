@@ -7,7 +7,7 @@
           default-active="1"
           style="width: 100%; border-right: 0;">
           <el-menu-item-group style="background-color:#2a3042;width: 100%;">
-            <el-menu-item index="1" style="width: 100%;">文字频道</el-menu-item>
+            <el-menu-item index="1" style="width: 100%;"><router-link active-class="#" to="/main/chat">文字频道</router-link></el-menu-item>
             <el-menu-item index="2" style="width: 100%;">语音频道</el-menu-item>
             <el-menu-item index="3" style="width: 100%;">文件频道</el-menu-item>
             <el-menu-item index="4" style="width: 100%;">小♂游戏</el-menu-item>
@@ -22,35 +22,7 @@
           </el-row>
         </el-header>
         <el-main id="main">
-          <el-row :gutter="10" style="height: 80%">
-            <el-col :span="20" style="height: 100%;">
-              <div id="message"></div>
-              <el-input
-                type="textarea"
-                :rows="4"
-                placeholder="请输入要发送的内容"
-                style="margin-bottom: 5px"
-                v-model = "sender">
-              </el-input>
-              <el-button type="primary" style="float:right;" plain>发送消息</el-button>
-            </el-col>
-            <el-col :span="4" id="online-user">
-              <el-table
-                :data="administrator">
-                <el-table-column
-                  prop="username"
-                  label="管理员">
-                </el-table-column>
-              </el-table>
-              <el-table
-                :data="user">
-                <el-table-column
-                  prop="username"
-                  label="用户">
-                </el-table-column>
-              </el-table>
-            </el-col>
-          </el-row>
+          <router-view/>
         </el-main>
       </el-container>
     </el-container>
@@ -94,13 +66,7 @@
   font-family: "Helvetica Neue",Arial,sans-serif;
   color:#c1c7d0;
 }
-#message{
-  background: #C4C4C4;
-  width: 100%;
-  height: 100%;
-  border-radius: 30px;
-  margin-bottom: 20px;
-}
+
 </style>
 <script>
 import {getAllMessage,sendMessage,getAllUserOnline} from "@/components/axios/request"
@@ -109,9 +75,6 @@ export default {
   name:"Chat",
   data() {
     return {
-      administrator: [],
-      user: [],
-      sender:"",
       token:''
     }
   },
