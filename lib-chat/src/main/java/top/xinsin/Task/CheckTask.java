@@ -28,7 +28,7 @@ public class CheckTask {
         Date now = new Date();
         for (User user : checklist.keySet()) {
             Date time = checklist.get(user);
-            if(time.getTime() + 5000 <= now.getTime()){
+            if(time.getTime() + 1000*60*60*2 <= now.getTime()){
                 userService.setOffline(user);
                 checklist.remove(user);
                 log.info("CheckList remove user=" + user);

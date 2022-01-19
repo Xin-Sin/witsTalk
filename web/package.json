@@ -16,6 +16,8 @@
     "axios": "0.25.0",
     "element-ui": "^2.15.6",
     "js-md5": "^0.7.3",
+    "tdesign-icons-vue": "^0.0.8",
+    "tdesign-vue": "^0.33.1",
     "vue": "2.6.14",
     "vue-router": "3.5.3"
   },

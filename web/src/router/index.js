@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import login from '@/components/login'
-import main from '@/components/main'
+import mainpage from '@/components/mainpage'
 import chat from '@/pages/Chat/chat'
 
 Vue.use(Router)
@@ -16,7 +16,7 @@ export default new Router({
     {
       path:'/main',
       name:'main',
-      component:main,
+      component:mainpage,
       children:[
         {
           path:'chat',

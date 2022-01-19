@@ -22,7 +22,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor  {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 从http请求头中取出token
-        final String token = request.getHeader("token");
+        final String token = request.getHeader("Access-Token");
+        response.setHeader("Access-Control-Allow-Origin","*");//解决跨域问题
+        response.setHeader("Access-Control-Allow-Headers","*");//解决跨域问题
         ResponseData responseData;
         try {
             JWTTokenUtils.verify(token);

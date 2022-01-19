@@ -62,7 +62,8 @@ export default {
         Login({"username":this.username,"password":hex_md5(this.password)}).then(res=>{
           console.log("login");
           if(res.data.data.canLogin){
-            this.$message({"message":"登录成功，正在跳转",type:"success"})
+            this.$message({"message":"登录成功，正在跳转",type:"success"});
+            this.$router.push("main");
           }else{
             this.$message.error("用户名或密码错误");
             this.gettingCaptcha();
@@ -86,6 +87,7 @@ export default {
       let capt = data.split(",")[1];
       this.captchaa = capt;
       a += b64data;
+      console.log(data);
       this.$refs.codeimg.src = a;
     }
   },

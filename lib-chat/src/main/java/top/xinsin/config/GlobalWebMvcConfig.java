@@ -32,6 +32,6 @@ public class GlobalWebMvcConfig implements WebMvcConfigurer {
                 //放行哪些原始请求头部信息
                 .allowedHeaders("*")
                 //暴露哪些原始请求头部信息
-                .exposedHeaders("Server","Content-Length", "Authorization", "Access-Token", "Access-Control-Allow-Origin","Access-Control-Allow-Credentials");
+                .exposedHeaders("*");
     }
 }

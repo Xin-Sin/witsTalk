@@ -34,7 +34,6 @@ export function getOneMessage(){
 export function getAllMessage() {
   return Axios({
     url: "api/message/getAll",
-    method: "get",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },
@@ -55,7 +54,6 @@ export function sendMessage(message,sender){
 export function getAllUserOnline(){
   return Axios({
     url: "api/message/getOnlineUser",
-    method: "get",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },

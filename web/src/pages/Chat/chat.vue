@@ -2,13 +2,11 @@
   <el-row :gutter="10" style="height: 80%">
     <el-col :span="20" style="height: 100%;">
       <div id="message"></div>
-      <el-input
-        type="textarea"
-        :rows="4"
+      <t-textarea
+        v-model="sender"
         placeholder="请输入要发送的内容"
-        style="margin-bottom: 5px"
-        v-model = "sender">
-      </el-input>
+        :maxcharacter="200"
+      ></t-textarea>
       <el-button type="primary" style="float:right;" plain>发送消息</el-button>
     </el-col>
     <el-col :span="4" id="online-user">
@@ -44,10 +42,10 @@ export default {
   created()
   {
     this.token = window.localStorage.getItem("token");
-    console.log(this.token);
     let administrator = [];
     let user = []
     getAllUserOnline().then(res => {
+      console.log(res);
       res.data.data.forEach(function (item) {
         let auth = item.auth;
         let username = item.username;
