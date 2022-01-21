@@ -16,4 +16,7 @@
     <select id="getPlayerCount" resultType="top.xinsin.pojo.Online">
         SELECT `user`.username,`user`.auth,`user`.base64 from `user` WHERE `user`.`online`=1;
     </select>
+    <select id="GetAllMessageCount" resultType="Integer">
+        SELECT table_rows from information_schema.tables where table_name = 'message';
+    </select>
 </mapper>
