@@ -24,7 +24,7 @@ public class MessageService {
         return new ResponseData(messageMapper.GetAllMessage());
     }
 
-    public ResponseData GetSomeMessage(int id_min,int id_max){
+    public ResponseData GetSomeMessage(Integer id_min,Integer id_max){
         log.info("GetSomeMessage args:id_min=" + id_min + ";id_max=" + id_max);
         return new ResponseData(messageMapper.GetSomeMessage(id_min,id_max));
     }
@@ -44,5 +44,10 @@ public class MessageService {
     public ResponseData getPlayerCount(){
         log.info("getPlayerCount");
         return new ResponseData(messageMapper.getPlayerCount());
+    }
+
+    public ResponseData GetAllMessageCount(){
+        log.info("GetAllMessageCount");
+        return new ResponseData(messageMapper.GetAllMessageCount());
     }
 }

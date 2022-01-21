@@ -40,6 +40,24 @@ export function getAllMessage() {
   })
 }
 
+export function getMessageCount(){
+  return Axios({
+    url: "api/message/count",
+    headers:{
+      'Content-Type': 'application/json',
+    }
+  })
+}
+
+export function getSomeMessage(min,max){
+  return Axios({
+    url: "api/message/get?id_min=" + min + "&id_max=" + max,
+    headers:{
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
 export function sendMessage(message,sender){
   return Axios({
     url: "api/message/send",

@@ -29,21 +29,25 @@
 </template>
 
 <script>
-import {getAllUserOnline} from '@/components/axios/request';
+import {getAllUserOnline,getMessageCount,getSomeMessage} from '@/components/axios/request';
 export default {
   name: "chat",
   data(){
     return{
       administrator: [],
       user: [],
-      sender:""
+      sender:"",
     }
+  },
+  showError(err){
+    this.$message.error(err);
   },
   created()
   {
     this.token = window.localStorage.getItem("token");
     let administrator = [];
     let user = []
+    let num = 0;
     getAllUserOnline().then(res => {
       console.log(res);
       res.data.data.forEach(function (item) {
@@ -57,9 +61,13 @@ export default {
       });
       this.administrator = administrator;
       this.user = user;
-    }).catch(err => {
-      this.$message.error(err)
-    });
+    }).catch(err => this.showError);
+    getMessageCount().then(res => {num = res.data.data}).catch(err => this.showError);
+    let min = 0;
+    if(num >= 10){
+      min = num - 10;
+    }
+    getSomeMessage(min,num).then(res => {console.log(res.data.data)})
   }
 }
 </script>

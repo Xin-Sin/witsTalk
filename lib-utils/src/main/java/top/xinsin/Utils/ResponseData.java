@@ -19,43 +19,73 @@ public class ResponseData {
     private JSONObject data;
     private JSONArray array;
     private String content;
+    private Integer num;
     private HttpStatus Status;
     public ResponseData(JSONObject data){
         this.data = data;
         this.Status = HttpStatus.OK;
     }
+
     public ResponseData(JSONArray data){
         this.array = data;
         this.Status = HttpStatus.OK;
     }
+
     public ResponseData(Map data){
         this.data = JSONObject.parseObject(JSON.toJSONString(data));
         this.Status = HttpStatus.OK;
     }
+
     public ResponseData(List data){
         this.array = JSONArray.parseArray(JSON.toJSONString(data));
         this.Status = HttpStatus.OK;
     }
+
     public ResponseData(String data){
         this.content = data;
         this.Status = HttpStatus.OK;
     }
+
+    public ResponseData(Integer data){
+        this.num = data;
+        this.Status = HttpStatus.OK;
+    }
+
+    public ResponseData(int data){
+        this.num = data;
+        this.Status = HttpStatus.OK;
+    }
+
+    public ResponseData(Integer data,HttpStatus status) {
+        this.num = data;
+        this.Status = status;
+    }
+
+    public ResponseData(int data,HttpStatus status){
+        this.num = data;
+        this.Status = status;
+    }
+
     public ResponseData(JSONObject data,HttpStatus status){
         this.data = data;
         this.Status = status;
     }
+
     public ResponseData(JSONArray data,HttpStatus status){
         this.array = data;
         this.Status = status;
     }
+
     public ResponseData(Map data,HttpStatus status){
         this.data = JSONObject.parseObject(JSON.toJSONString(data));
         this.Status = status;
     }
+
     public ResponseData(List data,HttpStatus status){
         this.array = JSONArray.parseArray(JSON.toJSONString(data));
         this.Status = status;
     }
+
     public ResponseData(String data,HttpStatus status){
         this.content = data;
         this.Status = status;
@@ -65,11 +95,18 @@ public class ResponseData {
         this.data = null;
         this.array = null;
         this.content = null;
+        this.num = null;
         this.Status = status;
     }
+
     public ResponseData(Object data,HttpStatus status){
         this.content = data.toString();
         this.Status = status;
+    }
+
+    public ResponseData(Object data){
+        this.content = data.toString();
+        this.Status = HttpStatus.OK;
     }
 
     public ResponseData(){
@@ -90,6 +127,8 @@ public class ResponseData {
             jsonObject.put("data",array);
         }else if(this.content != null){
             jsonObject.put("data",content);
+        }else if(this.num != null){
+            jsonObject.put("data",num);
         }
         return jsonObject.toJSONString();
     }
