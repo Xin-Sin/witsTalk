@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'http://wzpmc.cn:8003';
+// axios.defaults.baseURL = 'http://wzpmc.cn:8003';
 
 const Axios_instance = axios.create({
   baseURL:'http://localhost:8003',

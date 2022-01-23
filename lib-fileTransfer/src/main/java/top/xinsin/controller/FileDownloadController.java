@@ -19,10 +19,8 @@ import java.io.IOException;
  */
 @RestController
 public class FileDownloadController {
-
     @Autowired
     private FileDownloadService fileDownloadService;
-
     @GetMapping("/api/getName")
     public String getFileName(@RequestParam("md5") String md5){
         return fileDownloadService.getFileName(new FileObject(md5)).toString();
@@ -31,5 +29,9 @@ public class FileDownloadController {
     @GetMapping("/api/getFile")
     public ResponseEntity<InputStreamResource> getFile(@RequestParam("md5") String md5, @RequestParam("filename") String filename) throws IOException {
         return fileDownloadService.getFile(md5,filename);
+    }
+
+    public String getAllFiles(){
+        return null; 
     }
 }

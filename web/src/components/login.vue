@@ -59,7 +59,9 @@ export default {
         this.gettingCaptcha();
       }else{
         this.$refs.info.innerHTML = "";
-        Login({"username":this.username,"password":hex_md5(this.password)}).then(res=>{
+        let pa = hex_md5(this.password)
+        console.log(pa)
+        Login({"username":this.username,"password":pa}).then(res=>{
           console.log("login");
           if(res.data.data.canLogin){
             this.$message({"message":"登录成功，正在跳转",type:"success"});

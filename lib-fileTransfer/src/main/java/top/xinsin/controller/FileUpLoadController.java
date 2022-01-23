@@ -21,4 +21,8 @@ public class FileUpLoadController {
     public String fileUpload(@RequestBody MultipartFile file) throws NoSuchAlgorithmException, IOException {
         return fileUpLoadService.fileUpload(file).toString();
     }
+    @GetMapping("/api/debug")
+    public String debug(){
+        return "123";
+    }
 }

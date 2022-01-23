@@ -2,9 +2,7 @@ package top.xinsin.config;
 
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import top.xinsin.interceptor.AuthenticationInterceptor;
 
 /**
  * @Auther wzp
