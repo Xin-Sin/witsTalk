@@ -29,6 +29,10 @@ public class User {
         this.password = null;
         this.auth = Auth.user;
     }
+    public User(String username){
+        this.username = username;
+        this.auth = Auth.user;
+    }
     public User(String username,String password){
         this.username = username;
         this.password = password;

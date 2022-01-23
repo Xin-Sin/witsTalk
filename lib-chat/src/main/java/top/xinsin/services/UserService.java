@@ -74,4 +74,8 @@ public class UserService {
         }
         return new ResponseData();
     }
+    public ResponseData getHeadPortrait(User user){
+        log.info("getHeadPortrait args={}",user);
+        return new ResponseData(userMapper.getHeadPortrait(user));
+    }
 }

@@ -17,4 +17,5 @@ public interface UserMapper {
     void setOnline(User user);
     void setOffline(User user);
     User setHeadPortrait(User user);
+    String getHeadPortrait(User user);
 }

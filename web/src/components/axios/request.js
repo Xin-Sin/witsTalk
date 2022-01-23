@@ -77,3 +77,15 @@ export function getAllUserOnline(){
     },
   });
 }
+
+
+export function getUserHeading(username){
+  return Axios({
+    url: "api/getHeadPortrait",
+    method: "post",
+    headers: {
+      'Content-Type': 'application/json', //设置请求头请求格式form
+    },
+    data:{"username":username},
+  });
+}
