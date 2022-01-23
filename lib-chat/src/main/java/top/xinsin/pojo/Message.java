@@ -1,6 +1,7 @@
 package top.xinsin.pojo;
 
 import lombok.Data;
+import top.xinsin.enums.MessageTypes;
 
 /**
  * @Auther wzp
@@ -13,8 +14,25 @@ public class Message {
     String content;
     String sender;
     int recall;
+    String sendtime;
+    MessageTypes type;
+
     public Message(String content, String sender){
         this.content = content;
         this.sender = sender;
+    }
+    public Message(String content, String sender,String type,String sendtime){
+        this.content = content;
+        this.sender = sender;
+        this.type = MessageTypes.valueOf(type);
+        this.sendtime = sendtime;
+    }
+    public Message(int id,String content,String sender,int recall,String type,String sendtime){
+        this.content = content;
+        this.sender = sender;
+        this.id = id;
+        this.recall = recall;
+        this.type = MessageTypes.valueOf(type);
+        this.sendtime = sendtime;
     }
 }

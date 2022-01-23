@@ -1,13 +1,14 @@
 <template>
   <el-row :gutter="10" style="height: 80%">
     <el-col :span="20" style="height: 100%;">
-      <div id="message" ref="message"></div>
+      <div id="message">
+      </div>
       <t-textarea
         v-model="sender"
         placeholder="请输入要发送的内容"
         :maxcharacter="200"
       ></t-textarea>
-      <el-button type="primary" style="float:right;" plain>发送消息</el-button>
+      <el-button type="primary" style="float:right;" plain @click="submitMessage">发送消息</el-button>
     </el-col>
     <el-col :span="4" id="online-user">
       <el-table
@@ -29,7 +30,8 @@
 </template>
 
 <script>
-import {getAllUserOnline,getMessageCount,getSomeMessage} from '@/components/axios/request';
+import {getAllUserOnline, getMessageCount, getSomeMessage, getUserHeading} from '@/components/axios/request';
+
 export default {
   name: "chat",
   data(){
@@ -37,24 +39,40 @@ export default {
       administrator: [],
       user: [],
       sender:"",
+      headingimg:{},
     }
   },
   methods: {
     showError(err) {
       this.$message.error(err);
     },
-    getSomeMessageCallback(res) {
+    async addOne(item){
+      getUserHeading(item.sender).then(res => {
+        let headBase64 = res.data.data;
+        let head = jpgBase64 + headBase64;
+        let add = ''
+        if(item.type === "text"){
+          add = '<div class="t-comment__inner"><div class="t-comment__avatar"><img src="headimg" alt="" class="t-comment__avatar-image"></div><div class="t-comment__content"><div class="t-comment__author"><span class="t-comment__name">author1</span><span class="t-comment__time">TIME1</span></div><div class="t-comment__detail">content1</div></div></div>';
+          add = add.replaceAll("author1", item.sender).replaceAll("content1", item.content).replaceAll("headimg",head).replaceAll("TIME1",item.sendtime);
+        }else{
+          let img = jpgBase64 + item.content
+          add = '<div class="t-comment__inner"><div class="t-comment__avatar"><img src="headimg" alt="" class="t-comment__avatar-image"></div><div class="t-comment__content"><div class="t-comment__author"><span class="t-comment__name">author1</span><span class="t-comment__time">TIME1</span></div><div class="t-comment__detail"><img src="content1"></div></div></div>';
+          add = add.replaceAll("author1", item.sender).replaceAll("content1", img).replaceAll("headimg",head).replaceAll("TIME1",item.sendtime);;
+        }
+        document.getElementById("message").innerHTML += add;
+      });
+    },
+    async getSomeMessageCallback(res) {
       let d = res.data.data;
-      console.log(d);
+      let jpgBase64 = "data:image/jpg;base64,";
+      let headings = {}
+      document.getElementById("message").innerHTML = "";
       d.forEach(function (item) {
-        let add = '<t-comment avatar="https://tdesign.gtimg.com/site/avatar.jpg" author="author1" content="content1"></t-comment>';
-        add = add.replaceAll("author1", item.sender).replaceAll("content1", item.content);
-        console.log(add);
-        document.getElementById("")
+        console.log(item);
+        this.addOne(item);
       });
     },
     getMessageCountCallBack(res) {
-      console.log("getMessageCountCallBackRun");
       let num = res.data.data;
       let min = 0;
       if (num >= 10) {
@@ -71,7 +89,6 @@ export default {
       let administrator = [];
       let user = []
       getAllUserOnline().then(res => {
-        console.log(res);
         res.data.data.forEach(function (item) {
           let auth = item.auth;
           let username = item.username;
@@ -85,11 +102,15 @@ export default {
         this.user = user;
       }).catch(err => this.showError);
     },
+    submitMessage(){
+      console.log("123");
+    }
   },
   created()
   {
     this.getOnlineUser();
     this.getMessages();
+    setInterval(this.getMessages,5000);
   },
 }
 </script>

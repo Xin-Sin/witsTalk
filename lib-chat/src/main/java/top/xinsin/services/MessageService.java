@@ -7,6 +7,9 @@ import top.xinsin.Utils.ResponseData;
 import top.xinsin.pojo.Message;
 import top.xinsin.dao.MessageMapper;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 /**
  * @Auther wzp
  * @Date 2021/12/11 23:24
@@ -26,7 +29,14 @@ public class MessageService {
 
     public ResponseData GetSomeMessage(Integer id_min,Integer id_max){
         log.info("GetSomeMessage args:id_min=" + id_min + ";id_max=" + id_max);
-        return new ResponseData(messageMapper.GetSomeMessage(id_min,id_max));
+        ArrayList<Message> messages = messageMapper.GetSomeMessage(id_min, id_max);
+        messages.sort(new Comparator<Message>() {
+            @Override
+            public int compare(Message o1, Message o2) {
+                return Integer.compare(o1.getId(), o2.getId());
+            }
+        });
+        return new ResponseData(messages);
     }
 
     public ResponseData SendMessage(Message message){
