@@ -37,7 +37,7 @@ export function getAllMessage() {
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },
-  })
+  });
 }
 
 export function getMessageCount(){
@@ -46,16 +46,16 @@ export function getMessageCount(){
     headers:{
       'Content-Type': 'application/json',
     }
-  })
+  });
 }
 
 export function getSomeMessage(min,max){
   return Axios({
-    url: "api/message/get?id_min=" + min + "&id_max=" + max,
+    url: "api/message/get?min=" + min + "&max=" + max,
     headers:{
       'Content-Type': 'application/json'
     }
-  })
+  });
 }
 
 export function sendMessage(message,sender){
@@ -66,7 +66,7 @@ export function sendMessage(message,sender){
       'Content-Type': 'application/json', //设置请求头请求格式form
     },
     data:{"content":message,"sender":sender},
-  })
+  });
 }
 
 export function getAllUserOnline(){
@@ -75,5 +75,5 @@ export function getAllUserOnline(){
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },
-  })
+  });
 }

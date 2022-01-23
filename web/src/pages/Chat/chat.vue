@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="10" style="height: 80%">
     <el-col :span="20" style="height: 100%;">
-      <div id="message"></div>
+      <div id="message" ref="message"></div>
       <t-textarea
         v-model="sender"
         placeholder="请输入要发送的内容"
@@ -39,36 +39,58 @@ export default {
       sender:"",
     }
   },
-  showError(err){
-    this.$message.error(err);
+  methods: {
+    showError(err) {
+      this.$message.error(err);
+    },
+    getSomeMessageCallback(res) {
+      let d = res.data.data;
+      console.log(d);
+      d.forEach(function (item) {
+        let add = '<t-comment avatar="https://tdesign.gtimg.com/site/avatar.jpg" author="author1" content="content1"></t-comment>';
+        add = add.replaceAll("author1", item.sender).replaceAll("content1", item.content);
+        console.log(add);
+        document.getElementById("")
+      });
+    },
+    getMessageCountCallBack(res) {
+      console.log("getMessageCountCallBackRun");
+      let num = res.data.data;
+      let min = 0;
+      if (num >= 10) {
+        min = num - 10;
+      }
+      getSomeMessage(min, num).then(this.getSomeMessageCallback)
+    },
+    getMessages() {
+      getMessageCount().then(res => {
+        this.getMessageCountCallBack(res);
+      });
+    },
+    getOnlineUser() {
+      let administrator = [];
+      let user = []
+      getAllUserOnline().then(res => {
+        console.log(res);
+        res.data.data.forEach(function (item) {
+          let auth = item.auth;
+          let username = item.username;
+          if (auth === "admin") {
+            administrator.push({"username": username})
+          } else {
+            user.push({"username": username})
+          }
+        });
+        this.administrator = administrator;
+        this.user = user;
+      }).catch(err => this.showError);
+    },
   },
   created()
   {
-    this.token = window.localStorage.getItem("token");
-    let administrator = [];
-    let user = []
-    let num = 0;
-    getAllUserOnline().then(res => {
-      console.log(res);
-      res.data.data.forEach(function (item) {
-        let auth = item.auth;
-        let username = item.username;
-        if (auth === "admin") {
-          administrator.push({"username": username})
-        } else {
-          user.push({"username": username})
-        }
-      });
-      this.administrator = administrator;
-      this.user = user;
-    }).catch(err => this.showError);
-    getMessageCount().then(res => {num = res.data.data}).catch(err => this.showError);
-    let min = 0;
-    if(num >= 10){
-      min = num - 10;
-    }
-    getSomeMessage(min,num).then(res => {console.log(res.data.data)})
-  }
+    this.getOnlineUser();
+    this.getMessages();
+  },
 }
 </script>
 

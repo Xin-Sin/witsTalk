@@ -16,5 +16,6 @@ public class ChatStart {
 
     public static void main(String[] args) {
         SpringApplication.run(ChatStart.class,args);
+
     }
 }
