@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationInterceptor implements HandlerInterceptor  {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
         // 从http请求头中取出token
         final String token = request.getHeader("Access-Token");
         response.setHeader("Access-Control-Allow-Origin","*");//解决跨域问题

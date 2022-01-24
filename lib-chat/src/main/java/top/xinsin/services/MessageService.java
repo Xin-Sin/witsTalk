@@ -1,5 +1,8 @@
 package top.xinsin.services;
 
+import com.alibaba.druid.support.json.JSONParser;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,19 +32,17 @@ public class MessageService {
 
     public ResponseData GetSomeMessage(Integer id_min,Integer id_max){
         log.info("GetSomeMessage args:id_min=" + id_min + ";id_max=" + id_max);
-        ArrayList<Message> messages = messageMapper.GetSomeMessage(id_min, id_max);
-        messages.sort(new Comparator<Message>() {
-            @Override
-            public int compare(Message o1, Message o2) {
-                return Integer.compare(o1.getId(), o2.getId());
-            }
-        });
-        return new ResponseData(messages);
+        return new ResponseData(messageMapper.GetSomeMessage(id_min, id_max));
     }
 
-    public ResponseData SendMessage(Message message){
-        log.info("SendMessage args:message=" + message);
-        messageMapper.SendMessage(message);
+    public ResponseData SendMessage(String message){
+        JSONObject jsonObject = JSON.parseObject(message);
+        String sender = (String) jsonObject.get("sender");
+        String content = (String) jsonObject.get("content");
+        String type = (String) jsonObject.get("type");
+        Message m = new Message(content,sender,type);
+        log.info("SendMessage args:message=" + m);
+        messageMapper.SendMessage(m);
         return new ResponseData();
     }
 
@@ -58,6 +59,6 @@ public class MessageService {
 
     public ResponseData GetAllMessageCount(){
         log.info("GetAllMessageCount");
-        return new ResponseData(messageMapper.GetAllMessageCount());
+        return new ResponseData(messageMapper.GetAllMessage().size());
     }
 }
