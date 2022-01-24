@@ -65,7 +65,7 @@ export function sendMessage(message,sender){
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },
-    data:{"content":message,"sender":sender},
+    data:{"content":message,"sender":sender,"type":"text"},
   });
 }
 
@@ -79,7 +79,7 @@ export function getAllUserOnline(){
 }
 
 
-export function getUserHeading(username){
+export async function getUserHeading(username){
   return Axios({
     url: "api/getHeadPortrait",
     method: "post",

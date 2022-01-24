@@ -64,6 +64,7 @@ export default {
         Login({"username":this.username,"password":pa}).then(res=>{
           console.log("login");
           if(res.data.data.canLogin){
+            window.localStorage.setItem("username",this.username);
             this.$message({"message":"登录成功，正在跳转",type:"success"});
             this.$router.push("main");
           }else{

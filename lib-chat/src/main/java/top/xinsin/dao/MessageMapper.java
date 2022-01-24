@@ -21,5 +21,4 @@ public interface MessageMapper {
     void SendMessage(Message message);
     void ReCall(Message message);
     ArrayList<Online> getPlayerCount();
-    Integer GetAllMessageCount();
 }

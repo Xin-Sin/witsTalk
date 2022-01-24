@@ -2,6 +2,7 @@
   <el-row :gutter="10" style="height: 80%">
     <el-col :span="20" style="height: 100%;">
       <div id="message">
+        {{init}}
       </div>
       <t-textarea
         v-model="sender"
@@ -31,6 +32,7 @@
 
 <script>
 import {getAllUserOnline, getMessageCount, getSomeMessage, getUserHeading} from '@/components/axios/request';
+import {sendMessage} from "../../components/axios/request";
 
 export default {
   name: "chat",
@@ -40,15 +42,27 @@ export default {
       user: [],
       sender:"",
       headingimg:{},
+      init:"",
+      username:window.localStorage.getItem("username"),
     }
   },
   methods: {
     showError(err) {
       this.$message.error(err);
     },
-    async addOne(item){
-      getUserHeading(item.sender).then(res => {
-        let headBase64 = res.data.data;
+    async getSomeMessageCallback(res) {
+      let d = res.data.data;
+      console.log(d);
+      let jpgBase64 = "data:image/jpg;base64,";
+      const data = {};
+      const times = [];
+      for (let item of d) {
+        await getUserHeading(item.sender).then(res => {data[item.sendtime] = [res.data.data,item];times.push(item.sendtime)});
+      }
+      let html = ''
+      for (let time of times) {
+        let item = data[time][1];
+        let headBase64 = data[time][0];
         let head = jpgBase64 + headBase64;
         let add = ''
         if(item.type === "text"){
@@ -59,25 +73,18 @@ export default {
           add = '<div class="t-comment__inner"><div class="t-comment__avatar"><img src="headimg" alt="" class="t-comment__avatar-image"></div><div class="t-comment__content"><div class="t-comment__author"><span class="t-comment__name">author1</span><span class="t-comment__time">TIME1</span></div><div class="t-comment__detail"><img src="content1"></div></div></div>';
           add = add.replaceAll("author1", item.sender).replaceAll("content1", img).replaceAll("headimg",head).replaceAll("TIME1",item.sendtime);;
         }
-        document.getElementById("message").innerHTML += add;
-      });
-    },
-    async getSomeMessageCallback(res) {
-      let d = res.data.data;
-      let jpgBase64 = "data:image/jpg;base64,";
-      let headings = {}
-      document.getElementById("message").innerHTML = "";
-      d.forEach(function (item) {
-        console.log(item);
-        this.addOne(item);
-      });
+        html += add;
+      }
+      this.init = html;
     },
     getMessageCountCallBack(res) {
       let num = res.data.data;
       let min = 0;
+      console.log(num)
       if (num >= 10) {
         min = num - 10;
       }
+      console.log(min);
       getSomeMessage(min, num).then(this.getSomeMessageCallback)
     },
     getMessages() {
@@ -103,7 +110,9 @@ export default {
       }).catch(err => this.showError);
     },
     submitMessage(){
-      console.log("123");
+      console.log(this.username);
+      sendMessage(this.sender,this.username).then(res => {
+        console.log(res); this.sender = '';this.getMessages()}).catch(err => {this.showError(err)});
     }
   },
   created()

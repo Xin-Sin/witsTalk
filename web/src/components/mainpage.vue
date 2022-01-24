@@ -4,7 +4,7 @@
       <t-header >
         <t-row>
           <t-col :span="4">
-            <h3 id="username">User Name</h3>
+            <h3 id="username">{{username}}</h3>
           </t-col>
           <t-col :offset="4" :span="4" style="float:right;">
             <t-avatar style="float:right;">W</t-avatar>
@@ -57,10 +57,19 @@ import { Icon } from 'tdesign-icons-vue';
 export default {
   components: { Icon },
   name:"mainpage",
-  created() {
-    // 设置暗色模式
-    //document.documentElement.setAttribute('theme-mode', 'dark');
+  data(){
+    return{
+      username:window.localStorage.getItem("username"),
+
+    }
   },
+  methods:{
+    created() {
+      // 设置暗色模式
+      //document.documentElement.setAttribute('theme-mode', 'dark');
+    },
+  }
+
 }
 </script>
 

@@ -39,8 +39,8 @@ public class MessageController {
     }
 
     @PostMapping("/api/message/send")
-    public String SendMessage(@RequestBody Message message){
-        return messageService.SendMessage(message).toString();
+    public String SendMessage(@RequestBody String strContent){
+        return messageService.SendMessage(strContent).toString();
     }
 
     @PostMapping("/api/message/recall")
