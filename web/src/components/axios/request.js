@@ -1,5 +1,18 @@
 import Axios from "./axios"  // 导入配置好的axios文件
+import Axios_file from "./axios_file"  // 导入配置好的axios文件
 // 封装axios请求函数，并用export导出
+
+//获取所有文件名接口
+export function getAllFileNames(){
+  return Axios_file({
+    url: "/api/getAllFileNames",
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded' //设置请求头请求格式form
+    },
+  });
+}
+// 验证码接口
 export function getverificationcode(datas) {
   return Axios({
     url: "api/vc",
@@ -10,6 +23,7 @@ export function getverificationcode(datas) {
     data: datas
   })
 }
+//登陆验证接口
 export function Login(datas){
   return Axios({
     url: "/api/login",
@@ -20,8 +34,8 @@ export function Login(datas){
     data: datas
   });
 }
-
-export function getOneMessage(){
+//获取每日一言
+export function getHitokoto(){
   return Axios({
     url : "https://v1.hitokoto.cn/",
     method: "get",
@@ -30,7 +44,7 @@ export function getOneMessage(){
     },
   });
 }
-
+//获取所有聊天信息
 export function getAllMessage() {
   return Axios({
     url: "api/message/getAll",
@@ -39,7 +53,7 @@ export function getAllMessage() {
     },
   });
 }
-
+//获取聊天信息总行数
 export function getMessageCount(){
   return Axios({
     url: "api/message/count",
@@ -48,7 +62,7 @@ export function getMessageCount(){
     }
   });
 }
-
+//获取一些聊天信息
 export function getSomeMessage(min,max){
   return Axios({
     url: "api/message/get?min=" + min + "&max=" + max,
@@ -57,7 +71,7 @@ export function getSomeMessage(min,max){
     }
   });
 }
-
+//发送信息
 export function sendMessage(message,sender){
   return Axios({
     url: "api/message/send",
@@ -68,7 +82,7 @@ export function sendMessage(message,sender){
     data:{"content":message,"sender":sender,"type":"text"},
   });
 }
-
+//发送用户在线情况
 export function getAllUserOnline(){
   return Axios({
     url: "api/message/getOnlineUser",

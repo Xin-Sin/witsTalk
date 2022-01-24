@@ -5,6 +5,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.xinsin.pojo.FileObject;
@@ -26,12 +27,12 @@ public class FileDownloadController {
         return fileDownloadService.getFileName(new FileObject(md5)).toString();
     }
 
-    @GetMapping("/api/getFile")
-    public ResponseEntity<InputStreamResource> getFile(@RequestParam("md5") String md5, @RequestParam("filename") String filename) throws IOException {
-        return fileDownloadService.getFile(md5,filename);
+    @GetMapping("/api/downloadFile")
+    public ResponseEntity<InputStreamResource> getFile(@RequestParam("md5") String md5, @RequestParam("filename") String filename,@RequestParam("token") String token) throws IOException {
+        return fileDownloadService.getFile(md5,filename,token);
     }
-
-    public String getAllFiles(){
-        return null; 
+    @PostMapping("/api/getAllFileNames")
+    public String getAllFileNames(){
+        return fileDownloadService.getAllFileNames().toString();
     }
 }

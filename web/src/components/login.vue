@@ -9,7 +9,7 @@
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
           <div class="grid-content bg-purple-light">
-            <label id="texttitle">欢 迎 来 到 登 录 页 面</label> <br>
+            <label ref="texttitle" id="texttitle"> <!---AutoWrite---> </label> <br>
             <label class="input">账号</label> <br>
             <el-input v-model="username" placeholder="请输入账号" ref="username"></el-input> <br>
             <label class="input">密码</label> <br>
@@ -37,7 +37,8 @@
 </template>
 
 <script>
-import { getverificationcode} from '@/components/axios/request'  // 导入 封装的请求函数
+import {getverificationcode} from '@/components/axios/request'  // 导入 封装的请求函数
+import {getHitokoto} from '@/components/axios/request'
 import {Login} from '@/components/axios/request'
 import hex_md5 from 'js-md5'
 export default {
@@ -48,7 +49,7 @@ export default {
       captchaa:'',
       // captcha:'',
       username:'',
-      password:''
+      password:'',
     }
   },
   methods:{
@@ -101,6 +102,11 @@ export default {
 
     });
 
+  },
+  mounted() {
+    getHitokoto().then(res=>{
+      this.$refs.texttitle.innerText = res.data["hitokoto"];
+    })
   }
 }
 

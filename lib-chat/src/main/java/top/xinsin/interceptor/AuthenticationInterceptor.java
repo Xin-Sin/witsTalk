@@ -21,6 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationInterceptor implements HandlerInterceptor  {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 这个！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+        // options给post方法探路 不要拦截options方法
+        // 拦截就会出大问题
         if (request.getMethod().equals("OPTIONS")) {
             return true;
         }
@@ -34,19 +37,15 @@ public class AuthenticationInterceptor implements HandlerInterceptor  {
             return true;
         } catch (SignatureVerificationException e) {
             log.info("用户验证了无效签名");
-            e.printStackTrace();
             responseData = new ResponseData("无效签名", HttpStatus.UNAUTHORIZED);
         }catch (TokenExpiredException e){
             log.info("用户验证的签名已过期");
-            e.printStackTrace();
             responseData = new ResponseData("签名已过期", HttpStatus.UNAUTHORIZED);
         }catch (AlgorithmMismatchException e){
             log.info("用户验证的token算法不一致");
-            e.printStackTrace();
             responseData = new ResponseData("token算法不一致", HttpStatus.UNAUTHORIZED);
         }catch (Exception e){
             log.info("token无效或者是空的");
-            e.printStackTrace();
             responseData = new ResponseData("token无效", HttpStatus.UNAUTHORIZED);
         }
         response.setContentType("application/json;charset=UTF-8");

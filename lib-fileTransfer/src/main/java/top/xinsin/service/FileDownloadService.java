@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import top.xinsin.Utils.JWTTokenUtils;
 import top.xinsin.Utils.ResponseData;
 import top.xinsin.dao.FileDownloadMapper;
 import top.xinsin.pojo.FileObject;
@@ -39,8 +40,15 @@ public class FileDownloadService {
         return new ResponseData(fileName);
     }
 
+    public ResponseData getAllFileNames(){
+        log.info("getAllFileNames --> begin");
+        return new ResponseData(fileDownloadMapper.getAllFileNames());
+    }
+
     //下载
-    public ResponseEntity<InputStreamResource> getFile(String md5, String filename) throws IOException {
+    public ResponseEntity<InputStreamResource> getFile(String md5, String filename,String token) throws IOException {
+        //验证token合法性
+        JWTTokenUtils.verify(token);
         log.info("getFile,md5={},filename={}",md5,filename);
         FileSystemResource file = new FileSystemResource(FileSaveFolder + File.separator + md5);
         HttpHeaders headers = new HttpHeaders();

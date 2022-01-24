@@ -32,12 +32,17 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private UserVerifyService userVerifyService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 这个！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+        if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
         // 从http请求头中取出token
         final String token = request.getHeader("Access-Token");
         response.setHeader("Access-Control-Allow-Origin","*");//解决跨域问题
         response.setHeader("Access-Control-Allow-Headers","*");//解决跨域问题
         ResponseData responseData;
         String data = null;
+        System.out.println(token);
 //       获取token
         DecodedJWT tokenInfo = JWTTokenUtils.getTokenInfo(token);
         try {
@@ -53,10 +58,9 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         if (!userVerifyService.userVerify(authVerificationTokenJWT)) {
              log.warn("AuthenticationInterceptor --> username --> " + authVerificationTokenJWT.getUsername() + ": TokenVerifyFail:(");
              responseData = new ResponseData("token验证失败,该用户可能还没有登陆", HttpStatus.UNAUTHORIZED);
-             throw new RuntimeException("tokenVerify --> usernameInvalid");
         }else{
-            responseData = new ResponseData("token验证成功",HttpStatus.UNAUTHORIZED);
             log.info("AuthenticationInterceptor --> username --> " + authVerificationTokenJWT.getUsername() + ": TokenVerifySuccess:)");
+            return true;
         }
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(responseData.toString());

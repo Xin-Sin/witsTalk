@@ -4,4 +4,7 @@
     <select id="getFileName" parameterType="top.xinsin.pojo.FileObject" resultType="java.lang.String">
         select name from file where md5=#{md5};
     </select>
+    <select id="getAllFileNames" resultType="top.xinsin.pojo.FileObject">
+        select * from file;
+    </select>
 </mapper>

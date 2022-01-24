@@ -6,7 +6,7 @@
         <el-menu-item index="/main/file/upload">文件上传</el-menu-item>
       </el-menu>
     </el-header>
-    <el-main>
+    <el-main style="margin-left: 0;margin-right: 0;padding: 0px">
       <router-view/>
     </el-main>
   </el-container>

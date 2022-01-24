@@ -1,8 +1,9 @@
 package top.xinsin.dao;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import top.xinsin.pojo.FileObject;
+
+import java.util.ArrayList;
 
 /**
  * @Author xinxin
@@ -12,4 +13,5 @@ import top.xinsin.pojo.FileObject;
 @Repository
 public interface FileDownloadMapper {
     String getFileName(FileObject fileObject);
+    ArrayList<FileObject> getAllFileNames();
 }
