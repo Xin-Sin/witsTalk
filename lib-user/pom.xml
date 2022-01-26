@@ -9,13 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lib-chat</artifactId>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-
+    <artifactId>lib-user</artifactId>
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>top.xinsin</groupId>
@@ -24,4 +19,6 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+
 </project>
