@@ -20,9 +20,10 @@
 
     <modules>
         <module>lib-voice</module>
-        <module>lib-chat</module>
+        <module>lib-user</module>
         <module>lib-fileTransfer</module>
         <module>lib-utils</module>
+        <module>lib-chat</module>
     </modules>
 
     <properties>
