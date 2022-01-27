@@ -34,14 +34,12 @@ export default {
       currentRow: null,
       file_md5:null,
       file_name:null,
-      baseURL:"http://localhost:8004",
+      baseURL:"http://localhost:8080/file",
       token:window.localStorage.getItem("token"),
     }
   },
   mounted() {
     getAllFileNames().then(res =>{
-
-
       let data = [];
       for (let i = 0; i < res.data["data"].length; i++) {
         let mapp = {

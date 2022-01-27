@@ -22,18 +22,18 @@ public class UserController {
     //
 
     //登录接口
-    @PostMapping("/api/login")
+    @PostMapping("/user/api/login")
     public String login(@RequestBody User user,HttpServletResponse response) {return userService.canLogin(user,response).toString();}
     //添加用户
-    @PostMapping("/api/adduser")
+    @PostMapping("/user/api/adduser")
     public String addUser(@RequestBody User user) {return userService.addUser(user).toString();}
     //修改密码
-    @PostMapping("/api/changepassword")
+    @PostMapping("/user/api/changepassword")
     public String changePassword(@RequestBody User user) {return userService.changePassword(user).toString();}
     //修改头像
-    @PostMapping("/api/setHeadPortrait")
+    @PostMapping("/user/api/setHeadPortrait")
     public String setHeadPortrait(@RequestBody User user){return userService.setHeadPortrait(user).toString();}
     //获取头像
-    @PostMapping("/api/getHeadPortrait")
+    @PostMapping("/user/api/getHeadPortrait")
     public String getHeadPortrait(@RequestBody User user){return userService.getHeadPortrait(user).toString();}
 }

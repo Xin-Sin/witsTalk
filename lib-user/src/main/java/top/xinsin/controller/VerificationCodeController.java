@@ -25,7 +25,7 @@ public class VerificationCodeController {
     @Autowired
     VerificationCodeService verificationCodeService;
 
-    @GetMapping("/api/vc")
+    @GetMapping("/user/api/vc")
     public String GetVerificationCode() {
         return verificationCodeService.getVerificationCode();
     }

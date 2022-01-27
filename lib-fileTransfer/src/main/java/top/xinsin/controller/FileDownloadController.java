@@ -22,16 +22,16 @@ import java.io.IOException;
 public class FileDownloadController {
     @Autowired
     private FileDownloadService fileDownloadService;
-    @GetMapping("/api/getName")
+    @GetMapping("/file/api/getName")
     public String getFileName(@RequestParam("md5") String md5){
         return fileDownloadService.getFileName(new FileObject(md5)).toString();
     }
 
-    @GetMapping("/api/downloadFile")
+    @GetMapping("/file/api/downloadFile")
     public ResponseEntity<InputStreamResource> getFile(@RequestParam("md5") String md5, @RequestParam("filename") String filename,@RequestParam("token") String token) throws IOException {
         return fileDownloadService.getFile(md5,filename,token);
     }
-    @PostMapping("/api/getAllFileNames")
+    @PostMapping("/file/api/getAllFileNames")
     public String getAllFileNames(){
         return fileDownloadService.getAllFileNames().toString();
     }

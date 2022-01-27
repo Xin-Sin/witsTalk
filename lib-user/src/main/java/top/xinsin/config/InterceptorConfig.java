@@ -16,9 +16,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthenticationInterceptor()).
                 addPathPatterns("/**"). //拦截
-                excludePathPatterns("/api/login").//放行登录接口
-                excludePathPatterns("/api/debug").//放行debug接口
-                excludePathPatterns("/api/vc").//放行验证码接口
-                excludePathPatterns("/api/adduser");//放行添加用户接口
+                excludePathPatterns("/user/api/login").//放行登录接口
+                excludePathPatterns("/user/api/debug").//放行debug接口
+                excludePathPatterns("/user/api/vc").//放行验证码接口
+                excludePathPatterns("/user/api/adduser");//放行添加用户接口
     }
 }
