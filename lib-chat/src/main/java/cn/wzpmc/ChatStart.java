@@ -1,5 +1,6 @@
 package cn.wzpmc;
 
+import cn.wzpmc.dao.ChatDao;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -7,7 +8,13 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 
 /**
@@ -16,7 +23,15 @@ import java.net.InetSocketAddress;
  * @Version 1.0
  */
 public class ChatStart {
+    public static SqlSession session;
     public static void main(String[] args) {
+        String resource = "mybatis-config.xml";
+        try(InputStream inputStream = Resources.getResourceAsStream(resource)) {
+            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+            session = sqlSessionFactory.openSession();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
         EventLoopGroup boss = new NioEventLoopGroup();
         EventLoopGroup worker = new NioEventLoopGroup();
         try{

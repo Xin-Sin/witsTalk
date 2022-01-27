@@ -31,7 +31,7 @@ public class ChatHandler extends ChannelInitializer<SocketChannel> {
         //聚合解析器
         pipeline.addLast(new HttpObjectAggregator(16384));
         //设置uri为/connect
-        pipeline.addLast(new WebSocketServerProtocolHandler("/connect"));
+        pipeline.addLast(new WebSocketServerProtocolHandler("/chat"));
         //自定义解析器
         pipeline.addLast(new ChatFrameHandler());
     }
