@@ -38,6 +38,14 @@ public class JWTTokenUtils {
     public static void verify(String token){
         JWT.require(Algorithm.HMAC512(KEY)).build().verify(token);
     }
+    public static Boolean isRight(String token){
+        try{
+            verify(token);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
     /*
     * 获取token信息方法
     * */

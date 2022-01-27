@@ -5,13 +5,16 @@ import cn.wzpmc.pojo.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.JWT;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
+import top.xinsin.Utils.JWTTokenUtils;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public static ConcurrentHashMap<ChannelId,Channel> channels = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<ChannelId,Boolean> loginTable= new ConcurrentHashMap<>();
     private final ChatDao chatDao = ChatStart.session.getMapper(ChatDao.class);
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame){
@@ -54,26 +58,59 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         String operating = json.getString("op");
         //获取操作的参数
         JSONObject args = json.getJSONObject("args");
-        //如果操作为send
+        String loginCommand = "login";
         String sendCommand = "send";
-        if(Objects.equals(operating, sendCommand)){
+        String getMessageCommand = "get";
+        String getMessageCountCommand = "count";
+        //登录操作
+        if(Objects.equals(operating, loginCommand)){
+            Boolean r = JWTTokenUtils.isRight(args.getString("token"));
+            log.debug("logon,r = {} ip = {} id = {}",r,channel.remoteAddress().toString(),id.asShortText());
+            loginTable.put(id,r);
+            sendMessage(id,r.toString());
+        }else if(loginTable.get(id)){
             //业务逻辑
-            //获取发送者
-            String sender = args.getString("sender");
-            //获取发送内容
-            String content = args.getString("content");
-            //获取发送的类型
-            String type = args.getString("type");
-            //日志
-            log.info("sendMessage,sender = {} content = {} type = {}",sender,content,type);
-            //定义消息对象
-            Message message = new Message(content, sender, type);
-            //Dao层发送消息
-            chatDao.sendMessage(message);
-            //commit至数据库
-            ChatStart.session.commit();
-            //广播此消息
-            sendToAll(JSONObject.toJSONString(message));
+            //如果操作为send
+            if(Objects.equals(operating, sendCommand)){
+                //获取发送者
+                String sender = args.getString("sender");
+                //获取发送内容
+                String content = args.getString("content");
+                //获取发送的类型
+                String type = args.getString("type");
+                //日志
+                log.info("sendMessage,sender = {} content = {} type = {}",sender,content,type);
+                //定义消息对象
+                Message message = new Message(content, sender, type);
+                //Dao层发送消息
+                chatDao.sendMessage(message);
+                //commit至数据库
+                ChatStart.session.commit();
+                //广播此消息
+                sendToAll(JSONObject.toJSONString(message));
+            }//如果操作为getMessage
+            else if(Objects.equals(operating,getMessageCommand)){
+                //获取id最小值
+                Integer min = args.getInteger("min");
+                //获取id最大值
+                Integer max = args.getInteger("max");
+                //日志
+                log.info("getMessage min = {} max = {} ip = {} id = {}",min,max,channel.remoteAddress(),id.asShortText());
+                //从数据库获取消息
+                ArrayList<Message> message = chatDao.getMessage(min, max);
+                //将这些消息转换为json并返回给客户端
+                sendMessage(id,JSONObject.toJSONString(message));
+            }
+            //如果操作为getMessageCount
+            else if(Objects.equals(operating,getMessageCountCommand)){
+                //日志
+                log.info("getMessageCount");
+                //从数据库获取消息数量
+                Integer count = chatDao.getCount();
+                sendMessage(id,count);
+            }
+        }else{
+            sendMessage(id,"You are not login!");
         }
     }
     @Override
@@ -89,6 +126,8 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         log.info("getConnected ip = {} id = {}",channel.remoteAddress(),id.asShortText());
         //将通道放入通道表中
         channels.put(id,channel);
+        //将此链接放入登陆表中
+        loginTable.put(id,false);
         //广播连接消息
         sendToAll(channel.remoteAddress().toString() + " connected!");
     }
@@ -105,6 +144,8 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         log.info("client disconnected ip = {} id = {}",channel.remoteAddress(),id.asShortText());
         //将此通道从通道表中移除
         channels.remove(id);
+        //将此连接从登陆表中移除
+        loginTable.remove(id);
         //广播断开链接
         sendToAll(channel.remoteAddress().toString() + " disconnected!");
     }
@@ -123,6 +164,8 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         cause.printStackTrace();
         //将此通道从通道表中移除
         channels.remove(id);
+        //将此连接从登陆表中移除
+        loginTable.remove(id);
         //结束此通道的链接
         channelHandlerContext.close();
     }
@@ -143,6 +186,15 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         Channel channel = channels.get(id);
         //将消息内容转为TextWebSocketFrame格式并发送
         channel.writeAndFlush(new TextWebSocketFrame(msg));
+        log.info("send message to ip = {} id = {}",channel.remoteAddress(),id.asShortText());
+    }
+    public static void sendMessage(ChannelId id,Object msg){
+        /*
+        发送消息
+         */
+        Channel channel = channels.get(id);
+        //将消息内容转为TextWebSocketFrame格式并发送
+        channel.writeAndFlush(new TextWebSocketFrame(msg.toString()));
         log.info("send message to ip = {} id = {}",channel.remoteAddress(),id.asShortText());
     }
 }
