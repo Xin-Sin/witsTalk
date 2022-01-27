@@ -3,7 +3,7 @@ import axios from 'axios'
 // axios.defaults.baseURL = 'http://wzpmc.cn:8003';
 
 const Axios_instance = axios.create({
-  baseURL:'http://localhost:8003',
+  baseURL:'http://localhost:8080',
   timeout: 60000, 		      // 请求超时时间1分钟
   responseType: "json",
   withCredentials: false    // 是否允许带cookie这些

@@ -17,11 +17,11 @@ import java.security.NoSuchAlgorithmException;
 public class FileUpLoadController {
     @Autowired
     FileUpLoadService fileUpLoadService;
-    @PostMapping("/api/fileUpload")
+    @PostMapping("/file/api/fileUpload")
     public String fileUpload(@RequestBody MultipartFile file) throws NoSuchAlgorithmException, IOException {
         return fileUpLoadService.fileUpload(file).toString();
     }
-    @GetMapping("/api/debug")
+    @GetMapping("/file/api/debug")
     public String debug(){
         return "123";
     }

@@ -26,7 +26,7 @@ public class CheckController {
     @Autowired
     UserService userService;
     public static HashMap<User, Date> checklist = new HashMap<>();
-    @PostMapping("/api/check")
+    @PostMapping("/user/api/check")
     public String Check(@RequestBody User user){
         log.info("Check args:user=" + user);
         checklist.put(user,new Date());

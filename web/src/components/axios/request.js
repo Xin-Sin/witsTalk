@@ -1,11 +1,10 @@
 import Axios from "./axios"  // 导入配置好的axios文件
-import Axios_file from "./axios_file"  // 导入配置好的axios文件
 // 封装axios请求函数，并用export导出
 
 //获取所有文件名接口
 export function getAllFileNames(){
-  return Axios_file({
-    url: "/api/getAllFileNames",
+  return Axios({
+    url: "/file/api/getAllFileNames",
     method: 'post',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded' //设置请求头请求格式form
@@ -15,7 +14,7 @@ export function getAllFileNames(){
 // 验证码接口
 export function getverificationcode(datas) {
   return Axios({
-    url: "api/vc",
+    url: "/user/api/vc",
     method: "get",
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded' //设置请求头请求格式form
@@ -26,7 +25,7 @@ export function getverificationcode(datas) {
 //登陆验证接口
 export function Login(datas){
   return Axios({
-    url: "/api/login",
+    url: "/user/api/login",
     method: "post",
     headers:{
       "Content-Type" : 'application/json'
@@ -47,7 +46,7 @@ export function getHitokoto(){
 //获取所有聊天信息
 export function getAllMessage() {
   return Axios({
-    url: "api/message/getAll",
+    url: "/user/api/message/getAll",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },
@@ -56,7 +55,7 @@ export function getAllMessage() {
 //获取聊天信息总行数
 export function getMessageCount(){
   return Axios({
-    url: "api/message/count",
+    url: "/user/api/message/count",
     headers:{
       'Content-Type': 'application/json',
     }
@@ -65,7 +64,7 @@ export function getMessageCount(){
 //获取一些聊天信息
 export function getSomeMessage(min,max){
   return Axios({
-    url: "api/message/get?min=" + min + "&max=" + max,
+    url: "/user/api/message/get?min=" + min + "&max=" + max,
     headers:{
       'Content-Type': 'application/json'
     }
@@ -74,7 +73,7 @@ export function getSomeMessage(min,max){
 //发送信息
 export function sendMessage(message,sender){
   return Axios({
-    url: "api/message/send",
+    url: "/user/api/message/send",
     method: "post",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
@@ -85,7 +84,7 @@ export function sendMessage(message,sender){
 //发送用户在线情况
 export function getAllUserOnline(){
   return Axios({
-    url: "api/message/getOnlineUser",
+    url: "/user/api/message/getOnlineUser",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },
@@ -95,7 +94,7 @@ export function getAllUserOnline(){
 
 export async function getUserHeading(username){
   return Axios({
-    url: "api/getHeadPortrait",
+    url: "/user/api/getHeadPortrait",
     method: "post",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form

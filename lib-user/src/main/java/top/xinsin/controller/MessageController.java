@@ -23,32 +23,32 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
-    @GetMapping("/api/message/count")
+    @GetMapping("/user/api/message/count")
     public String getAllMessageCount(){
         return messageService.GetAllMessageCount().toString();
     }
 
-    @GetMapping("/api/message/get")
+    @GetMapping("/user/api/message/get")
     public String getMessage(@RequestParam("min") int min,@RequestParam("max") int max){
         return messageService.GetSomeMessage(min,max).toString();
     }
 
-    @GetMapping("/api/message/getAll")
+    @GetMapping("/user/api/message/getAll")
     public String getMessageAll(){
         return messageService.GetAllMessage().toString();
     }
 
-    @PostMapping("/api/message/send")
+    @PostMapping("/user/api/message/send")
     public String SendMessage(@RequestBody String strContent){
         return messageService.SendMessage(strContent).toString();
     }
 
-    @PostMapping("/api/message/recall")
+    @PostMapping("/user/api/message/recall")
     public String Recall(@RequestBody Message message){
         return messageService.ReCall(message).toString();
     }
 
-    @GetMapping("/api/message/getOnlineUser")
+    @GetMapping("/user/api/message/getOnlineUser")
     public String getPlayerCount(){
         return messageService.getPlayerCount().toString();
     }

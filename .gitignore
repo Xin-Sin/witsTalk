@@ -4,3 +4,4 @@ out
 *.class
 *.iml
 web/node_modules
+nginx-1.20.2
