@@ -20,6 +20,7 @@ export default new Router({
       path:'/main',
       name:'main',
       component:mainpage,
+      redirect:'/main/chat',
       children:[
         {
           path:'chat',
@@ -28,6 +29,7 @@ export default new Router({
         {
           path:'file',
           component:fileDownload,
+          redirect:'/main/file/download',
           children:[
             {
               path:'download',

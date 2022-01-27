@@ -102,14 +102,6 @@
             <version>8.0.26</version>
         </dependency>
 
-        <!--netty框架依赖-->
-        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.70.Final</version>
-        </dependency>
-
         <!--JWT依赖-->
         <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
         <dependency>
