@@ -6,4 +6,10 @@
     <insert id="sendMessage" parameterType="cn.wzpmc.pojo.Message">
         insert into message set content=#{content},sender=#{sender},type=#{type},sendtime=#{sendtime};
     </insert>
+    <select id="getMessage" resultType="cn.wzpmc.pojo.Message">
+        select * from message LIMIT #{id_min},#{id_max};
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select COUNT(*) from message;
+    </select>
 </mapper>

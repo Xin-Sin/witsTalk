@@ -18,7 +18,7 @@ import io.netty.handler.stream.ChunkedWriteHandler;
  */
 public class ChatHandler extends ChannelInitializer<SocketChannel> {
     @Override
-    protected void initChannel(SocketChannel socket) throws Exception {
+    protected void initChannel(SocketChannel socket){
         //获取pipeline
         ChannelPipeline pipeline = socket.pipeline();
         //添加解析器
