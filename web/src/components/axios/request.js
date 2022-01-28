@@ -92,13 +92,12 @@ export function getAllUserOnline(){
 }
 
 
-export async function getUserHeading(username){
+export async function getUserHeading(){
   return Axios({
     url: "/user/api/getHeadPortrait",
-    method: "post",
+    method: "get",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },
-    data:{"username":username},
   });
 }
