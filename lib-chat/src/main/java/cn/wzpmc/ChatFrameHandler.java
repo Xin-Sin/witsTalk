@@ -162,6 +162,8 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         log.error("getError ip = {} id = {}",channel.remoteAddress(),id);
         //打印错误信息
         cause.printStackTrace();
+        //发送错误详情至客户端
+        sendMessage(id,cause.getMessage());
         //将此通道从通道表中移除
         channels.remove(id);
         //将此连接从登陆表中移除

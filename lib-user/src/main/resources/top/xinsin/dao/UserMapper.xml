@@ -20,8 +20,8 @@
     <select id="canLogin" parameterType="top.xinsin.pojo.User" resultType="top.xinsin.pojo.User">
         select * from user where username = #{username} and password = #{password};
     </select>
-    <select id="getHeadPortrait" resultType="java.lang.String">
-        select `base64` from user where `username` = #{username};
+    <select id="getHeadPortrait" resultType="top.xinsin.pojo.HeadPortrait">
+        select `username`,`base64` from user;
     </select>
 
     <update id="setHeadPortrait" parameterType="top.xinsin.pojo.User">

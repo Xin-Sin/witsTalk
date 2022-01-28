@@ -34,6 +34,6 @@ public class UserController {
     @PostMapping("/user/api/setHeadPortrait")
     public String setHeadPortrait(@RequestBody User user){return userService.setHeadPortrait(user).toString();}
     //获取头像
-    @PostMapping("/user/api/getHeadPortrait")
-    public String getHeadPortrait(@RequestBody User user){return userService.getHeadPortrait(user).toString();}
+    @GetMapping("/user/api/getHeadPortrait")
+    public String getHeadPortrait(){return userService.getHeadPortrait().toString();}
 }
