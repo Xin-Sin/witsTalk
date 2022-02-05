@@ -13,9 +13,5 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @MapperScan("top.xinsin.dao")
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 public class UserStart {
-
-    public static void main(String[] args) {
-        SpringApplication.run(UserStart.class,args);
-
-    }
+    public static void main(String[] args){SpringApplication.run(UserStart.class,args);}
 }

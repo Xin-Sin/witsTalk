@@ -16,7 +16,7 @@
             <el-input placeholder="请输入密码" v-model="password" show-password ref="password"></el-input> <br>
             <label class="input">验证码</label> <br>
             <div>
-              <el-input placeholder="请输入验证码" v-model="captchaa" ref="code">
+              <el-input placeholder="请输入验证码" v-model="captchaa" ref="code" @change="login">
                 <!--                <el-input placeholder="请输入验证码" v-model="captcha" ref="code">-->
                 <template slot="append"><img ref="codeimg" @click="gettingCaptcha" width="100px" height="36px"></template>
               </el-input>
@@ -60,8 +60,8 @@ export default {
         this.gettingCaptcha();
       }else{
         this.$refs.info.innerHTML = "";
-        let pa = hex_md5(this.password)
-        console.log(pa)
+        let pa = hex_md5(this.password);
+        console.log("正在进行登录");
         Login({"username":this.username,"password":pa}).then(res=>{
           console.log("login");
           if(res.data.data.canLogin){
@@ -91,7 +91,6 @@ export default {
       let capt = data.split(",")[1];
       this.captchaa = capt;
       a += b64data;
-      console.log(data);
       this.$refs.codeimg.src = a;
     }
   },
