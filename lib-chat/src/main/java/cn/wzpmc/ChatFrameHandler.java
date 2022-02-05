@@ -5,7 +5,6 @@ import cn.wzpmc.pojo.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.JWT;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
@@ -28,7 +27,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public static ConcurrentHashMap<ChannelId,Channel> channels = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<ChannelId,Boolean> loginTable= new ConcurrentHashMap<>();
-    private final ChatDao chatDao = ChatStart.session.getMapper(ChatDao.class);
+
+    private ChatDao chatDao = ChatStart.session.getMapper(ChatDao.class);
+
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame){
         /*
@@ -84,8 +85,6 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 Message message = new Message(content, sender, type);
                 //Dao层发送消息
                 chatDao.sendMessage(message);
-                //commit至数据库
-                ChatStart.session.commit();
                 //广播此消息
                 sendToAll(JSONObject.toJSONString(message));
             }//如果操作为getMessage
