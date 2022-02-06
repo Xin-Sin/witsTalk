@@ -1,7 +1,6 @@
 package top.xinsin.services;
 
 import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,9 +72,5 @@ public class UserService {
             log.info("username{}failToEdit",user.getUsername());
         }
         return new ResponseData();
-    }
-    public ResponseData getHeadPortrait(){
-        log.info("getHeadPortrait");
-        return new ResponseData(userMapper.getHeadPortrait());
     }
 }

@@ -1,9 +1,9 @@
 package top.xinsin.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
 
@@ -33,7 +33,4 @@ public class UserController {
     //修改头像
     @PostMapping("/user/api/setHeadPortrait")
     public String setHeadPortrait(@RequestBody User user){return userService.setHeadPortrait(user).toString();}
-    //获取头像
-    @GetMapping("/user/api/getHeadPortrait")
-    public String getHeadPortrait(){return userService.getHeadPortrait().toString();}
 }

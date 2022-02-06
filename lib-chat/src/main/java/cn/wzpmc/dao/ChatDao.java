@@ -1,5 +1,6 @@
 package cn.wzpmc.dao;
 
+import cn.wzpmc.pojo.HeadPortrait;
 import cn.wzpmc.pojo.Message;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,4 +31,5 @@ public interface ChatDao {
      * @return count of message
      */
     Integer getCount();
+    ArrayList<HeadPortrait> getHeadPortrait();
 }

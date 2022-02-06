@@ -1,6 +1,7 @@
 package cn.wzpmc;
 
 import cn.wzpmc.dao.ChatDao;
+import cn.wzpmc.pojo.HeadPortrait;
 import cn.wzpmc.pojo.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import top.xinsin.Utils.JWTTokenUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -96,9 +98,21 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 //日志
                 log.info("getMessage min = {} max = {} ip = {} id = {}",min,max,channel.remoteAddress(),id.asShortText());
                 //从数据库获取消息
-                ArrayList<Message> message = chatDao.getMessage(min, max);
+                ArrayList<Message> messages = chatDao.getMessage(min, max);
+                //todo 更改为双标查询获取头像
+                ArrayList<HeadPortrait> headPortrait = chatDao.getHeadPortrait();
+                LinkedList<Message> linkedList = new LinkedList<>();
+                messages.forEach(message -> {
+                    headPortrait.forEach(headPortrait1 -> {
+                        if (message.getSender().equals(headPortrait1.getUsername())){
+                            linkedList.add(new Message(message.getId(),message.getContent(),message.getSender(),
+                                    message.getRecall(),String.valueOf(message.getType()),
+                                    message.getSendtime(),headPortrait1.getBase64()));
+                        }
+                    });
+                });
                 //将这些消息转换为json并返回给客户端
-                sendMessage(id,JSONObject.toJSONString(message));
+                sendMessage(id,JSONObject.toJSONString(linkedList));
             }
             //如果操作为getMessageCount
             else if(Objects.equals(operating,getMessageCountCommand)){

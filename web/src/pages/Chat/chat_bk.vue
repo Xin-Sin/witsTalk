@@ -45,12 +45,7 @@ export default {
     showError(err) {
       this.$message.error(err);
     },
-    in_(str1, str2) {
-      /**
-       * 判断str1里是否含有str2
-       */
-      return str1.indexOf(str2) !== -1;
-    },
+
     async addingMessage(item) {
       /*
       *添加消息
@@ -100,6 +95,12 @@ export default {
     },
     webSocketError() {//连接建立失败重连
       this.initWebSocket();
+    },
+    in_(str1, str2) {
+      /**
+       * 判断str1里是否含有str2
+       */
+      return str1.indexOf(str2) !== -1;
     },
     webSocketGetData(e) { //数据接收
       const data = e.data;
