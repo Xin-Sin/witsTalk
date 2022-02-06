@@ -3,7 +3,7 @@
     <el-col :span="20" style="height: 100%;">
 <!--      //展示消息数据-->
       <div id="message1">
-        <message v-for="(item) in someMessage" :key="someMessage.id" ref="messages" v-bind:data="item"></message>
+        <message v-for="(item) in someMessage" :key="someMessage.id" ref="messages" v-bind:data="item" v-bind:allHead="headingTable"></message>
       </div>
       <t-textarea v-model="sender" placeholder="请输入要发送的内容" :maxcharacter="200"></t-textarea>
       <el-button type="primary" style="float:right;" plain @click="submitMessage()">发送消息</el-button>
@@ -93,11 +93,20 @@ export default {
         }
         let sendData = {"op": "get", "args": {"min": min, "max": num}}
         this.webSocketSendData(JSON.stringify(sendData));
+      }else if (data === undefined){
+        //undefined pass
       }else{
-        //json数据结果
-        console.log(data)
-        let parse = JSON.parse(data);
-        this.someMessage = parse;
+        try{
+          //json数据结果
+          let parse = JSON.parse(data);
+          let head = parse.head;
+          let message = parse.message;
+          let data = [];
+          let i = 0;
+          this.someMessage = message;
+        }catch (SyntaxError){
+          console.log(data);
+        }
       }
     },
     in_(str1, str2) {

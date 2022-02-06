@@ -14,10 +14,7 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import top.xinsin.Utils.JWTTokenUtils;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -87,6 +84,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 Message message = new Message(content, sender, type);
                 //Dao层发送消息
                 chatDao.sendMessage(message);
+                ChatStart.session.commit();
                 //广播此消息
                 sendToAll(JSONObject.toJSONString(message));
             }//如果操作为getMessage
@@ -101,18 +99,15 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 ArrayList<Message> messages = chatDao.getMessage(min, max);
                 //todo 更改为双标查询获取头像
                 ArrayList<HeadPortrait> headPortrait = chatDao.getHeadPortrait();
-                LinkedList<Message> linkedList = new LinkedList<>();
-                messages.forEach(message -> {
-                    headPortrait.forEach(headPortrait1 -> {
-                        if (message.getSender().equals(headPortrait1.getUsername())){
-                            linkedList.add(new Message(message.getId(),message.getContent(),message.getSender(),
-                                    message.getRecall(),String.valueOf(message.getType()),
-                                    message.getSendtime(),headPortrait1.getBase64()));
-                        }
-                    });
-                });
+                HashMap<String,String> head = new HashMap<>();
+                HashMap<String,Object> map = new HashMap<>();
+                for (HeadPortrait portrait : headPortrait) {
+                    head.put(portrait.getUsername(),portrait.getBase64());
+                }
+                map.put("message",messages);
+                map.put("head",head);
                 //将这些消息转换为json并返回给客户端
-                sendMessage(id,JSONObject.toJSONString(linkedList));
+                sendMessage(id,JSONObject.toJSONString(map));
             }
             //如果操作为getMessageCount
             else if(Objects.equals(operating,getMessageCountCommand)){
