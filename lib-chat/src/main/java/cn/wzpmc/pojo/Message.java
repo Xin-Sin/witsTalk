@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import top.xinsin.enums.MessageTypes;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * @Author wzp
  * @Date 2022/1/26
@@ -25,6 +28,9 @@ public class Message {
         this.content = content;
         this.sender = sender;
         this.type = MessageTypes.valueOf(type);
+        Calendar calendar= Calendar.getInstance();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        this.sendtime = dateFormat.format(calendar.getTime());
     }
     public Message(String content, String sender,String type,String sendtime){
         this.content = content;

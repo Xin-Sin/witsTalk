@@ -14,8 +14,8 @@
       <t-layout>
         <t-aside style="border-top: 1px solid var(--component-border);">
           <t-menu theme="light" value="dashboard">
-            //使用to来实现路由跳转
-            //active-class 当给链接被激活时展示的样式
+<!--            //使用to来实现路由跳转
+            //active-class 当给链接被激活时展示的样式-->
             <router-link to="/main/chat" active-class="active-mainPages"><t-menu-item value="chat"><icon slot="icon" name="chat"/>聊天</t-menu-item></router-link>
             <router-link to="#" active-class="active-mainPages"><t-menu-item value="voice-chat"><icon slot="icon" name="service"/>语音聊天</t-menu-item></router-link>
             <router-link to="/main/file" active-class="active-mainPages"><t-menu-item value="file"><icon slot="icon" name="cloud-upload"/>文件传输</t-menu-item></router-link>

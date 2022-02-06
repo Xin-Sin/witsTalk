@@ -31,5 +31,6 @@ public interface ChatDao {
      * @return count of message
      */
     Integer getCount();
+
     ArrayList<HeadPortrait> getHeadPortrait();
 }
