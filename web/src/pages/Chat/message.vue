@@ -2,7 +2,7 @@
   <div id="message">
     <div class="t-comment__inner">
       <div class="t-comment__avatar">
-        <img src="headimg" alt="" class="t-comment__avatar-image">
+        <img :src="'data:image/jpg;base64,' + data.base64" alt="" class="t-comment__avatar-image">
       </div>
       <div class="t-comment__content">
         <div class="t-comment__author">
@@ -18,10 +18,13 @@
 <script>
 export default {
   name: "message",
-  props:['data']
+  props:['data'],
 }
 </script>
 
 <style >
-
+  .t-comment__inner{
+    border: solid sandybrown 1px;
+    line-height: 200%;
+  }
 </style>

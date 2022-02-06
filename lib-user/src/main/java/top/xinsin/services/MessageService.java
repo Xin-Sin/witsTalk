@@ -1,17 +1,16 @@
 package top.xinsin.services;
 
-import com.alibaba.druid.support.json.JSONParser;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.xinsin.Utils.ResponseData;
-import top.xinsin.pojo.Message;
 import top.xinsin.dao.MessageMapper;
+import top.xinsin.dao.UserMapper;
+import top.xinsin.pojo.Message;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * @Auther wzp
@@ -24,6 +23,8 @@ public class MessageService {
 
     @Autowired
     MessageMapper messageMapper;
+    @Autowired
+    UserMapper userMapper;
 
     public ResponseData GetAllMessage(){
         log.info("GetAllMessage");
@@ -32,7 +33,8 @@ public class MessageService {
 
     public ResponseData GetSomeMessage(Integer id_min,Integer id_max){
         log.info("GetSomeMessage args:id_min=" + id_min + ";id_max=" + id_max);
-        return new ResponseData(messageMapper.GetSomeMessage(id_min, id_max));
+        ArrayList<Message> messages = messageMapper.GetSomeMessage(id_min, id_max);
+        return new ResponseData(messages);
     }
 
     public ResponseData SendMessage(String message){

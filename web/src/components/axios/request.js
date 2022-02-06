@@ -61,15 +61,6 @@ export function getMessageCount(){
     }
   });
 }
-//获取一些聊天信息
-export function getSomeMessage(min,max){
-  return Axios({
-    url: "/user/api/message/get?min=" + min + "&max=" + max,
-    headers:{
-      'Content-Type': 'application/json'
-    }
-  });
-}
 //发送信息
 export function sendMessage(message,sender){
   return Axios({
@@ -85,17 +76,6 @@ export function sendMessage(message,sender){
 export function getAllUserOnline(){
   return Axios({
     url: "/user/api/message/getOnlineUser",
-    headers: {
-      'Content-Type': 'application/json', //设置请求头请求格式form
-    },
-  });
-}
-
-
-export async function getUserHeading(){
-  return Axios({
-    url: "/user/api/getHeadPortrait",
-    method: "get",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },

@@ -3,10 +3,10 @@
     <el-col :span="20" style="height: 100%;">
 <!--      //展示消息数据-->
       <div id="message1">
-        <message v-for="(item) in someMessage" v-bind:data="item" :key="someMessage.id"></message>
+        <message v-for="(item) in someMessage" :key="someMessage.id" ref="messages" v-bind:data="item"></message>
       </div>
       <t-textarea v-model="sender" placeholder="请输入要发送的内容" :maxcharacter="200"></t-textarea>
-      <el-button type="primary" style="float:right;" plain>发送消息</el-button>
+      <el-button type="primary" style="float:right;" plain @click="submitMessage()">发送消息</el-button>
     </el-col>
 <!--    //展示在线人员-->
     <el-col :span="4" id="online-user">
@@ -21,8 +21,7 @@
 </template>
 
 <script>
-import {getAllUserOnline, getMessageCount, getSomeMessage, getUserHeading} from '@/components/axios/request';
-import {sendMessage} from "../../components/axios/request";
+import {getAllUserOnline} from '@/components/axios/request';
 //使用组件式重构
 import message from "./message";
 
@@ -48,6 +47,12 @@ export default {
     showError(err) {
       this.$message.error(err);
     },
+    webSocketSendData(Data) {//数据发送
+      this.websock.send(Data);
+    },
+    webSocketClose(e) {  //关闭
+      console.log('websocket connect close', e);
+    },
     initWebSocket() { //初始化websocket
       this.websock = new WebSocket("ws://127.0.0.1:8080/chat");
       this.websock.onmessage = this.webSocketGetData;
@@ -55,23 +60,76 @@ export default {
       this.websock.onerror = this.webSocketError;
       this.websock.onclose = this.webSocketClose;
     },
-
+    webSocketConnection() {
+      let loginData = {"op": "login", "args": {"token": this.token}};
+      this.webSocketSendData(JSON.stringify(loginData))
+    },
+    submitMessage() {//发送消息
+      console.log(this.username);
+      let message = {"op": "send", "args": {"content": this.sender, "sender": this.username, "type": "text"}}
+      this.webSocketSendData(JSON.stringify(message));
+    },
+    webSocketGetData(e) { //数据接收
+      const data = e.data;
+      if (this.in_(data, ".") && this.in_(data, "/") && this.in_(data, "connected!")) {
+        /*已连接*/
+        console.log(data);
+      } else if (data === "true" || data === "false") {
+        //登录消息返回
+        if (data === "true") {
+          console.log("wsLogin!");
+          let sendData = {"op": "count"}
+          this.webSocketSendData(JSON.stringify(sendData));
+        } else {
+          console.log("LoginError");
+          this.showError("登录失败，请尝试重新登录");
+        }
+      } else if (!(isNaN(data))) {
+        //count操作返回值
+        let num = parseInt(data);
+        let min = 0;
+        if (num >= 10) {
+          min = num - 10;
+        }
+        let sendData = {"op": "get", "args": {"min": min, "max": num}}
+        this.webSocketSendData(JSON.stringify(sendData));
+      }else{
+        //json数据结果
+        console.log(data)
+        let parse = JSON.parse(data);
+        this.someMessage = parse;
+      }
+    },
+    in_(str1, str2) {
+      /**
+       * 判断str1里是否含有str2
+       */
+      return str1.indexOf(str2) !== -1;
+    },
     webSocketError() {//连接建立失败重连
       this.initWebSocket();
     },
-
+    getOnlineUser() {//获取所有在线用户并将其加入表中
+      let administrator = [];
+      let user = []
+      getAllUserOnline().then(res => {
+        res.data.data.forEach(function (item) {
+          let auth = item.auth;
+          let username = item.username;
+          if (auth === "admin") {
+            administrator.push({"username": username})
+          } else {
+            user.push({"username": username})
+          }
+        });
+        this.administrator = administrator;
+        this.user = user;
+      }).catch(err => this.showError);
+    },
   },
   created: function () {
-    getSomeMessage(0, 11).then(result => {
-      let data = result.data.data;
-      console.log(data);
-      // for (let i = 0; i < data.length; i++) {
-      //   this.someMessage = data[i].id;
-      // }
-      this.someMessage = result.data.data;
-      console.log(this.someMessage);
-    });
     this.initWebSocket();//初始化websocket
+    this.getOnlineUser();
   },
 }
 </script>
