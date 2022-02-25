@@ -14,13 +14,8 @@
             <el-input v-model="username" placeholder="请输入账号" ref="username"></el-input> <br>
             <label class="input">密码</label> <br>
             <el-input placeholder="请输入密码" v-model="password" show-password ref="password"></el-input> <br>
-            <label class="input">验证码</label> <br>
-            <div>
-              <el-input placeholder="请输入验证码" v-model="captchaa" ref="code" @change="login">
-                <!--                <el-input placeholder="请输入验证码" v-model="captcha" ref="code">-->
-                <template slot="append"><img ref="codeimg" @click="gettingCaptcha" width="100px" height="36px"></template>
-              </el-input>
-            </div>
+            <label class="input">验证</label> <br>
+            <el-button style="margin-left: 7%;width: 73%" type="primary" @click="dialogFormVisible = true">{{message}}</el-button>
             <div class="register">
               <el-button type="text">注册</el-button>
               <el-button class="forgotPassword" type="text">忘记密码</el-button>
@@ -33,11 +28,13 @@
         </el-col>
       </el-row>
     </el-main>
+    <el-dialog :visible.sync="dialogFormVisible" width="18%">
+      <slide-verify  :l="42" :r="10" :w="310" :h="155" slider-text="向右滑动" @success="onSuccess" @fail="onFail" @refresh="onRefresh"></slide-verify>
+    </el-dialog>
   </el-container>
 </template>
 
 <script>
-import {getverificationcode} from '@/components/axios/request'  // 导入 封装的请求函数
 import {getHitokoto} from '@/components/axios/request'
 import {Login} from '@/components/axios/request'
 import hex_md5 from 'js-md5'
@@ -45,62 +42,47 @@ export default {
   name:'Login',
   data(){
     return{
-      getverificationcode:{},
-      captchaa:'',
-      // captcha:'',
       username:'',
       password:'',
+      msg: false,
+      dialogFormVisible: false,
+      message:"点击进行验证",
     }
   },
   methods:{
+    onSuccess(){
+      this.dialogFormVisible = false;
+      this.message = "验证成功";
+      this.msg=true;
+      if (!(this.username === "" & this.password === "")){
+        this.$message.success("验证成功,正在进行登录");
+        setTimeout(this.login,500);
+      }
+    },
+    onFail(){
+      this.$message.error("验证失败")
+    },
+    onRefresh(){
+      this.$message.info("刷新")
+    },
     login(){
-      if(this.captchaa.toUpperCase() != this.captchaa.toUpperCase()){
-        // if(this.captcha.toUpperCase() != this.captchaa.toUpperCase()){
-        this.$message.error("验证码错误");
-        this.gettingCaptcha();
-      }else{
-        this.$refs.info.innerHTML = "";
-        let pa = hex_md5(this.password);
-        console.log("正在进行登录");
-        Login({"username":this.username,"password":pa}).then(res=>{
+      if (this.msg == true){
+        this.$message.info("正在登录,请稍后");
+        Login({"account" : this.username, "password" : hex_md5(this.password)}).then(result => {
           console.log("login");
-          if(res.data.data.canLogin){
+          if(result.data.data.canLogin){
             window.localStorage.setItem("username",this.username);
             this.$message({"message":"登录成功，正在跳转",type:"success"});
             this.$router.push("main");
           }else{
             this.$message.error("用户名或密码错误");
-            this.gettingCaptcha();
           }
-        }).catch(err=>{
-          console.log(err);
         });
+      }else{
+        this.$message.warning("请先进行人机验证");
+        this.dialogFormVisible = true;
       }
     },
-    gettingCaptcha(){
-      getverificationcode().then(res=>{
-        this.getCaptcha(res.data);
-      }).catch(err=>{
-
-      });
-    },
-    getCaptcha(data){
-      let a = "data:image/ico;base64,";
-      const b64data = data.split(",")[0];
-      //分离取出
-      let capt = data.split(",")[1];
-      this.captchaa = capt;
-      a += b64data;
-      this.$refs.codeimg.src = a;
-    }
-  },
-  created() {
-    getverificationcode().then(res=>{
-      this.getCaptcha(res.data);
-    }).catch(err=>{
-
-    });
-
   },
   mounted() {
     getHitokoto().then(res=>{
@@ -113,6 +95,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.tags{
+  margin-right: 10px;
+}
 #loginbutton{
   margin-left: -7%;
   width: 80%;
@@ -122,6 +107,7 @@ export default {
   align-content: center;
   align-items: center;
   align-self: center;
+  width: 93%;
 }
 .register{
   margin-left: 30px;
