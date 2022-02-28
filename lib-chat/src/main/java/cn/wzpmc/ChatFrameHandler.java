@@ -1,7 +1,6 @@
 package cn.wzpmc;
 
 import cn.wzpmc.dao.ChatDao;
-import cn.wzpmc.pojo.HeadPortrait;
 import cn.wzpmc.pojo.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
@@ -14,7 +13,9 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import top.xinsin.Utils.JWTTokenUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -34,7 +35,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         /*
         此方法会在收到消息时调用
          */
-
+        //
         //获取传输通道
         Channel channel = channelHandlerContext.channel();
         //获取通道ID
@@ -98,16 +99,8 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 //从数据库获取消息
                 ArrayList<Message> messages = chatDao.getMessage(min, max);
                 //todo 更改为双标查询获取头像
-                ArrayList<HeadPortrait> headPortrait = chatDao.getHeadPortrait();
-                HashMap<String,String> head = new HashMap<>();
-                HashMap<String,Object> map = new HashMap<>();
-                for (HeadPortrait portrait : headPortrait) {
-                    head.put(portrait.getUsername(),portrait.getBase64());
-                }
-                map.put("message",messages);
-                map.put("head",head);
                 //将这些消息转换为json并返回给客户端
-                sendMessage(id,JSONObject.toJSONString(map));
+                sendMessage(id,JSONObject.toJSONString(messages));
             }
             //如果操作为getMessageCount
             else if(Objects.equals(operating,getMessageCountCommand)){

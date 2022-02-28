@@ -19,6 +19,7 @@
     "tdesign-icons-vue": "^0.0.8",
     "tdesign-vue": "^0.33.1",
     "vue": "2.6.14",
+    "vue-monoplasty-slide-verify": "^1.1.3",
     "vue-router": "3.5.3"
   },
   "devDependencies": {
