@@ -68,7 +68,7 @@ export default {
     login(){
       if (this.msg == true){
         this.$message.info("正在登录,请稍后");
-        Login({"account" : this.username, "password" : hex_md5(this.password)}).then(result => {
+        Login({"username" : this.username, "password" : hex_md5(this.password)}).then(result => {
           console.log("login");
           if(result.data.data.canLogin){
             window.localStorage.setItem("username",this.username);

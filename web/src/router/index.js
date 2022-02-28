@@ -6,6 +6,7 @@ import chat from '@/pages/Chat/chat'
 import fileDownload from '@/pages/file/file'
 import download from '@/pages/file/download'
 import upload from '@/pages/file/upload'
+import voicechat from '@/pages/VoiceChat/voicechat'
 
 Vue.use(Router)
 
@@ -40,6 +41,10 @@ export default new Router({
               component:upload,
             }
           ],
+        },
+        {
+          path:'voicechat',
+          component:voicechat,
         },
       ],
     }
