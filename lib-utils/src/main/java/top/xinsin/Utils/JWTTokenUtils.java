@@ -23,7 +23,6 @@ public class JWTTokenUtils {
         instance.add(Calendar.HOUR,2);//默认两个小时过期
         //创建jwt builder
         JWTCreator.Builder builder = JWT.create();
-
         //payload
         map.forEach((k,v)->{
             builder.withClaim(k,v);

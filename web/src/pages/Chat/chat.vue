@@ -95,18 +95,17 @@ export default {
         this.webSocketSendData(JSON.stringify(sendData));
       }else if (data === undefined){
         //undefined pass
-      }else{
+        this.showError(data)
+      }else if (Array.isArray(JSON.parse(data))){
         try{
           //json数据结果
           let parse = JSON.parse(data);
-          let head = parse.head;
-          let message = parse.message;
-          let data = [];
-          let i = 0;
-          this.someMessage = message;
+          this.someMessage = parse;
         }catch (SyntaxError){
-          console.log(data);
+          this.showError(data)
         }
+      }else if (data.base64 === undefined){
+        this.showError(data)
       }
     },
     in_(str1, str2) {

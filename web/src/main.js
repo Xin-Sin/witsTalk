@@ -7,11 +7,13 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 import TDesign from 'tdesign-vue';
+import verify from 'vue-monoplasty-slide-verify';
 // 引入组件库全局样式资源
 import 'tdesign-vue/es/style/index.css';
 
 Vue.use(ElementUI)
 Vue.use(TDesign);
+Vue.use(verify);
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
