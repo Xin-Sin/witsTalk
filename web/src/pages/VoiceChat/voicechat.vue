@@ -19,7 +19,7 @@
 
 <script>
 import {getAllUserOnline} from '@/components/axios/request';
-
+import Recorder from 'recorder-js';
 export default {
   name: "voicechat",
   data() {
@@ -29,21 +29,22 @@ export default {
       isJoin: true,
       button_text: "加入语音频道",
       button_icon: "el-icon-phone",
-      button_type: "primary"
+      button_type: "primary",
+      recorder:null,
     }
   },
   methods:{
     button_click(){
       if(!this.isJoin){
-        console.log("join")
-        this.join();
+        console.log("exit")
+        this.exit();
         this.button_text = "加入语音频道";
         this.button_icon = "el-icon-phone";
         this.button_type = "primary";
         this.isJoin = true;
       }else{
-        console.log("exit")
-        this.exit();
+        console.log("join")
+        this.join();
         this.button_text = "退出语音频道";
         this.button_icon = "el-icon-phone-outline";
         this.button_type = "danger";
@@ -51,10 +52,10 @@ export default {
       }
     },
     join(){
-
+      this.recorder.start();
     },
     exit(){
-
+      this.recorder.stop();
     },
     getOnlineUser() {//获取所有在线用户并将其加入表中
       let administrator = [];
@@ -76,6 +77,17 @@ export default {
   },
   created:function (){
     setInterval(this.getOnlineUser,5000);
+    const audioContext =  new (window.AudioContext || window.webkitAudioContext)();
+
+    this.recorder = new Recorder(audioContext, {
+      // An array of 255 Numbers
+      // You can use this to visualize the audio stream
+      // If you use react, check out react-wave-stream
+      onAnalysed: data => console.log(data),
+    })
+    navigator.mediaDevices.getUserMedia({audio: true})
+      .then(stream => this.recorder.init(stream))
+      .catch(err => console.log('Uh oh... unable to get stream...', err));
   },
 }
 </script>
