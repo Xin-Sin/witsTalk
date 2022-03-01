@@ -31,9 +31,15 @@ export default {
       button_icon: "el-icon-phone",
       button_type: "primary",
       recorder:null,
+      isRecording:false,
+      stream:null,
+      Started:false,
     }
   },
   methods:{
+    showError(err) {
+      this.$message.error(err);
+    },
     button_click(){
       if(!this.isJoin){
         console.log("exit")
@@ -51,11 +57,39 @@ export default {
         this.isJoin = false;
       }
     },
+    getVoiceData(data){
+      for (let d of data.data) {
+        console.log(d);
+      }
+    },
     join(){
-      this.recorder.start();
+      if(!this.Started) {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        this.recorder = new Recorder(audioContext, {
+          // An array of 255 Numbers
+          // You can use this to visualize the audio stream
+          // If you use react, check out react-wave-stream
+          onAnalysed: data => {
+            if (this.isRecording) {
+              this.getVoiceData(data);
+            }
+          },
+        });
+        this.Started = true;
+        navigator.mediaDevices.getUserMedia({audio: true})
+          .then((stream) => {
+            this.stream = stream;
+            this.isRecording = true;
+            this.recorder.init(this.stream)
+          })
+          .catch(err => {
+            this.showError("在尝试启动语音时失败，原因：" + err);this.Started = false
+          });
+      }
     },
     exit(){
-      this.recorder.stop();
+      this.isRecording = false;
     },
     getOnlineUser() {//获取所有在线用户并将其加入表中
       let administrator = [];
@@ -77,17 +111,6 @@ export default {
   },
   created:function (){
     setInterval(this.getOnlineUser,5000);
-    const audioContext =  new (window.AudioContext || window.webkitAudioContext)();
-
-    this.recorder = new Recorder(audioContext, {
-      // An array of 255 Numbers
-      // You can use this to visualize the audio stream
-      // If you use react, check out react-wave-stream
-      onAnalysed: data => console.log(data),
-    })
-    navigator.mediaDevices.getUserMedia({audio: true})
-      .then(stream => this.recorder.init(stream))
-      .catch(err => console.log('Uh oh... unable to get stream...', err));
   },
 }
 </script>
