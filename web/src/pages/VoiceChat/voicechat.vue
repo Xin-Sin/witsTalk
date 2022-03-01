@@ -1,11 +1,9 @@
 <template>
   <el-row :gutter="10" style="height: 80%">
     <el-col :span="20" style="height: 100%;">
-      <!--      //展示消息数据-->
-      <div id="message1">
-
+      <div id="chat">
       </div>
-      <el-button :type="button_type" :icon="button_icon" ref="je" class="jb" @click="join">{{button_text}}</el-button>
+      <el-button :icon="button_icon" :type="button_type" @click="button_click" class="join_button">{{button_text}}</el-button>
     </el-col>
     <!--    //展示在线人员-->
     <el-col :span="4" id="online-user">
@@ -20,51 +18,77 @@
 </template>
 
 <script>
+import {getAllUserOnline} from '@/components/axios/request';
+
 export default {
   name: "voicechat",
-  data(){
+  data() {
     return {
-      Isjoin:false,
-      button_icon:"el-icon-phone",
-      button_text:"加入语音聊天",
-      button_type:"primary",
-      user:[],
-      administrator:[]
+      administrator: [],
+      user: [],
+      isJoin: true,
+      button_text: "加入语音频道",
+      button_icon: "el-icon-phone",
+      button_type: "primary"
     }
   },
   methods:{
-    join(){
-      if(this.Isjoin === false){
-        this.button_icon = "el-icon-phone-outline";
-        this.button_type = "danger";
-        this.button_text = "退出语音通话"
-        this.Isjoin = true;
-      }else{
+    button_click(){
+      if(!this.isJoin){
+        console.log("join")
+        this.join();
+        this.button_text = "加入语音频道";
         this.button_icon = "el-icon-phone";
         this.button_type = "primary";
-        this.button_text = "加入语音通话"
-        this.Isjoin = false;
+        this.isJoin = true;
+      }else{
+        console.log("exit")
+        this.exit();
+        this.button_text = "退出语音频道";
+        this.button_icon = "el-icon-phone-outline";
+        this.button_type = "danger";
+        this.isJoin = false;
       }
     },
-    join_voicechat(){
+    join(){
 
     },
-    exit_voicechat(){
+    exit(){
 
     },
+    getOnlineUser() {//获取所有在线用户并将其加入表中
+      let administrator = [];
+      let user = []
+      getAllUserOnline().then(res => {
+        res.data.data.forEach(function (item) {
+          let auth = item.auth;
+          let username = item.username;
+          if (auth === "admin") {
+            administrator.push({"username": username})
+          } else {
+            user.push({"username": username})
+          }
+        });
+        this.administrator = administrator;
+        this.user = user;
+      }).catch(err => this.showError);
+    },
+  },
+  created:function (){
+    setInterval(this.getOnlineUser,5000);
   },
 }
 </script>
 
 <style scoped>
-#message1{
+#chat{
   background: #C4C4C4;
   width: 100%;
   height: 100%;
   border-radius: 30px;
   margin-bottom: 20px;
 }
-.jb{
+.join_button{
   display: block;
   margin: 0 auto;
 }

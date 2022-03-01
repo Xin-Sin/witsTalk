@@ -72,7 +72,7 @@ export default {
           console.log("login");
           if(result.data.data.canLogin){
             window.localStorage.setItem("username",this.username);
-            this.$message({"message":"登录成功，正在跳转",type:"success"});
+            this.$message.success("登录成功，正在跳转");
             this.$router.push("main");
           }else{
             this.$message.error("用户名或密码错误");

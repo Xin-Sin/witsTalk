@@ -10,23 +10,18 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
+/**
+ * @author wzp
+ */
 public class VoiceHandler extends ChannelInitializer<SocketChannel> {
     @Override
-    protected void initChannel(SocketChannel socket){
-        //获取pipeline
-        ChannelPipeline pipeline = socket.pipeline();
-        //添加解析器
-        //日志解析器
-        pipeline.addLast(new LoggingHandler(LogLevel.INFO));
-        //Http解析器
-        pipeline.addLast(new HttpServerCodec());
-        //块解析器
-        pipeline.addLast(new ChunkedWriteHandler());
-        //聚合解析器
-        pipeline.addLast(new HttpObjectAggregator(16384));
-        //设置uri为/connect
-        pipeline.addLast(new WebSocketServerProtocolHandler("/voice"));
-        //自定义解析器
-        pipeline.addLast(new VoiceFrameHandler());
+    protected void initChannel(SocketChannel socketChannel){
+        ChannelPipeline pipeline = socketChannel.pipeline();
+        pipeline.addLast(new LoggingHandler(LogLevel.DEBUG))
+                .addLast(new HttpServerCodec())
+                .addLast(new ChunkedWriteHandler())
+                .addLast(new HttpObjectAggregator(16384))
+                .addLast(new WebSocketServerProtocolHandler("/voice"))
+                .addLast(new VoiceFrameHandler());
     }
 }
