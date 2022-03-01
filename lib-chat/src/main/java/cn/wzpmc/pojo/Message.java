@@ -24,6 +24,15 @@ public class Message {
     private String sendtime;
     private String base64;
     MessageTypes type;
+    public Message(int id, String content, String sender, int recall, String sendtime, String type, String base64){
+        this.content = content;
+        this.sender = sender;
+        this.id = id;
+        this.recall = recall;
+        this.type = MessageTypes.valueOf(type);
+        this.sendtime = sendtime;
+        this.base64 = base64;
+    }
     public Message(String content, String sender,String type){
         this.content = content;
         this.sender = sender;
@@ -45,15 +54,6 @@ public class Message {
         this.recall = recall;
         this.type = MessageTypes.valueOf(type);
         this.sendtime = sendtime;
-    }
-    public Message(int id,String content,String sender,int recall,String type,String sendtime,String base64){
-        this.content = content;
-        this.sender = sender;
-        this.id = id;
-        this.recall = recall;
-        this.type = MessageTypes.valueOf(type);
-        this.sendtime = sendtime;
-        this.base64 = base64;
     }
 }
 
