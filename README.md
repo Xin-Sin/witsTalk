@@ -1,5 +1,4 @@
 ## [WitsTalk]智慧语音
-
 **本项目名称为:**`WitsTalk`
 - `WitsTalk`是我们项目团队在2021/12/11制作的开源项目,项目的构思是在群语音的时候发现了一些缺点,才开发此项目.
 - 实现在语音聊天中群员可以调节任何群员的`输出音量`以及自己的`输入音量`
@@ -9,7 +8,7 @@
 **该项目成员**`成员列表`
 - `[UI设计、前端]Mo_Yi`  `[后端、前端]xinxin`  `[后端、前端]wzp`
 
-- 本只能语音项目是面向大众的，所以我们将会吧这个项目进行开源处理，具体请遵守开源 [Apache License 2.0](https://github.com/XinSin-top/witsTalk/blob/main/LICENSE) 的规则.
+- 本智慧语音项目是面向大众的，所以我们将会吧这个项目进行开源处理，具体请遵守开源 [Apache License 2.0](https://github.com/XinSin-top/witsTalk/blob/main/LICENSE) 的规则.
 
 - [Dongyifengs 的 GitHub](https://github.com/Dongyifengs)
 - [XinSin-top 的 GitHub](https://github.com/XinSin-top)
