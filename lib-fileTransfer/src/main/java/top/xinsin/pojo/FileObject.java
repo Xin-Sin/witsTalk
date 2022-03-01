@@ -3,7 +3,8 @@ package top.xinsin.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @Auther wzp
@@ -17,12 +18,13 @@ public class FileObject {
     private long size;
     private String name;
     private String md5;
-    private Date uploadTime;
-    private String uploadName;
+    private String uploadTime;
     public FileObject(String name, long size, String md5){
         this.name = name;
         this.size = size;
         this.md5 = md5;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.uploadTime = simpleDateFormat.format(new Date());
     }
     public FileObject(String md5){
         this.md5 = md5;
