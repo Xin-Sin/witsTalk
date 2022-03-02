@@ -40,7 +40,7 @@ export default {
       wsConnect: null,
       messageCount: null,
       token: window.localStorage.getItem("token"),
-      someMessage:null,
+      someMessage:[],
     }
   },
   methods: {
@@ -66,8 +66,13 @@ export default {
     },
     submitMessage() {//发送消息
       console.log(this.username);
-      let message = {"op": "send", "args": {"content": this.sender, "sender": this.username, "type": "text"}}
-      this.webSocketSendData(JSON.stringify(message));
+      if(this.sender !== "" && this.sender !== "\n"){
+        let message = {"op": "send", "args": {"content": this.sender, "sender": this.username, "type": "text"}}
+        this.webSocketSendData(JSON.stringify(message));
+        this.sender = "";
+      }else{
+        this.showError("你不能发送空消息！");
+      }
     },
     webSocketGetData(e) { //数据接收
       const data = e.data;
@@ -95,17 +100,21 @@ export default {
         this.webSocketSendData(JSON.stringify(sendData));
       }else if (data === undefined){
         //undefined pass
-        this.showError(data)
-      }else if (Array.isArray(JSON.parse(data))){
+        this.showError("dataUndefined," + data)
+      }else{
         try{
-          //json数据结果
-          let parse = JSON.parse(data);
-          this.someMessage = parse;
-        }catch (SyntaxError){
-          this.showError(data)
+          let jsonData = JSON.parse(data);
+          if (Array.isArray(jsonData)) {
+            //全部消息
+            this.someMessage = jsonData;
+          }else{
+            //单条消息
+            this.someMessage.push(jsonData);
+          }
         }
-      }else if (data.base64 === undefined){
-        this.showError(data)
+        catch (SyntaxError){
+          this.showError("JSON data has SyntaxError,data=" + data)
+        }
       }
     },
     in_(str1, str2) {
@@ -134,10 +143,18 @@ export default {
         this.user = user;
       }).catch(err => this.showError);
     },
+    keyDown(event){
+      switch(event.keyCode){
+        case 13:
+          this.submitMessage();
+          break;
+      }
+    },
   },
   created: function () {
     this.initWebSocket();//初始化websocket
     this.getOnlineUser();
+    document.onkeydown = this.keyDown;
   },
 }
 </script>
@@ -146,8 +163,10 @@ export default {
 #message1{
   background: #C4C4C4;
   width: 100%;
-  height: 100%;
+  height: 95%;
   border-radius: 30px;
   margin-bottom: 20px;
+  overflow-y:scroll;
+  overflow-x:scroll;
 }
 </style>
