@@ -2,7 +2,7 @@
   <div id="message">
     <div class="t-comment__inner">
       <div class="t-comment__avatar">
-        <img :src="'data:image/jpg;base64,' + data.base64" alt="" class="t-comment__avatar-image">
+        <img :src="'data:image/jpg;base64,' + data.base64" alt="" class="t-comment__avatar-image" style="margin-left:10%">
       </div>
       <div class="t-comment__content">
         <div class="t-comment__author">
@@ -24,7 +24,7 @@ export default {
 
 <style >
   .t-comment__inner{
-    border: solid sandybrown 1px;
+    /* border: solid sandybrown 1px; */
     line-height: 200%;
   }
 </style>

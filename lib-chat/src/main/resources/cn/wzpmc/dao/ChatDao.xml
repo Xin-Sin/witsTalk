@@ -12,7 +12,7 @@
     <select id="getCount" resultType="java.lang.Integer">
         select COUNT(*) from message;
     </select>
-    <select id="getHeadPortrait" resultType="cn.wzpmc.pojo.HeadPortrait">
-        select (username,base64) from user;
+    <select id="getUserHeadPortrait" resultType="java.lang.String">
+        select `base64` from user where `username`=#{username};
     </select>
 </mapper>
