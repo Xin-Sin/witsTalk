@@ -86,8 +86,12 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 //Dao层发送消息
                 chatDao.sendMessage(message);
                 ChatStart.session.commit();
+                //获取用户头像
+                String B64 = chatDao.getUserHeadPortrait(sender);
+                message.setBase64(B64);
                 //广播此消息
-                sendToAll(JSONObject.toJSONString(message));
+                String Raw_JSON = JSONObject.toJSONString(message);
+                sendToAll(Raw_JSON);
             }//如果操作为getMessage
             else if(Objects.equals(operating,getMessageCommand)){
                 //获取id最小值

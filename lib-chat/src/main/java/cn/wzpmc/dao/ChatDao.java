@@ -32,5 +32,10 @@ public interface ChatDao {
      */
     Integer getCount();
 
-    ArrayList<HeadPortrait> getHeadPortrait();
+    /**
+     * get a user's head portrait with username
+     * @param username username
+     * @return a base64 of user's head portrait
+     */
+    String getUserHeadPortrait(@Param("username") String username);
 }
