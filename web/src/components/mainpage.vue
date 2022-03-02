@@ -24,7 +24,7 @@
           </t-menu>
         </t-aside>
         <t-layout>
-          <t-content>
+          <t-content class="maincontent">
             <router-view />
           </t-content>
         </t-layout>
@@ -41,6 +41,10 @@
 }
 #username{
   font-family: "Helvetica Neue",Arial,sans-serif;
+}
+.maincontent{
+  overflow-y:hidden;
+  overflow-x:hidden;
 }
 .mainlayout{
   height: 100%;
