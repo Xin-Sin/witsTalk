@@ -1,5 +1,6 @@
 package top.xinsin.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import top.xinsin.pojo.User;
 
@@ -16,4 +17,5 @@ public interface UserMapper {
     void setOnline(User user);
     void setOffline(User user);
     User setHeadPortrait(User user);
+    String getUserHeadPortrait(@Param("username") String username);
 }
