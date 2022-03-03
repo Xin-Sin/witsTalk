@@ -73,4 +73,8 @@ public class UserService {
         }
         return new ResponseData();
     }
+    public ResponseData getUserHeadPortrait(String name){
+        String b64 = userMapper.getUserHeadPortrait(name);
+        return new ResponseData(b64);
+    }
 }

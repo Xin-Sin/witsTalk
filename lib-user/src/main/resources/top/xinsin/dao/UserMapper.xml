@@ -23,4 +23,7 @@
     <update id="setHeadPortrait" parameterType="top.xinsin.pojo.User">
         update user set base64 = #{base64} where username = #{username};
     </update>
+    <select id="getUserHeadPortrait" resultType="java.lang.String">
+        select `base64` from user where `username`=#{username};
+    </select>
 </mapper>
