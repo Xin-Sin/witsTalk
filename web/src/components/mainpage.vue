@@ -7,7 +7,7 @@
             <h3 id="username">{{username}}</h3>
           </t-col>
           <t-col :offset="4" :span="4" style="float:right;">
-            <t-avatar style="float:right;">W</t-avatar>
+            <t-avatar size='64px' style="float:right; margin-right: 10px;" :image="hdimg" ></t-avatar>
           </t-col>
         </t-row>
       </t-header>
@@ -41,6 +41,9 @@
 }
 #username{
   font-family: "Helvetica Neue",Arial,sans-serif;
+  font-size: xxx-large;
+  margin-top: 0;
+  margin-left: 10px;
 }
 .maincontent{
   overflow-y:hidden;
@@ -58,21 +61,27 @@
 </style>
 <script>
 import { Icon } from 'tdesign-icons-vue';
+import {getHeadImg} from '@/components/axios/request';
 export default {
   components: { Icon },
   name:"mainpage",
   data(){
     return{
       username:window.localStorage.getItem("username"),
-
+      hdimg:""
     }
   },
   methods:{
-    created() {
-      // 设置暗色模式
-      //document.documentElement.setAttribute('theme-mode', 'dark');
-    },
-  }
+  },
+  created() {
+    // 设置暗色模式
+    //document.documentElement.setAttribute('theme-mode', 'dark');
+    getHeadImg(this.username).then((data) => {
+      let base64 = data.data.data;
+      this.hdimg = "data:image/png;base64," + base64;
+
+    });
+  },
 
 }
 </script>

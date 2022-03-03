@@ -8,10 +8,10 @@
         update message set recall = 1 where 'id' = #{id} and 'content' = #{content};
     </update>
     <select id="GetSomeMessage" resultType="top.xinsin.pojo.Message">
-        select * from message LIMIT #{id_min},#{id_max};
+        select * from `message` where `recall` = 0 and `id` >= #{id_min} and `id` <= #{id_max};
     </select>
     <select id="GetAllMessage" resultType="top.xinsin.pojo.Message">
-        select * from message
+        select * from message where recall=0
     </select>
     <select id="getPlayerCount" resultType="top.xinsin.pojo.Online">
         SELECT `user`.username,`user`.auth,`user`.base64 from `user` WHERE `user`.`online`=1;

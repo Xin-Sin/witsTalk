@@ -3,7 +3,7 @@
     <el-col :span="20" style="height: 100%;">
 <!--      //展示消息数据-->
       <div id="message1">
-        <message v-for="(item) in someMessage" :key="someMessage.id" ref="messages" v-bind:data="item" v-bind:allHead="headingTable"></message>
+        <message v-for="(item) in someMessage" :key="someMessage.id" ref="messages" v-bind:Mdata="item" v-bind:allHead="headingTable"></message>
       </div>
       <t-textarea v-model="sender" placeholder="请输入要发送的内容" :maxcharacter="200"></t-textarea>
       <el-button type="primary" style="float:right;" plain @click="submitMessage()">发送消息</el-button>
@@ -161,7 +161,7 @@ export default {
 
 <style scoped>
 #message1{
-  background: #C4C4C4;
+  background: rgba(196,196,196,0.1);
   width: 100%;
   height: 95%;
   border-radius: 30px;
