@@ -1,9 +1,7 @@
 package top.xinsin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
 
@@ -33,4 +31,8 @@ public class UserController {
     //修改头像
     @PostMapping("/user/api/setHeadPortrait")
     public String setHeadPortrait(@RequestBody User user){return userService.setHeadPortrait(user).toString();}
+    @GetMapping("/user/api/getUserHeadPortrait/{username}")
+    public String getUserHeadPortrait(@PathVariable String username){
+        return userService.getUserHeadPortrait(username).toString();
+    }
 }
