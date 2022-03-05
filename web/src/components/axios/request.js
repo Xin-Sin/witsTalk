@@ -75,7 +75,7 @@ export function sendMessage(message,sender){
 //发送用户在线情况
 export function getAllUserOnline(){
   return Axios({
-    url: "/user/api/message/getOnlineUser",
+    url: "/user/api/getOnlineUser",
     headers: {
       'Content-Type': 'application/json', //设置请求头请求格式form
     },

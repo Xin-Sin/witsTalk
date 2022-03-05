@@ -35,4 +35,8 @@ public class UserController {
     public String getUserHeadPortrait(@PathVariable String username){
         return userService.getUserHeadPortrait(username).toString();
     }
+    @GetMapping("/user/api/getOnlineUser")
+    public String getOnlineUser(){
+        return userService.getOnlineUser().toString();
+    }
 }
