@@ -30,10 +30,6 @@ export default {
       button_text: "加入语音频道",
       button_icon: "el-icon-phone",
       button_type: "primary",
-      recorder:null,
-      isRecording:false,
-      stream:null,
-      Started:false,
     }
   },
   methods:{
@@ -57,36 +53,25 @@ export default {
         this.isJoin = false;
       }
     },
-    getVoiceData(data){
-      for (let d of data.data) {
-        console.log(d);
-      }
-    },
     join(){
-      if(!this.Started) {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-        this.recorder = new Recorder(audioContext, {
-          // An array of 255 Numbers
-          // You can use this to visualize the audio stream
-          // If you use react, check out react-wave-stream
-          onAnalysed: data => {
-            if (this.isRecording) {
-              this.getVoiceData(data);
-            }
-          },
-        });
-        this.Started = true;
-        navigator.mediaDevices.getUserMedia({audio: true})
-          .then((stream) => {
-            this.stream = stream;
-            this.isRecording = true;
-            this.recorder.init(this.stream)
-          })
-          .catch(err => {
-            this.showError("在尝试启动语音时失败，原因：" + err);this.Started = false
-          });
-      }
+      let audioCtx = new AudioContext();
+      navigator.mediaDevices.getUserMedia({ audio: true,})
+      .then((stream) => {
+        let audioCtx = new AudioContext();
+        let source = audioCtx.createMediaStreamSource(stream);
+        source.connect(audioCtx.destination);
+        console.log(stream);
+      }).catch((err) => {
+        console.log("voice chat error");
+        console.error(err);
+        this.showError(err);
+        console.log("exit")
+        this.exit();
+        this.button_text = "加入语音频道";
+        this.button_icon = "el-icon-phone";
+        this.button_type = "primary";
+        this.isJoin = true;
+      })
     },
     exit(){
       this.isRecording = false;
