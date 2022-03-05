@@ -36,7 +36,7 @@ export default {
       user: [],
       sender: "",
       headingTable: {},
-      username: window.localStorage.getItem("username"),
+      username: this.$route.query.a,
       wsConnect: null,
       messageCount: null,
       token: window.localStorage.getItem("token"),
