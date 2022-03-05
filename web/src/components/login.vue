@@ -66,16 +66,16 @@ export default {
       this.$message.info("刷新")
     },
     login(){
-      if (this.msg == true){
+      if (this.msg === true){
         this.$message.info("正在登录,请稍后");
         Login({"username" : this.username, "password" : hex_md5(this.password)}).then(result => {
           console.log("login");
           if(result.data.data.canLogin){
-            window.localStorage.setItem("username",this.username);
             this.$message.success("登录成功，正在跳转");
-            this.$router.push("main");
+            this.$router.push({path:"/main",query:{"a":this.username}});
           }else{
             this.$message.error("用户名或密码错误");
+            this.onRefresh();
           }
         });
       }else{

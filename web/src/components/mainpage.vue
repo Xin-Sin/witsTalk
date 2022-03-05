@@ -16,9 +16,9 @@
           <t-menu theme="light" value="dashboard">
 <!--            //使用to来实现路由跳转
             //active-class 当给链接被激活时展示的样式-->
-            <router-link to="/main/chat" active-class="active-mainPages"><t-menu-item value="chat"><icon slot="icon" name="chat"/>聊天</t-menu-item></router-link>
-            <router-link to="/main/voicechat" active-class="active-mainPages"><t-menu-item value="voice-chat"><icon slot="icon" name="service"/>语音聊天</t-menu-item></router-link>
-            <router-link to="/main/file" active-class="active-mainPages"><t-menu-item value="file"><icon slot="icon" name="cloud-upload"/>文件传输</t-menu-item></router-link>
+            <router-link :to="'/main/chat?a='+this.username" active-class="active-mainPages"><t-menu-item value="chat"><icon slot="icon" name="chat"/>聊天</t-menu-item></router-link>
+            <router-link :to="'/main/voicechat?a='+this.username" active-class="active-mainPages"><t-menu-item value="voice-chat"><icon slot="icon" name="service"/>语音聊天</t-menu-item></router-link>
+            <router-link :to="'/main/file?a='+this.username" active-class="active-mainPages"><t-menu-item value="file"><icon slot="icon" name="cloud-upload"/>文件传输</t-menu-item></router-link>
             <router-link to="#" active-class="active-mainPages"><t-menu-item value="game"><icon slot="icon" name="app"/>小♂游戏</t-menu-item></router-link>
             <router-link to="#" active-class="active-mainPages" ><t-menu-item value="settings"><icon slot="icon" name="setting"/>个人设置</t-menu-item></router-link>
           </t-menu>
@@ -67,7 +67,7 @@ export default {
   name:"mainpage",
   data(){
     return{
-      username:window.localStorage.getItem("username"),
+      username:this.$route.query.a,
       hdimg:""
     }
   },
@@ -76,12 +76,13 @@ export default {
   created() {
     // 设置暗色模式
     //document.documentElement.setAttribute('theme-mode', 'dark');
+  },
+  mounted() {
     getHeadImg(this.username).then((data) => {
       let base64 = data.data.data;
       this.hdimg = "data:image/png;base64," + base64;
-
     });
-  },
+  }
 
 }
 </script>
