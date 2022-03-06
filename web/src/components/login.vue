@@ -28,7 +28,7 @@
         </el-col>
       </el-row>
     </el-main>
-    <el-dialog :visible.sync="dialogFormVisible" width="18%">
+    <el-dialog :visible.sync="dialogFormVisible" width="345.6px">
       <slide-verify  :l="42" :r="10" :w="310" :h="155" slider-text="向右滑动" @success="onSuccess" @fail="onFail" @refresh="onRefresh"></slide-verify>
     </el-dialog>
   </el-container>
