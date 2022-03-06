@@ -92,11 +92,7 @@ export default {
       } else if (!(isNaN(data))) {
         //count操作返回值
         let num = parseInt(data);
-        let min = 0;
-        if (num >= 10) {
-          min = num - 10;
-        }
-        let sendData = {"op": "get", "args": {"min": min, "max": num}}
+        let sendData = {"op": "get", "args": {"min": 0, "max": num}}
         this.webSocketSendData(JSON.stringify(sendData));
       }else if (data === undefined){
         //undefined pass
