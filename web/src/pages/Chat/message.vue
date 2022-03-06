@@ -25,11 +25,12 @@ export default {
   data(){
     return {
       Bstyle:"",
+      username:this.$route.query.a,
     }
   },
   created() {
-    let username = window.localStorage.getItem("username");
-    if (this.Mdata.sender !==  username){
+
+    if (this.Mdata.sender !==  this.username){
       this.Bstyle = "display:none;"
     }
   },
