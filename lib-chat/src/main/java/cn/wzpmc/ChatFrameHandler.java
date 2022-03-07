@@ -1,5 +1,4 @@
 package cn.wzpmc;
-
 import cn.wzpmc.dao.ChatDao;
 import cn.wzpmc.pojo.Message;
 import com.alibaba.fastjson.JSON;
@@ -11,8 +10,9 @@ import io.netty.channel.ChannelId;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import top.xinsin.Utils.JWTTokenUtils;
-import top.xinsin.Utils.ResponseData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,11 +26,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Version 1.0
  */
 @Slf4j
+@Component
 public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public static ConcurrentHashMap<ChannelId,Channel> channels = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<ChannelId,Boolean> loginTable= new ConcurrentHashMap<>();
 
-    private ChatDao chatDao = ChatStart.session.getMapper(ChatDao.class);
+    @Autowired
+    private ChatDao chatDao;
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame){
@@ -88,7 +90,6 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 Message message = new Message(content, sender, type);
                 //Dao层发送消息
                 chatDao.sendMessage(message);
-                ChatStart.session.commit();
                 //获取用户头像
                 String B64 = chatDao.getUserHeadPortrait(sender);
                 message.setBase64(B64);
@@ -114,14 +115,13 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 //日志
                 log.info("getMessageCount");
                 //从数据库获取消息数量
-                Integer count = chatDao.getCount();
+                Integer count = chatDao.getCount().get(0);
                 sendMessage(id,count);
             }else if(Objects.equals(operating,recallMessageCommand)){
                 int i = args.getInteger("id");
                 Message message = new Message(i);
                 log.info("Recall Message message={}",message);
                 chatDao.recall(message);
-                ChatStart.session.commit();
                 HashMap<String,String> resp = new HashMap<>(10);
                 resp.put("op","recall");
                 resp.put("id",String.valueOf(i));
@@ -189,15 +189,15 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         //结束此通道的链接
         channelHandlerContext.close();
     }
-     public static void sendToAll(String msg){
+    public static void sendToAll(String msg){
         /*
         发送消息到所有用户
          */
-         for (Map.Entry<ChannelId, Channel> channelIdChannelEntry : channels.entrySet()) {
-             ChannelId id = channelIdChannelEntry.getKey();
-             Channel channel = channelIdChannelEntry.getValue();
-             sendMessage(id,msg);
-         }
+        for (Map.Entry<ChannelId, Channel> channelIdChannelEntry : channels.entrySet()) {
+            ChannelId id = channelIdChannelEntry.getKey();
+            Channel channel = channelIdChannelEntry.getValue();
+            sendMessage(id,msg);
+        }
     }
     public static void sendMessage(ChannelId id,String msg){
         /*

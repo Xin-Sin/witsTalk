@@ -110,8 +110,9 @@ export default {
                 let loginData = {"op": "login", "args": {"token": this.token}};
                 this.webSocketSendData(JSON.stringify(loginData))
               }
+            }else{
+              this.someMessage.push(jsonData);
             }
-            this.someMessage.push(jsonData);
           }
         }
         catch (SyntaxError){

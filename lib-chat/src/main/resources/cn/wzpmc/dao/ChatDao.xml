@@ -12,10 +12,10 @@
     <select id="getMessage" resultType="cn.wzpmc.pojo.Message">
         select * from `v_message_base64_info` where `recall` = 0 and `id` >= #{id_min} and `id` &lt;= #{id_max};
     </select>
-    <select id="getCount" resultType="java.lang.Integer">
-        select COUNT(*) from message;
-    </select>
     <select id="getUserHeadPortrait" resultType="java.lang.String">
         select `base64` from user where `username`=#{username};
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select COUNT(*) from message where recall=0;
     </select>
 </mapper>

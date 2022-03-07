@@ -1,60 +1,57 @@
 package cn.wzpmc;
 
-import cn.wzpmc.dao.ChatDao;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
+@MapperScan("cn.wzpmc.dao")
+@SpringBootApplication
+public class ChatStart implements CommandLineRunner {
+    @Autowired
+    private Netty netty;
+    public static void main(String[] args){
+        System.out.println("_ooOoo_");
+        System.out.println("o8888888o");
+        System.out.println("88\" . \"88");
+        System.out.println("(| -_- |)");
+        System.out.println("O\\ = /O");
+        System.out.println("____/`---'\\____");
+        System.out.println(".' \\| |// `.");
+        System.out.println("/ \\||| : |||// \\");
+        System.out.println("/ _||||| -:- |||||- \\");
+        System.out.println("| | \\ - /// | |");
+        System.out.println("| \\_| ''\\---/'' | |");
+        System.out.println("\\ .-\\__ `-` ___/-. /");
+        System.out.println("___`. .' /--.--\\ `. . __");
+        System.out.println(".\"\" '< `.___\\__/___.' >'\"\".");
+        System.out.println("| | : `- \\`.;`\\ _ /`;.`/ - ` : | |");
+        System.out.println("\\ \\ `-. \\_ __\\ /__ _/ .-` / /");
+        System.out.println("======`-.____`-.___\\_____/___.-`____.-'======");
+        System.out.println("`=---='");
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        System.out.println("佛祖保佑 永无BUG");
+        System.out.println("佛曰:");
+        System.out.println("写字楼里写字间，写字间里程序员；");
+        System.out.println("程序人员写程序，又拿程序换酒钱。");
+        System.out.println("酒醒只在网上坐，酒醉还来网下眠；");
+        System.out.println("酒醉酒醒日复日，网上网下年复年。");
+        System.out.println("但愿老死电脑间，不愿鞠躬老板前；");
+        System.out.println("奔驰宝马贵者趣，公交自行程序员。");
+        System.out.println("别人笑我忒疯癫，我笑自己命太贱；");
+        System.out.println("不见满街漂亮妹，哪个归得程序员？");
+        SpringApplication.run(ChatStart.class,args);
+    }
 
-/**
- * @Author wzp
- * @Date 2022/1/26
- * @Version 1.0
- */
-public class ChatStart {
-    public static SqlSession session;
-    public static void main(String[] args) {
-        String resource = "mybatis-config.xml";
-        try(InputStream inputStream = Resources.getResourceAsStream(resource)) {
-            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-            session = sqlSessionFactory.openSession();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        EventLoopGroup boss = new NioEventLoopGroup();
-        EventLoopGroup worker = new NioEventLoopGroup();
-        try{
-            ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap
-                    //设置两个LoopGroup
-                    .group(boss,worker)
-                    //设置日志处理器
-                    .handler(new LoggingHandler(LogLevel.DEBUG))
-                    //设置自主处理器
-                    .childHandler(new ChatHandler())
-                    //设置通道
-                    .channel(NioServerSocketChannel.class);
-            //绑定端口
-            ChannelFuture channelFuture = bootstrap.bind(new InetSocketAddress(8005)).sync();
-            //启动服务
-            channelFuture.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            //关闭服务
-            boss.shutdownGracefully();
-            worker.shutdownGracefully();
-        }
+    @Override
+    public void run(String... args) throws Exception {
+        netty.start();
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+            @Override
+            public void run() {
+                netty.destroy();
+            }
+        });
     }
 }
