@@ -38,4 +38,10 @@ public interface ChatDao {
      * @return a base64 of user's head portrait
      */
     String getUserHeadPortrait(@Param("username") String username);
+
+    /**
+     * recall a message
+     * @param message a message object
+     */
+    void recall(Message message);
 }

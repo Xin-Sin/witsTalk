@@ -3,7 +3,7 @@
     <el-col :span="20" style="height: 100%;">
 <!--      //展示消息数据-->
       <div id="message1">
-        <message v-for="(item) in someMessage" :key="someMessage.id" ref="messages" v-bind:Mdata="item" v-bind:allHead="headingTable"></message>
+        <message v-for="(item) in someMessage" :key="someMessage.id" ref="messages" v-bind:Mdata="item" v-bind:ws="websock" v-bind:allHead="headingTable"></message>
       </div>
       <t-textarea v-model="sender" placeholder="请输入要发送的内容" :maxcharacter="200"></t-textarea>
       <el-button type="primary" style="float:right;" plain @click="submitMessage()">发送消息</el-button>
@@ -105,6 +105,12 @@ export default {
             this.someMessage = jsonData;
           }else{
             //单条消息
+            if('op' in jsonData){
+              if(jsonData.op === "recall"){
+                let loginData = {"op": "login", "args": {"token": this.token}};
+                this.webSocketSendData(JSON.stringify(loginData))
+              }
+            }
             this.someMessage.push(jsonData);
           }
         }
