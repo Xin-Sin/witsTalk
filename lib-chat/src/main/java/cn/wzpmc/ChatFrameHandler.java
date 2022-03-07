@@ -12,8 +12,10 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import top.xinsin.Utils.JWTTokenUtils;
+import top.xinsin.Utils.ResponseData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,6 +65,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         String sendCommand = "send";
         String getMessageCommand = "get";
         String getMessageCountCommand = "count";
+        String recallMessageCommand = "recall";
         //登录操作
         if(Objects.equals(operating, loginCommand)){
             Boolean r = JWTTokenUtils.isRight(args.getString("token"));
@@ -113,6 +116,16 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 //从数据库获取消息数量
                 Integer count = chatDao.getCount();
                 sendMessage(id,count);
+            }else if(Objects.equals(operating,recallMessageCommand)){
+                int i = args.getInteger("id");
+                Message message = new Message(i);
+                log.info("Recall Message message={}",message);
+                chatDao.recall(message);
+                ChatStart.session.commit();
+                HashMap<String,String> resp = new HashMap<>(10);
+                resp.put("op","recall");
+                resp.put("id",String.valueOf(i));
+                sendToAll(JSONObject.toJSONString(resp));
             }
         }else{
             sendMessage(id,"You are not login!");
