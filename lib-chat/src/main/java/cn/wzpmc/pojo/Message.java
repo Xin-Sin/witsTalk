@@ -24,6 +24,9 @@ public class Message {
     private String sendtime;
     private String base64;
     MessageTypes type;
+    public Message(int id){
+        this.id = id;
+    }
     public Message(int id, String content, String sender, int recall, String sendtime, String type, String base64){
         this.content = content;
         this.sender = sender;
