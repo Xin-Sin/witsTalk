@@ -1,4 +1,4 @@
-package cn.wzpmc;
+package cn.wzpmc.bk;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;

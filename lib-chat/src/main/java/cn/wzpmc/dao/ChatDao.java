@@ -1,8 +1,9 @@
 package cn.wzpmc.dao;
 
-import cn.wzpmc.pojo.HeadPortrait;
 import cn.wzpmc.pojo.Message;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 
@@ -11,6 +12,8 @@ import java.util.ArrayList;
  * @Date 2022/1/26
  * @Version 1.0
  */
+@Mapper
+@Repository
 public interface ChatDao {
     /**
      * send a message to database
@@ -30,7 +33,7 @@ public interface ChatDao {
      * get all messages count
      * @return count of message
      */
-    Integer getCount();
+    ArrayList<Integer> getCount();
 
     /**
      * get a user's head portrait with username
