@@ -6,6 +6,9 @@
     <insert id="sendMessage" parameterType="cn.wzpmc.pojo.Message">
         insert into message set content=#{content},sender=#{sender},type=#{type},sendtime=#{sendtime};
     </insert>
+    <update id="recall" parameterType="cn.wzpmc.pojo.Message">
+        update message set recall=1 where id=#{id};
+    </update>
     <select id="getMessage" resultType="cn.wzpmc.pojo.Message">
         select * from `v_message_base64_info` where `recall` = 0 and `id` >= #{id_min} and `id` &lt;= #{id_max};
     </select>

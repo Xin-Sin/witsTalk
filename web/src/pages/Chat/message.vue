@@ -1,7 +1,7 @@
 <template>
   <div id="message">
     <div class="Recall_button" :style="Bstyle">
-      <el-button class="rb">撤回这条消息</el-button>
+      <el-button class="rb" @click="recall">撤回这条消息</el-button>
     </div>
     <div class="t-comment__inner">
       <div class="t-comment__avatar">
@@ -21,11 +21,16 @@
 <script>
 export default {
   name: "message",
-  props:['Mdata'],
+  props:['Mdata','ws'],
   data(){
     return {
       Bstyle:"",
       username:this.$route.query.a,
+    }
+  },
+  methods:{
+    recall(){
+      this.ws.send(JSON.stringify({"op":"recall","args":{"id":this.Mdata.id}}))
     }
   },
   created() {
