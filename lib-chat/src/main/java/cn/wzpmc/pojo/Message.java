@@ -1,8 +1,6 @@
 package cn.wzpmc.pojo;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import top.xinsin.enums.MessageTypes;
 
 import java.text.SimpleDateFormat;
@@ -16,6 +14,8 @@ import java.util.Calendar;
 @Data
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class Message {
     private int id;
     private String content;
