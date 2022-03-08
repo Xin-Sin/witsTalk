@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="cn.wzpmc.DataSourceFactory">
+                <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="jdbcUrl" value="jdbc:mysql://wzpmc.cn:3306/witstalk?serverTimezone=UTC-8"/>
+                <property name="username" value="witstalk"/>
+                <property name="password" value="witsTalk"/>
+                <property name="initialSize" value="5"/>
+                <property name="minIdle" value="5"/>
+                <property name="maxActive" value="20"/>
+                <property name="maxWait" value="60000"/>
+                <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+                <property name="minEvictableIdleTimeMillis" value="300000"/>
+                <property name="validationQuery" value="SELECT 1 FROM DUAL"/>
+                <property name="testWhileIdle" value="true"/>
+                <property name="testOnBorrow" value="false"/>
+                <property name="testOnReturn" value="false"/>
+                <property name="poolPreparedStatements" value="true"/>
+                <!--property name="filters" value="stat,wall,log4j"/-->
+                <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+                <property name="useGlobalDataSourceStat" value="true"/>
+                <property name="connectionProperties" value="druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="cn/wzpmc/dao/ChatDao.xml"/>
+    </mappers>
+</configuration>

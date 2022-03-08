@@ -106,9 +106,17 @@ export default {
           }else{
             //单条消息
             if('op' in jsonData){
+              let sm = [];
               if(jsonData.op === "recall"){
-                let loginData = {"op": "login", "args": {"token": this.token}};
-                this.webSocketSendData(JSON.stringify(loginData))
+                let id = parseInt(jsonData.id);
+                console.log(id);
+                console.log(this.someMessage);
+                for (let m of this.someMessage){
+                  if(m.id !== id){
+                    sm.push(m);
+                  }
+                }
+                this.someMessage = sm;
               }
             }else{
               this.someMessage.push(jsonData);
