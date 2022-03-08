@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public static ConcurrentHashMap<ChannelId,Channel> channels = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<ChannelId,Boolean> loginTable= new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<ChannelId,SqlSession> Sessions = new ConcurrentHashMap<>();
 
     public static SqlSession session;
     public static ChatDao chatDao;
