@@ -27,7 +27,6 @@ public class Netty {
     /**
      * Start netty service
      */
-    @SneakyThrows
     public void start(){
         ServerBootstrap bootstrap = new ServerBootstrap();
         bootstrap.group(boss,work)
@@ -37,12 +36,18 @@ public class Netty {
                 .childHandler(new ChatHandler())
                 //设置通道
                 .channel(NioServerSocketChannel.class);
+        try {
         ChannelFuture future = bootstrap.bind(new InetSocketAddress(8005)).sync();
         if (future.isSuccess()){
             log.info("started");
         }
         this.channel = future.channel();
-        future.channel().closeFuture().sync();
+            future.channel().closeFuture().sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            this.destroy();
+        }
     }
     public void destroy() {
         log.info("Shutdown Netty Server...");

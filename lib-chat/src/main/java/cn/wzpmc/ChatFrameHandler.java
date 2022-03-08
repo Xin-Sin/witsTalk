@@ -4,14 +4,11 @@ import cn.wzpmc.pojo.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelId;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import top.xinsin.Utils.JWTTokenUtils;
 
 import java.util.ArrayList;
@@ -25,21 +22,22 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Date 2022/1/26
  * @Version 1.0
  */
+@ChannelHandler.Sharable
 @Slf4j
-@Component
 public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public static ConcurrentHashMap<ChannelId,Channel> channels = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<ChannelId,Boolean> loginTable= new ConcurrentHashMap<>();
 
-    @Autowired
-    private ChatDao chatDao;
-
+    public static SqlSession session;
+    public static ChatDao chatDao;
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame){
         /*
         此方法会在收到消息时调用
          */
         //
+        session = ChatStart.factory.openSession();
+        chatDao = session.getMapper(ChatDao.class);
         //获取传输通道
         Channel channel = channelHandlerContext.channel();
         //获取通道ID
@@ -90,6 +88,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 Message message = new Message(content, sender, type);
                 //Dao层发送消息
                 chatDao.sendMessage(message);
+                session.commit();
                 //获取用户头像
                 String B64 = chatDao.getUserHeadPortrait(sender);
                 message.setBase64(B64);
@@ -122,6 +121,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 Message message = new Message(i);
                 log.info("Recall Message message={}",message);
                 chatDao.recall(message);
+                session.commit();
                 HashMap<String,String> resp = new HashMap<>(10);
                 resp.put("op","recall");
                 resp.put("id",String.valueOf(i));
@@ -130,6 +130,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         }else{
             sendMessage(id,"You are not login!");
         }
+        session.close();
     }
     @Override
     public void handlerAdded(ChannelHandlerContext channelHandlerContext){
