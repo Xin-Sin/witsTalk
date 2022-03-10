@@ -8,6 +8,9 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.InputStream;
 
+/**
+ * @author wzp
+ */
 public class ChatStart {
     public static SqlSessionFactory factory;
     @SneakyThrows

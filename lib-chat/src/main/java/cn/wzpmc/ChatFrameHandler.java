@@ -7,7 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.ibatis.session.SqlSession;
 import top.xinsin.Utils.JWTTokenUtils;
 
 import java.util.ArrayList;
@@ -15,11 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-
 /**
- * @Author wzp
- * @Date 2022/1/26
- * @Version 1.0
+ * @author wzp
  */
 @ChannelHandler.Sharable
 @Slf4j
