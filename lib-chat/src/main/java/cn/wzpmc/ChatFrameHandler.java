@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import top.xinsin.Utils.JWTTokenUtils;
 
@@ -27,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public static ConcurrentHashMap<ChannelId,Channel> channels = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<ChannelId,Boolean> loginTable= new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<ChannelId,SqlSession> Sessions = new ConcurrentHashMap<>();
 
     public static SqlSession session;
     public static ChatDao chatDao;
