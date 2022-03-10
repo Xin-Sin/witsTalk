@@ -8,9 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 
 /**
- * @Author wzp
- * @Date 2022/1/26
- * @Version 1.0
+ * @author wzp
  */
 @Mapper
 @Repository

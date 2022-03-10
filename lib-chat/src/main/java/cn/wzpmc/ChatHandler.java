@@ -10,6 +10,9 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
+/**
+ * @author wzp
+ */
 public class ChatHandler extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel socket){
