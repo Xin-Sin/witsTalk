@@ -22,7 +22,7 @@
   ~~~
 
 - responseParameter:
-
+  
   | 参数名称 | 注释     |
   | -------- | -------- |
   | canLogin | 是否成功 |
@@ -92,7 +92,7 @@
   {
       "username":"user",
       "password":"21232f297a57a5a743894a0e4a801fc3",
-      "//":"password是前端MD5加密后",
+      "//":"password是前端MD5加密后"
   }
   ~~~
 
