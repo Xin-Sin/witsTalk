@@ -8,9 +8,9 @@
             <transactionManager type="JDBC"/>
             <dataSource type="cn.wzpmc.DataSourceFactory">
                 <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="jdbcUrl" value="jdbc:mysql://wzpmc.cn:3306/witstalk?serverTimezone=UTC-8"/>
+                <property name="jdbcUrl" value="jdbc:mysql://mysql.xinsin.top:3306/witstalk?serverTimezone=UTC-8"/>
                 <property name="username" value="witstalk"/>
-                <property name="password" value="witsTalk"/>
+                <property name="password" value="WitsTalk"/>
                 <property name="initialSize" value="5"/>
                 <property name="minIdle" value="5"/>
                 <property name="maxActive" value="20"/>

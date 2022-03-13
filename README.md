@@ -62,14 +62,14 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_message_base64_info` A
 - ~~由于该项目还在开发中,暂不提供使用方式,只提供开发方法~~
 - 一开完毕将提供完整的`使用文档`和`release`
 
-**提交代码** `如何提交`
+**提交代码** `提交方法`
 - 1.fork`witstalk`
 - 2.维护代码~~(由于接口文档还没有完善,需要大家自己去理解每个接口的意义,也可以通过发`issues`来询问,我们在尽力完善接口文档,ps:在等一位好心人来帮忙完善http.md)~~
 - 3.请遵守提交格式`fix`,`feat`,`refactor`,`docs`,`style`,`perf`,`test`,`chore`
 - 4.提交到`主仓库`的`master`
 - 5.请耐心等待!!!!!!!!
 
-**发送issues** `如何发送`
+**发送issues** `发送方法`
 - ~~暂时还没有模板,随便发~~
 
 
@@ -81,3 +81,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_message_base64_info` A
 - [Dongyifengs 的 GitHub](https://github.com/Dongyifengs)
 - [XinSin-top 的 GitHub](https://github.com/XinSin-top)
 - [Wzp-2008 的 GitHub](https://github.com/Wzp-2008)
+
+**鸣谢** `鸣谢`
+- [jetbrains](www.jetbrains.com)
+- ![jetbrains](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png?_gl=1*avq98w*_ga*NjQ5OTM0MzUxLjE2NDY1NTIyMzQ.*_ga_V0XZL7QHEB*MTY0Njk2NjY2Mi4zLjAuMTY0Njk2NjY2Mi4w)
