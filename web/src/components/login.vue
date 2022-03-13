@@ -29,7 +29,7 @@
       </el-row>
     </el-main>
     <el-dialog :visible.sync="dialogFormVisible" width="345.6px">
-      <slide-verify  :l="42" :r="10" :w="310" :h="155" slider-text="向右滑动" @success="onSuccess" @fail="onFail" @refresh="onRefresh"></slide-verify>
+      <slide-verify :l="42" :r="10" :w="310" :h="155" slider-text="向右滑动" @success="onSuccess" @fail="onFail" @refresh="onRefresh"></slide-verify>
     </el-dialog>
   </el-container>
 </template>
@@ -63,20 +63,22 @@ export default {
       this.$message.error("验证失败")
     },
     onRefresh(){
-      this.$message.info("刷新")
+      this.$message.info("刷新验证码中!")
     },
     login(){
       if (this.msg === true){
         this.$message.info("正在登录,请稍后");
         Login({"username" : this.username, "password" : hex_md5(this.password)}).then(result => {
           console.log("login");
+          console.log(hex_md5("test"));
           if(result.data.data.canLogin){
             this.$message.success("登录成功，正在跳转");
             this.$router.push({path:"/main",query:{"a":this.username}});
           }else{
             this.$message.error("用户名或密码错误");
-            this.onRefresh();
           }
+        }).catch(function (error) {
+          this.$message.error("服务端错误");
         });
       }else{
         this.$message.warning("请先进行人机验证");
