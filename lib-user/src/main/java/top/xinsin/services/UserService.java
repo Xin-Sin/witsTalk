@@ -11,7 +11,6 @@ import top.xinsin.dao.UserMapper;
 import top.xinsin.pojo.User;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -79,7 +78,7 @@ public class UserService {
         return new ResponseData(b64);
     }
     public ResponseData getOnlineUser() {
-        ArrayList<User> onlineUser = userMapper.getOnlineUser();
+        int onlineUser = userMapper.getOnlineUser();
         return new ResponseData(onlineUser);
     }
 }

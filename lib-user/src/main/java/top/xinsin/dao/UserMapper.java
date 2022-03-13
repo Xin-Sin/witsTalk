@@ -4,8 +4,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import top.xinsin.pojo.User;
 
-import java.util.ArrayList;
-
 /**
  * @Auther wzp
  * @Date 2021/12/11 21:00
@@ -19,6 +17,6 @@ public interface UserMapper {
     void setOnline(User user);
     void setOffline(User user);
     User setHeadPortrait(User user);
-    ArrayList<User> getOnlineUser();
+    int getOnlineUser();
     String getUserHeadPortrait(@Param("username") String username);
 }
