@@ -2,6 +2,7 @@
   <el-row :gutter="10" style="height: 80%">
     <el-col :span="20" style="height: 100%;">
       <div id="chat">
+        {{text}}
       </div>
       <el-button :icon="button_icon" :type="button_type" @click="button_click" class="join_button">{{button_text}}</el-button>
     </el-col>
@@ -19,7 +20,7 @@
 
 <script>
 import {getAllUserOnline} from '@/components/axios/request';
-import Recorder from 'recorder-js';
+
 export default {
   name: "voicechat",
   data() {
@@ -30,6 +31,7 @@ export default {
       button_text: "加入语音频道",
       button_icon: "el-icon-phone",
       button_type: "primary",
+      text: ""
     }
   },
   methods:{
@@ -53,15 +55,26 @@ export default {
         this.isJoin = false;
       }
     },
+    getVoiceData(data){
+      let left = data.inputBuffer.getChannelData(0);
+      this.text = left.toString();
+    },
     join(){
-      let audioCtx = new AudioContext();
       navigator.mediaDevices.getUserMedia({ audio: true,})
       .then((stream) => {
-        let audioCtx = new AudioContext();
-        let source = audioCtx.createMediaStreamSource(stream);
-        source.connect(audioCtx.destination);
-        console.log(stream);
-      }).catch((err) => {
+        let context = new window.AudioContext();
+        let audioInput = context.createMediaStreamSource(stream);
+        let bufferSize = 512;
+        // create a javascript node
+        let recorder = context.createScriptProcessor(bufferSize, 1, 1);
+        // specify the processing function
+        recorder.onaudioprocess = this.getVoiceData;
+        // connect stream to our recorder
+        audioInput.connect(recorder);
+        // connect our recorder to the previous destination
+        recorder.connect(context.destination);
+        this.recoder = recorder;
+        }).catch((err) => {
         console.log("voice chat error");
         console.error(err);
         this.showError(err);
@@ -71,10 +84,11 @@ export default {
         this.button_icon = "el-icon-phone";
         this.button_type = "primary";
         this.isJoin = true;
-      })
+      });
     },
     exit(){
       this.isRecording = false;
+      this.recoder.disconnect();
     },
     getOnlineUser() {//获取所有在线用户并将其加入表中
       let administrator = [];
