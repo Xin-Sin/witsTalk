@@ -11,13 +11,14 @@ import top.xinsin.dao.UserMapper;
 import top.xinsin.pojo.User;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Auther wzp
- * @Date 2021/12/11 21:21
- * @Version 1.0
+ * @author  wzp
+ * @date 2021/12/11 21:21
+ * @version 1.0
  */
 @Service
 @Slf4j
@@ -78,7 +79,8 @@ public class UserService {
         return new ResponseData(b64);
     }
     public ResponseData getOnlineUser() {
-        int onlineUser = userMapper.getOnlineUser();
+        log.info("getOnlineUser");
+        ArrayList<User> onlineUser = userMapper.getOnlineUser();
         return new ResponseData(onlineUser);
     }
 }
