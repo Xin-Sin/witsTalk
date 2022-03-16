@@ -34,7 +34,6 @@ export default {
     }
   },
   created() {
-
     if (this.Mdata.sender !==  this.username){
       this.Bstyle = "display:none;"
     }
