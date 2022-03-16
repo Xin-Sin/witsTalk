@@ -24,9 +24,11 @@
 import {getAllUserOnline} from '@/components/axios/request';
 //使用组件式重构
 import message from "./message";
+import {SEARCH} from "@/mixin/mixin";
 
 export default {
   name: "chat",
+  mixins:[SEARCH],
   components:{
     message
   },
@@ -44,6 +46,9 @@ export default {
     }
   },
   methods: {
+    search(){
+      console.log("chat");
+    },
     showError(err) {
       this.$message.error(err);
     },
@@ -173,7 +178,6 @@ export default {
   background: rgba(196,196,196,0.1);
   width: 100%;
   height: 95%;
-  border-radius: 30px;
   margin-bottom: 20px;
   overflow-y:scroll;
   overflow-x:scroll;

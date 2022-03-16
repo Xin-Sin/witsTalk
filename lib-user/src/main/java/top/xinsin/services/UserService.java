@@ -16,9 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author  wzp
- * @date 2021/12/11 21:21
- * @version 1.0
+ * @Auther wzp
+ * @Date 2021/12/11 21:21
+ * @Version 1.0
  */
 @Service
 @Slf4j
@@ -79,7 +79,6 @@ public class UserService {
         return new ResponseData(b64);
     }
     public ResponseData getOnlineUser() {
-        log.info("getOnlineUser");
         ArrayList<User> onlineUser = userMapper.getOnlineUser();
         return new ResponseData(onlineUser);
     }

@@ -1,12 +1,15 @@
 <template>
   <div style="width: 100%;height: 100%">
     <t-layout class="mainlayout">
-      <t-header >
+      <t-header style="height: 9%">
         <t-row>
-          <t-col :span="4">
+          <t-col :span="1" style="margin-top: 1%">
             <h3 id="username">{{username}}</h3>
           </t-col>
-          <t-col :offset="4" :span="4" style="float:right;">
+          <t-col :span="3">
+            <search style="margin-left: 100%"></search>
+          </t-col>
+          <t-col :offset="4" :span="4" style="float:right;margin-top: 1%">
             <t-avatar size='64px' style="float:right; margin-right: 10px;" :image="hdimg" ></t-avatar>
           </t-col>
         </t-row>
@@ -14,8 +17,8 @@
       <t-layout>
         <t-aside style="border-top: 1px solid var(--component-border);">
           <t-menu theme="light" value="dashboard">
-<!--            //使用to来实现路由跳转
-            //active-class 当给链接被激活时展示的样式-->
+<!--            //使用to来实现路由跳转-->
+<!--            //active-class 当给链接被激活时展示的样式-->
             <router-link :to="'/main/chat?a='+this.username" active-class="active-mainPages"><t-menu-item value="chat"><icon slot="icon" name="chat"/>聊天</t-menu-item></router-link>
             <router-link :to="'/main/voicechat?a='+this.username" active-class="active-mainPages"><t-menu-item value="voice-chat"><icon slot="icon" name="service"/>语音聊天</t-menu-item></router-link>
             <router-link :to="'/main/file?a='+this.username" active-class="active-mainPages"><t-menu-item value="file"><icon slot="icon" name="cloud-upload"/>文件传输</t-menu-item></router-link>
@@ -43,7 +46,8 @@
   font-family: "Helvetica Neue",Arial,sans-serif;
   font-size: xxx-large;
   margin-top: 0;
-  margin-left: 10px;
+  margin-left: 10%;
+  color: hotpink;
 }
 .maincontent{
   overflow-y:hidden;
@@ -62,9 +66,12 @@
 <script>
 import { Icon } from 'tdesign-icons-vue';
 import {getHeadImg} from '@/components/axios/request';
+import Search from "./search";
+import {SEARCH} from "../mixin/mixin";
 export default {
-  components: { Icon },
+  components: {Search, Icon },
   name:"mainpage",
+  mixins:[SEARCH],
   data(){
     return{
       username:this.$route.query.a,
@@ -72,6 +79,9 @@ export default {
     }
   },
   methods:{
+    search(){
+      console.log("1322312");
+    }
   },
   created() {
     // 设置暗色模式

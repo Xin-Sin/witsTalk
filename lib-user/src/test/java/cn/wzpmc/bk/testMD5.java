@@ -2,12 +2,6 @@ package cn.wzpmc.bk;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.jupiter.api.Test;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 
 /**
  * @Author xinxin
@@ -21,6 +15,7 @@ public class testMD5 {
         System.out.println("admin = " + admin);
         String bytes = DigestUtils.sha512Hex(admin);
         System.out.println("s = " + bytes);
+        System.out.println(1/0);
     }
 }
 //edbd881f1ee2f76ba0bd70fd184f87711be991a0401fd07ccd4b199665f00761afc91731d8d8ba6cbb188b2ed5bfb465b9f3d30231eb0430b9f90fe91d136648
