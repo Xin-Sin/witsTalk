@@ -1,10 +1,8 @@
 <template>
   <el-row :gutter="10" style="height: 80%">
     <el-col :span="20" style="height: 100%;">
-      <div id="chat">
-        {{text}}
-      </div>
-      <el-button :icon="button_icon" :type="button_type" @click="button_click" class="join_button">{{button_text}}</el-button>
+      <div id="chat"></div>
+      <el-button :icon="button_icon" :type="button_type" @click="joinButtonClick" class="join_button">{{button_text}}</el-button>
     </el-col>
     <!--    //展示在线人员-->
     <el-col :span="4" id="online-user">
@@ -22,73 +20,20 @@
 import {getAllUserOnline} from '@/components/axios/request';
 
 export default {
-  name: "voicechat",
+  name: "voiceChat",
   data() {
     return {
       administrator: [],
       user: [],
-      isJoin: true,
+      isJoin: false,
       button_text: "加入语音频道",
       button_icon: "el-icon-phone",
       button_type: "primary",
-      text: ""
     }
   },
-  methods:{
+  methods: {
     showError(err) {
       this.$message.error(err);
-    },
-    button_click(){
-      if(!this.isJoin){
-        console.log("exit")
-        this.exit();
-        this.button_text = "加入语音频道";
-        this.button_icon = "el-icon-phone";
-        this.button_type = "primary";
-        this.isJoin = true;
-      }else{
-        console.log("join")
-        this.join();
-        this.button_text = "退出语音频道";
-        this.button_icon = "el-icon-phone-outline";
-        this.button_type = "danger";
-        this.isJoin = false;
-      }
-    },
-    getVoiceData(data){
-      let left = data.inputBuffer.getChannelData(0);
-      this.text = left.toString();
-    },
-    join(){
-      navigator.mediaDevices.getUserMedia({ audio: true,})
-      .then((stream) => {
-        let context = new window.AudioContext();
-        let audioInput = context.createMediaStreamSource(stream);
-        let bufferSize = 512;
-        // create a javascript node
-        let recorder = context.createScriptProcessor(bufferSize, 1, 1);
-        // specify the processing function
-        recorder.onaudioprocess = this.getVoiceData;
-        // connect stream to our recorder
-        audioInput.connect(recorder);
-        // connect our recorder to the previous destination
-        recorder.connect(context.destination);
-        this.recoder = recorder;
-        }).catch((err) => {
-        console.log("voice chat error");
-        console.error(err);
-        this.showError(err);
-        console.log("exit")
-        this.exit();
-        this.button_text = "加入语音频道";
-        this.button_icon = "el-icon-phone";
-        this.button_type = "primary";
-        this.isJoin = true;
-      });
-    },
-    exit(){
-      this.isRecording = false;
-      this.recoder.disconnect();
     },
     getOnlineUser() {//获取所有在线用户并将其加入表中
       let administrator = [];
@@ -107,6 +52,29 @@ export default {
         this.user = user;
       }).catch(err => this.showError);
     },
+    joinButtonClick(){
+      if(this.isJoin){
+        console.log("exit")
+        this.exit();
+        this.button_text = "加入语音频道";
+        this.button_icon = "el-icon-phone";
+        this.button_type = "primary";
+        this.isJoin = false;
+      }else{
+        console.log("join")
+        this.join();
+        this.button_text = "退出语音频道";
+        this.button_icon = "el-icon-phone-outline";
+        this.button_type = "danger";
+        this.isJoin = true;
+      }
+    },
+    join(){
+
+    },
+    exit(){
+
+    }
   },
   created:function (){
     setInterval(this.getOnlineUser,5000);
