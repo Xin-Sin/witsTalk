@@ -1,6 +1,5 @@
 package cn.wzpmc;
 
-import cn.wzpmc.dao.ChatDao;
 import lombok.SneakyThrows;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;

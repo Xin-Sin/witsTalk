@@ -6,7 +6,7 @@ spring:
     password: witsTalk
     url: jdbc:mysql://wzpmc.cn:3306/witstalk?serverTimezone=UTC-8
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    druid配置
+    #    druid配置
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
     minIdle: 5
