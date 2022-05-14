@@ -43,7 +43,7 @@ export default new Router({
           ],
         },
         {
-          path: 'voicechat',
+          path: 'voiceChat',
           component: voicechat
         }
       ],

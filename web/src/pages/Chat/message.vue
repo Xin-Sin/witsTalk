@@ -34,7 +34,6 @@ export default {
     }
   },
   created() {
-
     if (this.Mdata.sender !==  this.username){
       this.Bstyle = "display:none;"
     }
@@ -43,6 +42,9 @@ export default {
 </script>
 
 <style >
+  #message{
+    margin: 10px;
+  }
   #message:hover{
     background: rgba(196,196,196,0.6);
     border-color: rgba(196,196,196,1);

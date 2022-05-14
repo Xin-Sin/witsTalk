@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.xinsin.Utils.ResponseData;
+import top.xinsin.Utils.ResultData;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Auther wzp
@@ -27,10 +29,10 @@ public class CheckController {
     UserService userService;
     public static HashMap<User, Date> checklist = new HashMap<>();
     @PostMapping("/user/api/check")
-    public String Check(@RequestBody User user){
+    public ResultData<Date> Check(@RequestBody User user){
         log.info("Check args:user=" + user);
         checklist.put(user,new Date());
         userService.setOnline(user);
-        return new ResponseData(checklist.get(user).toString()).toString();
+        return ResultData.success(checklist.get(user));
     }
 }
