@@ -11,6 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author wzp
+ * @date 2022/5/14
+ * @version 1.0
  */
 @Slf4j
 public class VoiceFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
@@ -18,12 +20,8 @@ public class VoiceFrameHandler extends SimpleChannelInboundHandler<TextWebSocket
      * 用于存储所有客户端的连接
      */
     public static ConcurrentHashMap<ChannelId, Channel> channels = new ConcurrentHashMap<>();
-    /**
-     * 用于存储所有已连接的客户端是否登陆
-     */
-    public static ConcurrentHashMap<ChannelId, Boolean> loginTable = new ConcurrentHashMap<>();
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame){
         /*
             当获取到消息时调用
          */

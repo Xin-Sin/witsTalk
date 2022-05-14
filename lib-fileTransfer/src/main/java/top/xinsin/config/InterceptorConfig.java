@@ -7,9 +7,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import top.xinsin.interceptor.AuthenticationInterceptor;
 
 /**
- * @Author xinxin
- * @Date 2022/1/21 22:14
- * @Version 1.0
+ * @author xinxin
+ * @date 2022/1/21 22:14
+ * @version 1.0
  */
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {

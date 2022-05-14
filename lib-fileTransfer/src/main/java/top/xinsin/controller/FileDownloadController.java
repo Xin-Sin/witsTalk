@@ -15,14 +15,17 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @Author xinxin
- * @Date 2022/1/2 15:09
- * @Version 1.0
+ * @author xinxin
+ * @date 2022/1/2 15:09
+ * @version 1.0
  */
 @RestController
 public class FileDownloadController {
+    private final FileDownloadService fileDownloadService;
     @Autowired
-    private FileDownloadService fileDownloadService;
+    public FileDownloadController(FileDownloadService fileDownloadService){
+        this.fileDownloadService = fileDownloadService;
+    }
     @GetMapping("/file/api/getName")
     public ResultData<String> getFileName(@RequestParam("md5") String md5){
         return fileDownloadService.getFileName(new FileObject(md5));
@@ -33,7 +36,7 @@ public class FileDownloadController {
         return fileDownloadService.getFile(md5,filename,token);
     }
     @PostMapping("/file/api/getAllFileNames")
-    public ResultData<List> getAllFileNames(){
+    public ResultData<List<?>> getAllFileNames(){
         return fileDownloadService.getAllFileNames();
     }
 }

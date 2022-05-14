@@ -10,14 +10,18 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * @Author xinxin
- * @Date 2021/12/14 14:07
- * @Version 1.0
+ * @author xinxin
+ * @date 2021/12/14 14:07
+ * @version 1.0
  */
 @RestController
 public class FileUpLoadController {
+    private final FileUpLoadService fileUpLoadService;
     @Autowired
-    FileUpLoadService fileUpLoadService;
+    public FileUpLoadController(FileUpLoadService fileUpLoadService) {
+        this.fileUpLoadService = fileUpLoadService;
+    }
+
     @PostMapping("/api/fileUpload")
     public ResultData<String> fileUpload(@RequestBody MultipartFile file) throws NoSuchAlgorithmException, IOException {
         return fileUpLoadService.fileUpload(file);

@@ -1,7 +1,6 @@
 package top.xinsin.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Results;
 import org.springframework.stereotype.Repository;
 import top.xinsin.pojo.User;
 
@@ -9,6 +8,8 @@ import java.util.ArrayList;
 
 /**
  * @author wzp
+ * @date 2022/5/14
+ * @version 1.0
  */
 @Repository
 public interface UserMapper {
