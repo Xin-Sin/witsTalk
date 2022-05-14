@@ -21,6 +21,7 @@ public class ResponseData {
     private String content;
     private Integer num;
     private HttpStatus Status;
+
     public ResponseData(JSONObject data){
         this.data = data;
         this.Status = HttpStatus.OK;

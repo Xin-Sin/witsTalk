@@ -6,7 +6,7 @@
         <message v-for="(item) in someMessage" :key="someMessage.id" ref="messages" v-bind:Mdata="item" v-bind:ws="websock" v-bind:allHead="headingTable"></message>
       </div>
       <t-textarea v-model="sender" placeholder="请输入要发送的内容" :maxcharacter="200"></t-textarea>
-      <el-button type="primary" style="float:right;" plain @click="submitMessage()">发送消息</el-button>
+      <el-button type="primary" style="float:right;" plain @click="submitMessage()" >发送消息</el-button>
     </el-col>
 <!--    //展示在线人员-->
     <el-col :span="4" id="online-user">
@@ -156,13 +156,6 @@ export default {
         this.administrator = administrator;
         this.user = user;
       }).catch(err => this.showError);
-    },
-    keyDown(event){
-      switch(event.keyCode){
-        case 13:
-          this.submitMessage();
-          break;
-      }
     },
   },
   created: function () {
