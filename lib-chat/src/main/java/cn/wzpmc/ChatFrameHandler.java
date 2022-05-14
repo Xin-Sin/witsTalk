@@ -1,9 +1,9 @@
 package cn.wzpmc;
 import cn.wzpmc.dao.ChatDao;
 import cn.wzpmc.pojo.Message;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONException;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,8 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author wzp
+ * @date 2022/5/14
+ * @version 1.0
  */
 @ChannelHandler.Sharable
 @Slf4j
@@ -43,7 +45,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         //日志
         log.debug("receive message {} ip = {} id = {}",data,channel.remoteAddress().toString(),id.asShortText());
         //将消息转换为json
-        JSONObject json = null;
+        JSONObject json;
         try{
             json = JSON.parseObject(data);
         }catch (JSONException e){
@@ -89,7 +91,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 String B64 = chatDao.getUserHeadPortrait(sender);
                 message.setBase64(B64);
                 //广播此消息
-                String Raw_JSON = JSONObject.toJSONString(message);
+                String Raw_JSON = JSON.toJSONString(message);
                 sendToAll(Raw_JSON);
             }//如果操作为getMessage
             else if(Objects.equals(operating,getMessageCommand)){
@@ -103,7 +105,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 ArrayList<Message> messages = chatDao.getMessage(min, max);
                 //todo 更改为双标查询获取头像
                 //将这些消息转换为json并返回给客户端
-                sendMessage(id,JSONObject.toJSONString(messages));
+                sendMessage(id,JSON.toJSONString(messages));
             }
             //如果操作为getMessageCount
             else if(Objects.equals(operating,getMessageCountCommand)){
@@ -121,7 +123,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 HashMap<String,String> resp = new HashMap<>(10);
                 resp.put("op","recall");
                 resp.put("id",String.valueOf(i));
-                sendToAll(JSONObject.toJSONString(resp));
+                sendToAll(JSON.toJSONString(resp));
             }
         }else{
             sendMessage(id,"You are not login!");

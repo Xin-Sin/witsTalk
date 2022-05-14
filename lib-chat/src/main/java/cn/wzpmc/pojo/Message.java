@@ -8,9 +8,10 @@ import java.util.Calendar;
 
 /**
  * @author wzp
+ * @date 2022/5/14
+ * @version 1.0
  */
 @Data
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
