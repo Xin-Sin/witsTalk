@@ -5,9 +5,9 @@ import lombok.Data;
 import top.xinsin.enums.Auth;
 
 /**
- * @Author xinxin
- * @Date 2022/1/16 21:46
- * @Version 1.0
+ * @author xinxin
+ * @date 2022/1/16 21:46
+ * @version 1.0
  */
 @Data
 @AllArgsConstructor
