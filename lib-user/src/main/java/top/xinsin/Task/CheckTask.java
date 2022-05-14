@@ -28,7 +28,7 @@ public class CheckTask {
     }
 
     @Scheduled(fixedRate=1000)
-    public void CheckTasks(){
+    public void checkTasks(){
         Date now = new Date();
         for (User user : checklist.keySet()) {
             Date time = checklist.get(user);

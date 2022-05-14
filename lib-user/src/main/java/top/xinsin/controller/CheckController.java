@@ -1,5 +1,6 @@
 package top.xinsin.controller;
 
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,7 @@ public class CheckController {
     }
     public static HashMap<User, Date> checklist = new HashMap<>();
     @PostMapping("/user/api/check")
-    public ResultData<Date> Check(@RequestBody User user){
+    public ResultData<Date> check(@RequestBody User user){
         log.info("Check args:user=" + user);
         checklist.put(user,new Date());
         userService.setOnline(user);

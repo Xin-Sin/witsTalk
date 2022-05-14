@@ -11,5 +11,9 @@ import top.xinsin.pojo.FileObject;
 
 @Repository
 public interface FileUploadMapper {
+    /**
+     * 上传文件
+     * @param fileObject 文件对象
+     */
     void addFile(FileObject fileObject);
 }

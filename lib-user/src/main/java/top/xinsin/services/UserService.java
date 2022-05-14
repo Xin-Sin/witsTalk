@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.xinsin.Utils.JWTTokenUtils;
+import top.xinsin.Utils.JwtTokenUtils;
 import top.xinsin.Utils.ResultData;
 import top.xinsin.Utils.SqlUtils;
 import top.xinsin.dao.UserMapper;
@@ -41,7 +41,7 @@ public class UserService {
             Map<String,String> payload = new HashMap<>(10);
             payload.put("id",String.valueOf(user1.getId()));
             payload.put("username",user1.getUsername());
-            String token = JWTTokenUtils.getToken(payload);
+            String token = JwtTokenUtils.getToken(payload);
             response.setHeader("token",token);
             response.setHeader("Access-Control-Expose-Headers","token");
             jsonObject.fluentPut("base64",user1.getBase64())
@@ -62,15 +62,13 @@ public class UserService {
         JSONObject jsonObject = SqlUtils.updateOperate(userMapper.changePassword(user));
         return ResultData.success(jsonObject);
     }
-    public ResultData<JSONObject> setOnline(User user){
-        JSONObject jsonObject = SqlUtils.updateOperate(userMapper.setOnline(user));
+    public void setOnline(User user){
+        SqlUtils.updateOperate(userMapper.setOnline(user));
         user.setOnline(1);
-        return ResultData.success(jsonObject);
     }
-    public ResultData<JSONObject> setOffline(User user){
-        JSONObject jsonObject = SqlUtils.updateOperate(userMapper.setOffline(user));
+    public void setOffline(User user){
+        SqlUtils.updateOperate(userMapper.setOffline(user));
         user.setOnline(0);
-        return ResultData.success(jsonObject);
     }
     public ResultData<String > setHeadPortrait(User user){
         User user1 = userMapper.setHeadPortrait(user);
