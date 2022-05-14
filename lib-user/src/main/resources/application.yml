@@ -1,5 +1,6 @@
 server:
   port: 8003
+
 spring:
   datasource:
     username: witstalk
@@ -29,4 +30,6 @@ spring:
   mybatis:
     mapper-locations: classpath:top/xinsin/dao/*Mapping.xml
     type-aliases-package: top.xinsin.dao
+    configuration:
+      map-underscore-to-camel-case: true
 
