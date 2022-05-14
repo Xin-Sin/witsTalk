@@ -11,11 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import top.xinsin.Utils.JWTTokenUtils;
 import top.xinsin.Utils.ResponseData;
+import top.xinsin.Utils.ResultData;
 import top.xinsin.dao.FileDownloadMapper;
 import top.xinsin.pojo.FileObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @Author xinxin
@@ -34,15 +36,15 @@ public class FileDownloadService {
     private String FileSaveFolder;//将其写入变量
 
     //获取原始文件名
-    public ResponseData getFileName(FileObject fileObject){
+    public ResultData<String> getFileName(FileObject fileObject){
         log.info("getFileName,args:{}",fileObject);
         String fileName = fileDownloadMapper.getFileName(fileObject);
-        return new ResponseData(fileName);
+        return ResultData.success(fileName);
     }
 
-    public ResponseData getAllFileNames(){
+    public ResultData<List> getAllFileNames(){
         log.info("getAllFileNames --> begin");
-        return new ResponseData(fileDownloadMapper.getAllFileNames());
+        return ResultData.success(fileDownloadMapper.getAllFileNames());
     }
 
     //下载

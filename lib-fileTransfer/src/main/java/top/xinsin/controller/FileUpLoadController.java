@@ -3,6 +3,7 @@ package top.xinsin.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import top.xinsin.Utils.ResultData;
 import top.xinsin.service.FileUpLoadService;
 
 import java.io.IOException;
@@ -18,8 +19,8 @@ public class FileUpLoadController {
     @Autowired
     FileUpLoadService fileUpLoadService;
     @PostMapping("/api/fileUpload")
-    public String fileUpload(@RequestBody MultipartFile file) throws NoSuchAlgorithmException, IOException {
-        return fileUpLoadService.fileUpload(file).toString();
+    public ResultData<String> fileUpload(@RequestBody MultipartFile file) throws NoSuchAlgorithmException, IOException {
+        return fileUpLoadService.fileUpload(file);
     }
     @GetMapping("/file/api/debug")
     public String debug(){
