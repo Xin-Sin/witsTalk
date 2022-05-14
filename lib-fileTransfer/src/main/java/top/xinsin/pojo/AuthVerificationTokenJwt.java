@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @AllArgsConstructor
 @Data
-public class AuthVerificationTokenJWT {
+public class AuthVerificationTokenJwt {
     private String id;
     private String exp;
     private String username;

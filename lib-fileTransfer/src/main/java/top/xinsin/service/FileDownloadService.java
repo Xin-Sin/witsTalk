@@ -9,7 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import top.xinsin.Utils.JWTTokenUtils;
+import top.xinsin.Utils.JwtTokenUtils;
 import top.xinsin.Utils.ResultData;
 import top.xinsin.dao.FileDownloadMapper;
 import top.xinsin.pojo.FileObject;
@@ -29,32 +29,49 @@ import java.util.List;
 public class FileDownloadService {
 
     private final FileDownloadMapper fileDownloadMapper;
-
-    @Value("${saveFolder}")//从Application.yml中读取上传文件存储的位置
-    private String FileSaveFolder;//将其写入变量
+    /**
+     * 文件保存目录
+     */
+    @Value("${saveFolder}")
+    private String fileSaveFolder;
     @Autowired
     public FileDownloadService(FileDownloadMapper fileDownloadMapper) {
         this.fileDownloadMapper = fileDownloadMapper;
     }
 
-    //获取原始文件名
+    /**
+     * 获取原始文件名
+     * @param fileObject 文件对象
+     * @return 原始文件名
+     */
     public ResultData<String> getFileName(FileObject fileObject){
         log.info("getFileName,args:{}",fileObject);
         String fileName = fileDownloadMapper.getFileName(fileObject);
         return ResultData.success(fileName);
     }
 
+    /**
+     * 获取所有文件名称
+     * @return 文件名称
+     */
     public ResultData<List<?>> getAllFileNames(){
         log.info("getAllFileNames --> begin");
         return ResultData.success(fileDownloadMapper.getAllFileNames());
     }
 
-    //下载
+    /**
+     * 下载文件
+     * @param md5 文件md5值
+     * @param filename 下载时的文件名
+     * @param token JWTToken
+     * @return 文件
+     * @throws IOException 当文件获取失败时抛出
+     */
     public ResponseEntity<InputStreamResource> getFile(String md5, String filename,String token) throws IOException {
         //验证token合法性
-        JWTTokenUtils.verify(token);
+        JwtTokenUtils.verify(token);
         log.info("getFile,md5={},filename={}",md5,filename);
-        FileSystemResource file = new FileSystemResource(FileSaveFolder + File.separator + md5);
+        FileSystemResource file = new FileSystemResource(fileSaveFolder + File.separator + md5);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", filename));

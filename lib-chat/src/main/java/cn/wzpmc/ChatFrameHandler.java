@@ -8,7 +8,7 @@ import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
-import top.xinsin.Utils.JWTTokenUtils;
+import top.xinsin.Utils.JwtTokenUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +66,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         String recallMessageCommand = "recall";
         //登录操作
         if(Objects.equals(operating, loginCommand)){
-            Boolean r = JWTTokenUtils.isRight(args.getString("token"));
+            Boolean r = JwtTokenUtils.isRight(args.getString("token"));
             log.debug("logon,r = {} ip = {} id = {}",r,channel.remoteAddress().toString(),id.asShortText());
             loginTable.put(id,r);
             sendMessage(id,r.toString());
@@ -88,11 +88,11 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 chatDao.sendMessage(message);
                 session.commit();
                 //获取用户头像
-                String B64 = chatDao.getUserHeadPortrait(sender);
-                message.setBase64(B64);
+                String b64 = chatDao.getUserHeadPortrait(sender);
+                message.setBase64(b64);
                 //广播此消息
-                String Raw_JSON = JSON.toJSONString(message);
-                sendToAll(Raw_JSON);
+                String rawJson = JSON.toJSONString(message);
+                sendToAll(rawJson);
             }//如果操作为getMessage
             else if(Objects.equals(operating,getMessageCommand)){
                 //获取id最小值
@@ -194,7 +194,6 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
          */
         for (Map.Entry<ChannelId, Channel> channelIdChannelEntry : channels.entrySet()) {
             ChannelId id = channelIdChannelEntry.getKey();
-            Channel channel = channelIdChannelEntry.getValue();
             sendMessage(id,msg);
         }
     }
