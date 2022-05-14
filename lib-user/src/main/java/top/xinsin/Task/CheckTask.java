@@ -13,16 +13,20 @@ import java.util.Date;
 import static top.xinsin.controller.CheckController.checklist;
 
 /**
- * @Auther wzp
- * @Date 2021/12/12 11:03
- * @Version 1.0
+ * @author wzp
+ * @date 2021/12/12 11:03
+ * @version 1.0
  */
 @Configuration
 @EnableScheduling
 @Slf4j
 public class CheckTask {
+    private final UserService userService;
     @Autowired
-    UserService userService;
+    public CheckTask(UserService userService) {
+        this.userService = userService;
+    }
+
     @Scheduled(fixedRate=1000)
     public void CheckTasks(){
         Date now = new Date();
