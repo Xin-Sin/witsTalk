@@ -70,10 +70,10 @@ export default {
         this.$message.info("正在登录,请稍后");
         Login({"username" : this.username, "password" : hex_md5(this.password)}).then(result => {
           console.log("login");
-          console.log(hex_md5("test"));
           if(result.data.data.canLogin){
             this.$message.success("登录成功，正在跳转");
-            this.$router.push({path:"/main",query:{"a":this.username}});
+            sessionStorage.setItem("username",this.username);
+            this.$router.push("/main");
           }else{
             this.$message.error("用户名或密码错误");
           }

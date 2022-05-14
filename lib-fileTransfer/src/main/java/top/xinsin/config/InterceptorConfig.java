@@ -21,6 +21,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getAuthenticationInterceptor()).
                 addPathPatterns("/**")      //拦截
-                .excludePathPatterns("/file/api/downloadFile");
+                .excludePathPatterns("/file/api/downloadFile")
+                .excludePathPatterns("/api/fileUpload");
     }
 }

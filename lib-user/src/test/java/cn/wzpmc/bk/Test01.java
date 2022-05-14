@@ -15,6 +15,10 @@ import java.security.MessageDigest;
  */
 public class Test01 {
     @Test
+    void Test02(){
+        System.out.println(System.getProperty("user.dir"));
+    }
+    @Test
     public void Test(){
         System.out.println(encrypt("341917112"));
     }

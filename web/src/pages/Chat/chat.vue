@@ -6,7 +6,7 @@
         <message v-for="(item) in someMessage" :key="someMessage.id" ref="messages" v-bind:Mdata="item" v-bind:ws="websock" v-bind:allHead="headingTable"></message>
       </div>
       <t-textarea v-model="sender" placeholder="请输入要发送的内容" :maxcharacter="200"></t-textarea>
-      <el-button type="primary" style="float:right;" plain @click="submitMessage()">发送消息</el-button>
+      <el-button type="primary" style="float:right;" plain @click="submitMessage()" >发送消息</el-button>
     </el-col>
 <!--    //展示在线人员-->
     <el-col :span="4" id="online-user">
@@ -24,9 +24,11 @@
 import {getAllUserOnline} from '@/components/axios/request';
 //使用组件式重构
 import message from "./message";
+import {SEARCH} from "@/mixin/mixin";
 
 export default {
   name: "chat",
+  mixins:[SEARCH],
   components:{
     message
   },
@@ -44,6 +46,9 @@ export default {
     }
   },
   methods: {
+    search(){
+      console.log("chat");
+    },
     showError(err) {
       this.$message.error(err);
     },
@@ -152,13 +157,6 @@ export default {
         this.user = user;
       }).catch(err => this.showError);
     },
-    keyDown(event){
-      switch(event.keyCode){
-        case 13:
-          this.submitMessage();
-          break;
-      }
-    },
   },
   created: function () {
     this.initWebSocket();//初始化websocket
@@ -173,7 +171,6 @@ export default {
   background: rgba(196,196,196,0.1);
   width: 100%;
   height: 95%;
-  border-radius: 30px;
   margin-bottom: 20px;
   overflow-y:scroll;
   overflow-x:scroll;
