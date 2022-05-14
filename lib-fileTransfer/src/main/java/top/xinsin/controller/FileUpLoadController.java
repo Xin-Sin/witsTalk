@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 public class FileUpLoadController {
     @Autowired
     FileUpLoadService fileUpLoadService;
-    @PostMapping("/file/api/fileUpload")
+    @PostMapping("/api/fileUpload")
     public String fileUpload(@RequestBody MultipartFile file) throws NoSuchAlgorithmException, IOException {
         return fileUpLoadService.fileUpload(file).toString();
     }
