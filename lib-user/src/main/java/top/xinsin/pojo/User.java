@@ -3,25 +3,24 @@ package top.xinsin.pojo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.apache.ibatis.annotations.Result;
 import top.xinsin.enums.Auth;
 
 /**
- * @Auther wzp
- * @Date 2021/12/11 20:09
- * @Version 1.0
+ * @author wzp
+ * @date 2021/12/11 20:09
+ * @version 1.0
  */
 
-//Entity User
 @Data
 @Accessors(chain = true)
 public class User {
-
     private int id;
     private String username;
     private String password;
     private Auth auth;
     private int online;
-    private String last_login;
+    private String lastLogin;
     private String base64;
 
     public User(){

@@ -1,6 +1,7 @@
 package top.xinsin.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Results;
 import org.springframework.stereotype.Repository;
 import top.xinsin.pojo.User;
 

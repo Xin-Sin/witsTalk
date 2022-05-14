@@ -2,6 +2,7 @@ package top.xinsin.enums;
 
 public enum HttpCodes {
     HTTP_CODES200(200,"接口一不小心执行成功啦!"),
+
     HTTP_CODES500(500,"哎呀,错误了请节哀!"),
     HTTP_CODES501(501,"帐号或密码错误!"),
     INVALID_TOKEN(250,"令牌验证错误"),
