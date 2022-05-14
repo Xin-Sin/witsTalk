@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.xinsin.Utils.FileUtils;
 import top.xinsin.Utils.ResponseData;
+import top.xinsin.Utils.ResultData;
 import top.xinsin.dao.FileUploadMapper;
+import top.xinsin.enums.HttpCodes;
 import top.xinsin.pojo.FileObject;
 
 import java.io.File;
@@ -40,9 +42,9 @@ public class FileUpLoadService {
      * @return
      */
 
-    public ResponseData fileUpload(MultipartFile file) throws NoSuchAlgorithmException, IOException {
+    public ResultData<String> fileUpload(MultipartFile file) throws NoSuchAlgorithmException, IOException {
         if(file.isEmpty()){
-            return new ResponseData(HttpStatus.BAD_REQUEST);
+            return ResultData.failed(HttpCodes.HTTP_CODES401,"文件是空的");
         }
         log.info("starting saving");
         String originalFilename = file.getOriginalFilename();//获取原始文件名
@@ -71,6 +73,6 @@ public class FileUpLoadService {
             log.info("Sanded");
             log.info("fileUpload done");
         }
-        return new ResponseData(md5);
+        return ResultData.success(md5);
     }
 }
