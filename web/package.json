@@ -17,6 +17,7 @@
     "element-ui": "^2.15.6",
     "js-md5": "^0.7.3",
     "recorder-js": "^1.0.7",
+    "simple-peer": "^9.11.1",
     "tdesign-icons-vue": "^0.0.8",
     "tdesign-vue": "^0.33.2",
     "vue": "2.6.14",
