@@ -1,13 +1,11 @@
 package top.xinsin.services;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.ibatis.jdbc.SQL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.xinsin.Utils.JWTTokenUtils;
-import top.xinsin.Utils.ResponseData;
 import top.xinsin.Utils.ResultData;
 import top.xinsin.Utils.SqlUtils;
 import top.xinsin.dao.UserMapper;
@@ -15,21 +13,23 @@ import top.xinsin.enums.HttpCodes;
 import top.xinsin.pojo.User;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @Auther wzp
- * @Date 2021/12/11 21:21
- * @Version 1.0
+ * @author wzp
+ * @date 2021/12/11 21:21
+ * @version 1.0
  */
 @Service
 @Slf4j
 public class UserService {
+    private final UserMapper userMapper;
     @Autowired
-    UserMapper userMapper;
+    public UserService(UserMapper userMapper){
+        this.userMapper = userMapper;
+    }
     public ResultData<JSONObject> canLogin(User user, HttpServletResponse response){
         log.info("canLogin args:user=" + user);
         JSONObject jsonObject = new JSONObject();
@@ -38,16 +38,16 @@ public class UserService {
         user.setPassword(sha512Hex);
         User user1 = userMapper.canLogin(user);
         if (user1 != null){
-            Map<String,String> payload = new HashMap<>();
+            Map<String,String> payload = new HashMap<>(10);
             payload.put("id",String.valueOf(user1.getId()));
             payload.put("username",user1.getUsername());
             String token = JWTTokenUtils.getToken(payload);
             response.setHeader("token",token);
             response.setHeader("Access-Control-Expose-Headers","token");
-            jsonObject.put("base64",user1.getBase64());
-            jsonObject.put("canLogin",true);
+            jsonObject.fluentPut("base64",user1.getBase64())
+                    .fluentPut("canLogin",true);
         }else{
-            jsonObject.put("canLogin",false);
+            jsonObject.fluentPut("canLogin",false);
             return ResultData.failed(HttpCodes.HTTP_CODES501,jsonObject);
         }
         return ResultData.success(jsonObject);

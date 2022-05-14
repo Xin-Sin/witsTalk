@@ -27,6 +27,6 @@
         select `base64` from user where `username`=#{username};
     </select>
     <select id="getOnlineUser" resultType="top.xinsin.pojo.User">
-        SELECT * from user WHERE `online`=1;
+        SELECT last_login from user WHERE `online`=1;
     </select>
 </mapper>
