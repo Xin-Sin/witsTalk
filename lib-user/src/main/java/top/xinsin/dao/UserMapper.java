@@ -23,24 +23,28 @@ public interface UserMapper {
     /**
      * add a new user to db
      * @param user user need to add
+     * @return 影响行数
      */
     int addUser(User user);
 
     /**
      * changeUser's password
      * @param user user with new password
+     * @return 影响行数
      */
     int changePassword(User user);
 
     /**
      * set a user's status to online
      * @param user user need to online
+     * @return 影响行数
      */
     int setOnline(User user);
 
     /**
      * set a user's status to offline
      * @param user user need to offline
+     * @return 影响行数
      */
     int setOffline(User user);
 

@@ -12,6 +12,16 @@ import java.util.ArrayList;
  */
 @Repository
 public interface FileDownloadMapper {
+    /**
+     * 获取原始文件名称
+     * @param fileObject 文件对象
+     * @return 文件名称
+     */
     String getFileName(FileObject fileObject);
+
+    /**
+     * 获取所有文件的名称
+     * @return 文件名称列表
+     */
     ArrayList<FileObject> getAllFileNames();
 }

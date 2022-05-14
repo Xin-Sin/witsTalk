@@ -6,7 +6,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.http.HttpStatus;
-import top.xinsin.Utils.JWTTokenUtils;
+import top.xinsin.Utils.JwtTokenUtils;
 import top.xinsin.Utils.ResponseData;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,21 +19,22 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 public class AuthenticationInterceptor implements HandlerInterceptor  {
+    public static final String OPTIONS = "OPTIONS";
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 这个！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-        // options给post方法探路 不要拦截options方法
-        // 拦截就会出大问题
-        if (request.getMethod().equals("OPTIONS")) {
+
+        if (OPTIONS.equals(request.getMethod())) {
             return true;
         }
         // 从http请求头中取出token
         final String token = request.getHeader("Access-Token");
-        response.setHeader("Access-Control-Allow-Origin","*");//解决跨域问题
-        response.setHeader("Access-Control-Allow-Headers","*");//解决跨域问题
+        //解决跨域问题
+        response.setHeader("Access-Control-Allow-Origin","*");
+        //解决跨域问题
+        response.setHeader("Access-Control-Allow-Headers","*");
         ResponseData responseData;
         try {
-            JWTTokenUtils.verify(token);
+            JwtTokenUtils.verify(token);
             return true;
         } catch (SignatureVerificationException e) {
             log.info("用户验证了无效签名");

@@ -31,8 +31,11 @@ public class FileUpLoadService {
     final
     FileUploadMapper fileUploadMapper;
 
-    @Value("${saveFolder}")//从Application.yml中读取上传文件存储的位置
-    private String FileSaveFolder;//将其写入变量
+    /**
+     * 文件保存的目录
+     */
+    @Value("${saveFolder}")
+    private String fileSaveFolder;
     @Autowired
     public FileUpLoadService(FileUploadMapper fileUploadMapper) {
         this.fileUploadMapper = fileUploadMapper;
@@ -49,29 +52,43 @@ public class FileUpLoadService {
             return ResultData.failed(HttpCodes.HTTP_CODES401,"文件是空的");
         }
         log.info("starting saving");
-        String originalFilename = file.getOriginalFilename();//获取原始文件名
-        InputStream input =  file.getInputStream();//获取文件的InputStream
-        String savePath = FileSaveFolder + File.separator + originalFilename; //拼接文件保存路径
-        File file1 = new File(savePath);//获取文件对象
-        FileOutputStream out = new FileOutputStream(file1);//获取磁盘中的文件的OutputStream
-        IOUtils.copy(input,out);//使用IOUtils来复制
-        String md5 = FileUtils.calcMD5(file1);//计算磁盘中文件的md5
+        //获取原始文件名
+        String originalFilename = file.getOriginalFilename();
+        //获取文件的InputStream
+        InputStream input =  file.getInputStream();
+        //拼接文件保存路径
+        String savePath = fileSaveFolder + File.separator + originalFilename;
+        //获取文件对象
+        File file1 = new File(savePath);
+        //获取磁盘中的文件的OutputStream
+        FileOutputStream out = new FileOutputStream(file1);
+        //使用IOUtils来复制
+        IOUtils.copy(input,out);
+        //计算磁盘中文件的md5
+        String md5 = FileUtils.calcMd5(file1);
         log.info("fileSaved,SavedName:{},md5:{}",savePath,md5);
-        input.close();//关闭输入流
-        out.close();//关闭输出流
-        System.gc();//清除缓存
+        //关闭输入流
+        input.close();
+        //关闭输出流
+        out.close();
+        //清除缓存
+        System.gc();
         log.info("closeIOStream");
         log.info("fileRename to {}",md5);
-        String newSavePath = FileSaveFolder + File.separator + md5;//获取使用md5拼接的文件名
+        //获取使用md5拼接的文件名
+        String newSavePath = fileSaveFolder + File.separator + md5;
         File newFile = new File(newSavePath);
         if(newFile.exists()){
             log.info("fileExists!");
         }else{
-            boolean b = file1.renameTo(newFile);//将磁盘中的文件重命名
+            //将磁盘中的文件重命名
+            boolean b = file1.renameTo(newFile);
             log.info("fileRenamed,Succeed:{}",b);
             log.info("Sending to database");
-            FileObject fileObject = new FileObject(originalFilename,file.getSize(),md5);//新建FileObject
-            fileUploadMapper.addFile(fileObject);//上传数据库
+            //新建FileObject
+            FileObject fileObject = new FileObject(originalFilename,file.getSize(),md5);
+            //上传数据库
+            fileUploadMapper.addFile(fileObject);
             log.info("Sanded");
             log.info("fileUpload done");
         }

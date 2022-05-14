@@ -19,8 +19,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(getAuthenticationInterceptor()).
-                addPathPatterns("/**")      //拦截
+        registry.addInterceptor(getAuthenticationInterceptor())
+                //拦截
+                .addPathPatterns("/**")
                 .excludePathPatterns("/file/api/downloadFile")
                 .excludePathPatterns("/api/fileUpload");
     }

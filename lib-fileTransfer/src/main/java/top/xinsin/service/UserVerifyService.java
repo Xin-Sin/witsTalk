@@ -3,7 +3,7 @@ package top.xinsin.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.xinsin.dao.UserVerifyMapper;
-import top.xinsin.pojo.AuthVerificationTokenJWT;
+import top.xinsin.pojo.AuthVerificationTokenJwt;
 
 /**
  * @author xinxin
@@ -18,7 +18,7 @@ public class UserVerifyService {
         this.userVerifyMapper = userVerifyMapper;
     }
 
-    public boolean userVerify(AuthVerificationTokenJWT authVerificationTokenJWT){
-        return userVerifyMapper.userVerify(authVerificationTokenJWT) == 1;
+    public boolean userVerify(AuthVerificationTokenJwt authVerificationTokenJwt){
+        return userVerifyMapper.userVerify(authVerificationTokenJwt) == 1;
     }
 }

@@ -5,5 +5,12 @@ package top.xinsin.enums;
  * @version 1.0
  */
 public enum MessageTypes {
-    text,img
+    /**
+     * 文本消息
+     */
+    text,
+    /**
+     * 图片消息
+     */
+    img
 }

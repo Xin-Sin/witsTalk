@@ -1,7 +1,7 @@
 package top.xinsin.dao;
 
 import org.springframework.stereotype.Repository;
-import top.xinsin.pojo.AuthVerificationTokenJWT;
+import top.xinsin.pojo.AuthVerificationTokenJwt;
 
 /**
  * @author xinxin
@@ -10,5 +10,10 @@ import top.xinsin.pojo.AuthVerificationTokenJWT;
  */
 @Repository
 public interface UserVerifyMapper {
-    Integer userVerify(AuthVerificationTokenJWT authVerificationTokenJWT);
+    /**
+     * 用户验证映射
+     * @param authVerificationTokenJwt 用户的JWTToken
+     * @return 用户是否在线
+     */
+    Integer userVerify(AuthVerificationTokenJwt authVerificationTokenJwt);
 }

@@ -6,5 +6,12 @@ package top.xinsin.enums;
  * @version 1.0
  */
 public enum Auth {
-    admin,user
+    /**
+     * 管理员
+     */
+    admin,
+    /**
+     * 普通用户
+     */
+    user
 }
