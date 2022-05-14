@@ -6,14 +6,17 @@ import top.xinsin.dao.UserVerifyMapper;
 import top.xinsin.pojo.AuthVerificationTokenJWT;
 
 /**
- * @Author xinxin
- * @Date 2022/1/22 9:21
- * @Version 1.0
+ * @author xinxin
+ * @date 2022/1/22 9:21
+ * @version 1.0
  */
 @Service
 public class UserVerifyService {
+    private final UserVerifyMapper userVerifyMapper;
     @Autowired
-    private UserVerifyMapper userVerifyMapper;
+    public UserVerifyService(UserVerifyMapper userVerifyMapper) {
+        this.userVerifyMapper = userVerifyMapper;
+    }
 
     public boolean userVerify(AuthVerificationTokenJWT authVerificationTokenJWT){
         return userVerifyMapper.userVerify(authVerificationTokenJWT) == 1;

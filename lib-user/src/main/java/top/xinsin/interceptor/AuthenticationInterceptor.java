@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Author xinxin
- * @Date 2021/12/12 19:17
- * @Version 1.0
+ * @author xinxin
+ * @date 2021/12/12 19:17
+ * @version 1.0
  */
 @Slf4j
 public class AuthenticationInterceptor implements HandlerInterceptor  {

@@ -4,11 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.xinsin.Utils.FileUtils;
-import top.xinsin.Utils.ResponseData;
 import top.xinsin.Utils.ResultData;
 import top.xinsin.dao.FileUploadMapper;
 import top.xinsin.enums.HttpCodes;
@@ -21,25 +19,29 @@ import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * @Author xinxin
- * @Date 2021/12/18 13:40
- * @Version 1.0
+ * @author xinxin
+ * @date 2021/12/18 13:40
+ * @version 1.0
  */
 
 @Service
 @Slf4j
 public class FileUpLoadService {
 
-    @Autowired
+    final
     FileUploadMapper fileUploadMapper;
 
     @Value("${saveFolder}")//从Application.yml中读取上传文件存储的位置
     private String FileSaveFolder;//将其写入变量
+    @Autowired
+    public FileUpLoadService(FileUploadMapper fileUploadMapper) {
+        this.fileUploadMapper = fileUploadMapper;
+    }
 
     /**
      * 上传文件服务
      * @param file 文件
-     * @return
+     * @return 是否成功
      */
 
     public ResultData<String> fileUpload(MultipartFile file) throws NoSuchAlgorithmException, IOException {
