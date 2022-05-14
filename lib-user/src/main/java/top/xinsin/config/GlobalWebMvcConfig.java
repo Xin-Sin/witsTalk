@@ -5,9 +5,9 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @Auther wzp
- * @Date 2021/12/11 21:59
- * @Version 1.0
+ * @author wzp
+ * @date 2021/12/11 21:59
+ * @version 1.0
  * mvn配置
  */
 

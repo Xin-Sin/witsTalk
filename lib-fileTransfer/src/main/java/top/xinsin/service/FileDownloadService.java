@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import top.xinsin.Utils.JWTTokenUtils;
-import top.xinsin.Utils.ResponseData;
 import top.xinsin.Utils.ResultData;
 import top.xinsin.dao.FileDownloadMapper;
 import top.xinsin.pojo.FileObject;
@@ -20,20 +19,23 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @Author xinxin
- * @Date 2022/1/2 15:14
- * @Version 1.0
+ * @author xinxin
+ * @date 2022/1/2 15:14
+ * @version 1.0
  */
 
 @Service
 @Slf4j
 public class FileDownloadService {
 
-    @Autowired
-    private FileDownloadMapper fileDownloadMapper;
+    private final FileDownloadMapper fileDownloadMapper;
 
     @Value("${saveFolder}")//从Application.yml中读取上传文件存储的位置
     private String FileSaveFolder;//将其写入变量
+    @Autowired
+    public FileDownloadService(FileDownloadMapper fileDownloadMapper) {
+        this.fileDownloadMapper = fileDownloadMapper;
+    }
 
     //获取原始文件名
     public ResultData<String> getFileName(FileObject fileObject){
@@ -42,7 +44,7 @@ public class FileDownloadService {
         return ResultData.success(fileName);
     }
 
-    public ResultData<List> getAllFileNames(){
+    public ResultData<List<?>> getAllFileNames(){
         log.info("getAllFileNames --> begin");
         return ResultData.success(fileDownloadMapper.getAllFileNames());
     }

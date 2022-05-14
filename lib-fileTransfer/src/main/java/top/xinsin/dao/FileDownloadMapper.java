@@ -6,9 +6,9 @@ import top.xinsin.pojo.FileObject;
 import java.util.ArrayList;
 
 /**
- * @Author xinxin
- * @Date 2021/12/23 19:07
- * @Version 1.0
+ * @author xinxin
+ * @date 2021/12/23 19:07
+ * @version 1.0
  */
 @Repository
 public interface FileDownloadMapper {

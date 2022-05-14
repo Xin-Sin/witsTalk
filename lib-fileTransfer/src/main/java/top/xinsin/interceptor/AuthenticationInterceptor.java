@@ -1,7 +1,6 @@
 package top.xinsin.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.alibaba.fastjson2.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,12 @@ import top.xinsin.service.UserVerifyService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
+import java.nio.charset.StandardCharsets;
 
 /**
- * @Author xinxin
- * @Date 2022/1/21 22:16
- * @Version 1.0
+ * @author xinxin
+ * @date 2022/1/21 22:16
+ * @version 1.0
  */
 @Component
 @Slf4j
@@ -46,11 +45,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         DecodedJWT tokenInfo = JWTTokenUtils.getTokenInfo(token);
         try {
             //解析token
-            data = new String(new BASE64Decoder().decodeBuffer(tokenInfo.getPayload()),"UTF-8");
+            data = new String(new BASE64Decoder().decodeBuffer(tokenInfo.getPayload()), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
         //查找json字符串中的结尾 并取下标将其分割
+        assert data != null;
         data = data.substring(0,data.indexOf("}",39) + 1);
 //        获取实体类对象
         AuthVerificationTokenJWT authVerificationTokenJWT = JSONObject.parseObject(data, AuthVerificationTokenJWT.class);

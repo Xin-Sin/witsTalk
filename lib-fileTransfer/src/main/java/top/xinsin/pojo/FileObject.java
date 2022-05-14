@@ -7,9 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @Auther wzp
- * @Date 2021/12/24 14:48
- * @Version 1.0
+ * @author wzp
+ * @date 2021/12/24 14:48
+ * @version 1.0
  */
 @Data
 @AllArgsConstructor

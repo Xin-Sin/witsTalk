@@ -9,9 +9,9 @@ import java.util.Calendar;
 import java.util.Map;
 
 /**
- * @Author xinxin
- * @Date 2021/12/12 20:42
- * @Version 1.0
+ * @author xinxin
+ * @date 2021/12/12 20:42
+ * @version 1.0
  */
 public class JWTTokenUtils {
     private static final String KEY = "G%k7H4lK;D1@L87Kio8j^ns56lJ68";
@@ -24,12 +24,9 @@ public class JWTTokenUtils {
         //创建jwt builder
         JWTCreator.Builder builder = JWT.create();
         //payload
-        map.forEach((k,v)->{
-            builder.withClaim(k,v);
-        });
-        String token = builder.withExpiresAt(instance.getTime()) // 指定令牌过期时间
+        map.forEach(builder::withClaim);
+        return builder.withExpiresAt(instance.getTime()) // 指定令牌过期时间
                 .sign(Algorithm.HMAC512(KEY));
-        return token;
     }
     /*
     * 验证token合法性
