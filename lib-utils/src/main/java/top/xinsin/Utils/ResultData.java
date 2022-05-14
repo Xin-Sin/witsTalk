@@ -3,6 +3,12 @@ package top.xinsin.Utils;
 import lombok.Data;
 import top.xinsin.enums.HttpCodes;
 
+/**
+ * @author xinsin
+ * @version 1.0
+ * @date 2022/5/14
+ * @param <T> 返回值类型
+ */
 @Data
 public class ResultData<T> {
     private int status;

@@ -9,15 +9,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * @Auther wzp
- * @Date 2022/1/2 11:32
- * @Version 1.0
+ * @author wzp
+ * @date 2022/1/2 11:32
+ * @version 1.0
  */
 public class FileUtils {
     private static final char[] hexCode = "0123456789ABCDEF".toCharArray();
     /**
      * 计算文件 MD5
-     * @param file
      * @return 返回文件的md5字符串，如果计算过程中任务的状态变为取消或暂停，返回null， 如果有其他异常，返回空字符串
      */
     public static String calcMD5(File file) throws IOException, NoSuchAlgorithmException {
