@@ -64,6 +64,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         String getMessageCommand = "get";
         String getMessageCountCommand = "count";
         String recallMessageCommand = "recall";
+        String heartCheckCommand = "heartCheck";
         //登录操作
         if(Objects.equals(operating, loginCommand)){
             Boolean r = JwtTokenUtils.isRight(args.getString("token"));
@@ -72,6 +73,10 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
             sendMessage(id,r.toString());
         }else if(loginTable.get(id)){
             //业务逻辑
+//            如果为心跳包，则返回pong
+            if (Objects.equals(operating,heartCheckCommand)){
+                sendHeartCheckPong(id);
+            }
             //如果操作为send
             if(Objects.equals(operating, sendCommand)){
                 //获取发送者
@@ -214,5 +219,10 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         //将消息内容转为TextWebSocketFrame格式并发送
         channel.writeAndFlush(new TextWebSocketFrame(msg.toString()));
         log.info("send message to ip = {} id = {}",channel.remoteAddress(),id.asShortText());
+    }
+    public static void sendHeartCheckPong(ChannelId id){
+        Channel channel = channels.get(id);
+        //将消息内容转为TextWebSocketFrame格式并发送
+        channel.writeAndFlush(new TextWebSocketFrame("{\"heartCheck\": \"pong\"}"));
     }
 }

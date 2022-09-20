@@ -6,10 +6,10 @@
 - method:`post`
 - requestParameter:
 
-| 参数名称 | 是否必须 | 注释   |
-| -------- | -------- | ------ |
-| username | √        | 用户名 |
-| password | √        | 密码   |
+| 参数名称     | 是否必须 | 注释  |
+|----------|------|-----|
+| username | √    | 用户名 |
+| password | √    | 密码  |
 
 - example:
 
