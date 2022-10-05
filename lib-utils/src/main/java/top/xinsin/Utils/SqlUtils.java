@@ -1,11 +1,11 @@
-package top.xinsin.Utils;
+package top.xinsin.utils;
 
 import com.alibaba.fastjson2.JSONObject;
 
 /**
  * @author xinsin
  * @version 1.0.0
- * @date 2022/5/14
+ * Created On 2022/5/14
  */
 public class SqlUtils {
     public static JSONObject insertOperate(int i){

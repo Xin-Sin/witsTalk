@@ -4,9 +4,17 @@ out
 *.class
 *.iml
 web/node_modules
-nginx-1.20.2/nginx.exe
-nginx-1.20.2/temp
-nginx-1.20.2/logs
-nginx-1.20.2/docs
-nginx-1.20.2/contrib
+nginx/nginx.exe
+nginx/temp
+nginx/logs
+nginx/docs
+nginx/contrib
+nginx/auto
+nginx/man
+nginx/src
+nginx/CHANGES
+nginx/CHANGES.ru
+nginx/configure
+nginx/LICENSE
+nginx/README
 

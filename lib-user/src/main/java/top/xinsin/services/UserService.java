@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.xinsin.Utils.JwtTokenUtils;
-import top.xinsin.Utils.ResultData;
-import top.xinsin.Utils.SqlUtils;
 import top.xinsin.dao.UserMapper;
 import top.xinsin.enums.HttpCodes;
 import top.xinsin.pojo.User;
+import top.xinsin.utils.JwtTokenUtils;
+import top.xinsin.utils.ResultData;
+import top.xinsin.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * @author wzp
- * @date 2021/12/11 21:21
+ * Created On 2021/12/11 21:21
  * @version 1.0
  */
 @Service

@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author xinxin
- * @date 2021/12/14 14:00
+ * Created On 2021/12/14 14:00
  * @version 1.0
  */
 @MapperScan("top.xinsin.dao")

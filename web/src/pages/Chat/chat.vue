@@ -38,14 +38,23 @@ export default {
       user: [],
       sender: "",
       headingTable: {},
-      username: this.$route.query.a,
+      username: sessionStorage.getItem("username"),
       wsConnect: null,
       messageCount: null,
       token: window.localStorage.getItem("token"),
       someMessage:[],
+      websock: null,
+      heartCheck: null
     }
   },
   methods: {
+    heartCheckPing(){
+      let ping = {"op": "heartCheck", "args": {"content": "ping"}}
+      this.webSocketSendData(JSON.stringify(ping));
+      console.log("ping")
+    },
+    heartCheckStart(){
+    },
     search(){
       console.log("chat");
     },
@@ -57,6 +66,7 @@ export default {
     },
     webSocketClose(e) {  //关闭
       console.log('websocket connect close', e);
+      clearInterval(this.heartCheck);
     },
     initWebSocket() { //初始化websocket
       this.websock = new WebSocket("ws://127.0.0.1:8080/chat");
@@ -68,6 +78,7 @@ export default {
     webSocketConnection() {
       let loginData = {"op": "login", "args": {"token": this.token}};
       this.webSocketSendData(JSON.stringify(loginData))
+      this.heartCheck = setInterval(this.heartCheckPing,1000 * 59)
     },
     submitMessage() {//发送消息
       console.log(this.username);
@@ -83,9 +94,9 @@ export default {
       const data = e.data;
       if (this.in_(data, ".") && this.in_(data, "/") && this.in_(data, "connected!")) {
         /*已连接*/
-        console.log(data);
       } else if (data === "true" || data === "false") {
         //登录消息返回
+        console.log(data);
         if (data === "true") {
           console.log("wsLogin!");
           let sendData = {"op": "count"}
@@ -105,6 +116,10 @@ export default {
       }else{
         try{
           let jsonData = JSON.parse(data);
+          if (jsonData.heartCheck === "pong"){
+            console.log("pong")
+            return;
+          }
           if (Array.isArray(jsonData)) {
             //全部消息
             this.someMessage = jsonData;
@@ -125,8 +140,7 @@ export default {
               this.someMessage.push(jsonData);
             }
           }
-        }
-        catch (SyntaxError){
+        } catch (SyntaxError){
           this.showError("JSON data has SyntaxError,data=" + data)
         }
       }
@@ -168,7 +182,8 @@ export default {
 
 <style scoped>
 #message1{
-  background: rgba(196,196,196,0.1);
+  /*background: rgba(196,196,196,0.1);*/
+  background-color: #f3f3f3;
   width: 100%;
   height: 95%;
   margin-bottom: 20px;

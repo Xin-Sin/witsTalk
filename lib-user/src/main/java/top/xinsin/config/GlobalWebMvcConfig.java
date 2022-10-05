@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author wzp
- * @date 2021/12/11 21:59
+ * Created On 2021/12/11 21:59
  * @version 1.0
  * mvn配置
  */

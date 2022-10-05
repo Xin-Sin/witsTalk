@@ -1,21 +1,20 @@
 package top.xinsin.controller;
 
-import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import top.xinsin.Utils.ResultData;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
+import top.xinsin.utils.ResultData;
 
 import java.util.Date;
 import java.util.HashMap;
 
 /**
  * @author wzp
- * @date 2021/12/12 10:49
+ * Created On 2021/12/12 10:49
  * @version 1.0
  */
 @RestController

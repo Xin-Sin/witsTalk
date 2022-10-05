@@ -1,8 +1,5 @@
 <template>
   <div id="message">
-    <div class="Recall_button" :style="Bstyle">
-      <el-button class="rb" @click="recall">撤回这条消息</el-button>
-    </div>
     <div class="t-comment__inner">
       <div class="t-comment__avatar">
         <img :src="'data:image/jpg;base64,' + Mdata.base64" alt="" class="t-comment__avatar-image" style="margin-left:10%">
@@ -12,7 +9,15 @@
           <span class="t-comment__name">{{Mdata.sender}}</span>
           <span class="t-comment__time">{{Mdata.sendtime}}</span>
         </div>
-        <div class="t-comment__detail">{{Mdata.content}}</div>
+        <div class="t-comment__detail">
+          <el-popover
+            placement="top"
+            width="500">
+            <el-button @click="recall">撤回</el-button>
+            <el-button>设为精华信息</el-button>
+            <el-button slot="reference" type="text" class="content">{{Mdata.content}}</el-button>
+          </el-popover>
+        </div>
       </div>
     </div>
   </div>
@@ -25,11 +30,13 @@ export default {
   data(){
     return {
       Bstyle:"",
-      username:this.$route.query.a,
+      username:sessionStorage.getItem("username"),
+      visible:false
     }
   },
   methods:{
     recall(){
+      console.log(this.Mdata.id)
       this.ws.send(JSON.stringify({"op":"recall","args":{"id":this.Mdata.id}}))
     }
   },
@@ -41,7 +48,13 @@ export default {
 }
 </script>
 
-<style >
+<style scoped>
+  .content{
+    color: rgba(0, 0, 0, 0.99);
+    font-size: 15px;
+    padding: 0 !important;
+    font-family: "JetBrains Mono",sans-serif;
+  }
   #message{
     margin: 10px;
   }
@@ -53,14 +66,5 @@ export default {
   .t-comment__inner{
     /* border: solid sandybrown 1px; */
     line-height: 200%;
-  }
-  .Recall_button{
-    float:right;
-    size:64px 64px;
-    margin-top: 10px;
-    margin-right: 10px;
-  }
-  .rb{
-    margin:0 auto;
   }
 </style>

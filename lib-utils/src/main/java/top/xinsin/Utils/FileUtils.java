@@ -1,4 +1,4 @@
-package top.xinsin.Utils;
+package top.xinsin.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * @author wzp
- * @date 2022/1/2 11:32
+ * Created On 2022/1/2 11:32
  * @version 1.0
  */
 public class FileUtils {
