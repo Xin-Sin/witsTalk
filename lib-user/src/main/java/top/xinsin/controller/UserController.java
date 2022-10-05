@@ -3,16 +3,16 @@ package top.xinsin.controller;
 import com.alibaba.fastjson2.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import top.xinsin.Utils.ResultData;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
+import top.xinsin.utils.ResultData;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
  * @author xinxin
- * @date 2021/12/11 18:06
+ * Created On 2021/12/11 18:06
  * @version 1.0
  */
 @RestController

@@ -1,4 +1,4 @@
-package top.xinsin.Task;
+package top.xinsin.tasks;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import static top.xinsin.controller.CheckController.checklist;
 
 /**
  * @author wzp
- * @date 2021/12/12 11:03
+ * Created On 2021/12/12 11:03
  * @version 1.0
  */
 @Configuration
@@ -22,17 +22,18 @@ import static top.xinsin.controller.CheckController.checklist;
 @Slf4j
 public class CheckTask {
     private final UserService userService;
+
     @Autowired
     public CheckTask(UserService userService) {
         this.userService = userService;
     }
 
-    @Scheduled(fixedRate=1000)
-    public void checkTasks(){
+    @Scheduled(fixedRate = 1000)
+    public void checkTasks() {
         Date now = new Date();
         for (User user : checklist.keySet()) {
             Date time = checklist.get(user);
-            if(time.getTime() + 1000*60*60*2 <= now.getTime()){
+            if (time.getTime() + 1000 * 60 * 60 * 2 <= now.getTime()) {
                 userService.setOffline(user);
                 checklist.remove(user);
                 log.info("CheckList remove user=" + user);

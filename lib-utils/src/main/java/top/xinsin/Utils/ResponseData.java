@@ -1,4 +1,4 @@
-package top.xinsin.Utils;
+package top.xinsin.utils;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * @author wzp
- * @date 2021/12/16 20:39
+ * Created On 2021/12/16 20:39
  * @version 1.0
  */
 @Data
