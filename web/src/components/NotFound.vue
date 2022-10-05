@@ -1,5 +1,5 @@
 <template>
-  404 Not Found
+  <img alt="" class="bg" src="../assets/404.png"/>
 </template>
 
 <script>
@@ -9,5 +9,13 @@ export default {
 </script>
 
 <style scoped>
-
+.bg {
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
 </style>

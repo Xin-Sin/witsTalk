@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "element-plus": "^2.2.17",
+    "gl-matrix": "^3.4.3",
     "vue": "^3.2.37"
   },
   "devDependencies": {
