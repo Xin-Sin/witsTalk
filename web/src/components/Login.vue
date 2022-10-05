@@ -4,7 +4,7 @@
   </div>
   <div class="login-window">
     <div class="inline-div right">
-      <div class="login-window-child title" style="margin-top: 50px">登录</div>
+      <div class="login-window-child title" style="margin-top: 5vh">登录</div>
       <div class="login-window-child input" style="margin-top: 25px">
         <el-input v-model="username" placeholder="请在此输入用户名">
           <template #prepend>用户名</template>
@@ -112,7 +112,7 @@ const password = ref<string>();
 }
 
 .input {
-  margin-left: 90px;
+  margin-left: 10%;
   width: 70%;
 }
 
@@ -152,11 +152,23 @@ const password = ref<string>();
 }
 
 .title {
-  font-size: 1.1em;
+  font-size: 2vw;
   font-family: "Helvetica Neue", sans-serif;
   text-align: center;
 }
 
+@media screen and (max-width: 900px) {
+  .img {
+    display: none;
+  }
+
+  .right {
+    width: 100%;
+    border-left: 2px var(--el-border-color);
+    border-top-left-radius: var(--el-border-radius-round);
+    border-bottom-left-radius: var(--el-border-radius-round);
+  }
+}
 :root {
   --cube-size: 100px;
   --color-white: #f5f8ea;
