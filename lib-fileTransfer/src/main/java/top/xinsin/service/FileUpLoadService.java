@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import top.xinsin.Utils.FileUtils;
-import top.xinsin.Utils.ResultData;
 import top.xinsin.dao.FileUploadMapper;
 import top.xinsin.enums.HttpCodes;
 import top.xinsin.pojo.FileObject;
+import top.xinsin.utils.FileUtils;
+import top.xinsin.utils.ResultData;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,7 +20,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * @author xinxin
- * @date 2021/12/18 13:40
+ * Created On 2021/12/18 13:40
  * @version 1.0
  */
 

@@ -1,6 +1,9 @@
 package cn.wzpmc.pojo;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import top.xinsin.enums.MessageTypes;
 
 import java.text.SimpleDateFormat;
@@ -8,7 +11,7 @@ import java.util.Calendar;
 
 /**
  * @author wzp
- * @date 2022/5/14
+ * Created On 2022/5/14
  * @version 1.0
  */
 @Data

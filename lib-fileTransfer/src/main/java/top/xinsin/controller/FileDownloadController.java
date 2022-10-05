@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import top.xinsin.Utils.ResultData;
 import top.xinsin.pojo.FileObject;
 import top.xinsin.service.FileDownloadService;
+import top.xinsin.utils.ResultData;
 
 import java.io.IOException;
 import java.util.List;
 
 /**
  * @author xinxin
- * @date 2022/1/2 15:09
+ * Created On 2022/1/2 15:09
  * @version 1.0
  */
 @RestController

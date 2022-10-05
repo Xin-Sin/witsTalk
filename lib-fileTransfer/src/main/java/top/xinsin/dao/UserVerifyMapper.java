@@ -5,7 +5,7 @@ import top.xinsin.pojo.AuthVerificationTokenJwt;
 
 /**
  * @author xinxin
- * @date 2022/1/22 9:22
+ * Created On 2022/1/22 9:22
  * @version 1.0
  */
 @Repository

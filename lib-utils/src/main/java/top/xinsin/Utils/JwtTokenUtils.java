@@ -1,4 +1,4 @@
-package top.xinsin.Utils;
+package top.xinsin.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author xinxin
- * @date 2021/12/12 20:42
+ * Created On 2021/12/12 20:42
  * @version 1.0
  */
 public class JwtTokenUtils {

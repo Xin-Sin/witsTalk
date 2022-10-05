@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 
 /**
  * @author xinxin
- * @date 2021/12/11 17:16
+ * Created On 2021/12/11 17:16
  * @version 1.0
  */
 @MapperScan("top.xinsin.dao")
