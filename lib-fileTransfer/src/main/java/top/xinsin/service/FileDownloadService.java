@@ -9,10 +9,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import top.xinsin.Utils.JwtTokenUtils;
-import top.xinsin.Utils.ResultData;
 import top.xinsin.dao.FileDownloadMapper;
 import top.xinsin.pojo.FileObject;
+import top.xinsin.utils.JwtTokenUtils;
+import top.xinsin.utils.ResultData;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * @author xinxin
- * @date 2022/1/2 15:14
+ * Created On 2022/1/2 15:14
  * @version 1.0
  */
 

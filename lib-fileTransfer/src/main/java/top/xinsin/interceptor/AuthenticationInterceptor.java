@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import sun.misc.BASE64Decoder;
-import top.xinsin.Utils.JwtTokenUtils;
-import top.xinsin.Utils.ResponseData;
 import top.xinsin.pojo.AuthVerificationTokenJwt;
 import top.xinsin.service.UserVerifyService;
+import top.xinsin.utils.JwtTokenUtils;
+import top.xinsin.utils.ResponseData;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * @author xinxin
- * @date 2022/1/21 22:16
+ * Created On 2022/1/21 22:16
  * @version 1.0
  */
 @Component

@@ -22,11 +22,11 @@
   ~~~
 
 - responseParameter:
-  
-  | 参数名称 | 注释     |
-  | -------- | -------- |
-  | canLogin | 是否成功 |
-  | status   | 状态码   |
+
+| 参数名称     | 注释   |
+|----------|------|
+| canLogin | 是否成功 |
+| status   | 状态码  |
 
 - example:
 
@@ -44,12 +44,12 @@
 - method:`post`
 - requestParameter:
 
-| 参数名称 | 是否必须 | 注释   |
-| -------- | -------- | ------ |
-| username | √        | 用户名 |
-| password | √        | 密码   |
-| auth     | √        | 权限   |
-| base64   | √        | 头像base64|
+| 参数名称     | 是否必须 | 注释       |
+|----------|------|----------|
+| username | √    | 用户名      |
+| password | √    | 密码       |
+| auth     | √    | 权限       |
+| base64   | √    | 头像base64 |
 - example:
 
   ~~~json
@@ -65,9 +65,9 @@
 
 - responseParameter:
 
-  | 参数名称 | 注释     |
-    | -------- | -------- |
-  | status   | 状态码   |
+| 参数名称   | 注释  |
+|--------|-----|
+| status | 状态码 |
 
 - example:
 
@@ -82,10 +82,10 @@
 - method:`post`
 - requestParameter:
 
-| 参数名称 | 是否必须 | 注释   |
-| -------- | -------- | ------ |
-| username | √        | 用户名 |
-| password | √        | 密码   |
+| 参数名称     | 是否必须 | 注释  |
+|----------|------|-----|
+| username | √    | 用户名 |
+| password | √    | 密码  |
 - example:
 
   ~~~json
@@ -98,9 +98,9 @@
 
 - responseParameter:
 
-  | 参数名称 | 注释     |
-  | -------- | -------- |
-  | status   | 状态码   |
+| 参数名称   | 注释  |
+|--------|-----|
+| status | 状态码 |
 
 - example:
 
@@ -115,10 +115,10 @@
 - method:`post`
 - requestParameter:
 
-| 参数名称 | 是否必须 | 注释   |
-| -------- | -------- | ------ |
-| username | √        | 用户名 |
-| base64 | √        | base64   |
+| 参数名称     | 是否必须 | 注释     |
+|----------|------|--------|
+| username | √    | 用户名    |
+| base64   | √    | base64 |
 - example:
 
   ~~~json
@@ -130,9 +130,9 @@
 
 - responseParameter:
 
-  | 参数名称 | 注释     |
-    | -------- | -------- |
-  | status   | 状态码   |
+| 参数名称   | 注释  |
+|--------|-----|
+| status | 状态码 |
 
 - example:
 
@@ -147,9 +147,9 @@
 - method:`get`
 - requestParameter:
 
-| 参数名称 | 是否必须 | 注释   |
-| -------- | -------- | ------ |
-| username | √        | 用户名 |
+| 参数名称     | 是否必须 | 注释  |
+|----------|------|-----|
+| username | √    | 用户名 |
 - example:
 
   ~~~json
@@ -160,10 +160,10 @@
 
 - responseParameter:
 
-  | 参数名称 | 注释     |
-  | -------- | -------- |
-  | data  | base64   |  
-  | status   | 状态码   |
+| 参数名称   | 注释     |
+|--------|--------|
+| data   | base64 |  
+| status | 状态码    |
 
 - example:
 
@@ -180,10 +180,10 @@
 
 - responseParameter:
 
-  | 参数名称 | 注释     |
-    | -------- | -------- |
-  | data  | 在线用户   |  
-  | status   | 状态码   |
+| 参数名称   | 注释   |
+|--------|------|
+| data   | 在线用户 |  
+| status | 状态码  |
 
 - example:
 
@@ -201,9 +201,9 @@
 - method:`post`
 - requestParameter:
 
-| 参数名称 | 是否必须 | 注释   |
-| -------- | -------- | ------ |
-| file | √        | 文件 |
+| 参数名称 | 是否必须 | 注释  |
+|------|------|-----|
+| file | √    | 文件  |
 - example:
 
   ~~~json
@@ -214,10 +214,10 @@
 
 - responseParameter:
 
-  | 参数名称 | 注释     |
-  | -------- | -------- |
-  | data  | 文件md5   |  
-  | status   | 状态码   |
+| 参数名称   | 注释    |
+|--------|-------|
+| data   | 文件md5 |  
+| status | 状态码   |
 
 - example:
 
@@ -233,16 +233,16 @@
 - method:`get`
 - requestParameter:
 
-| 参数名称 | 是否必须 | 注释   |
-| -------- | -------- | ------ |
-| md5 | √        | 文件MD5值|
+| 参数名称 | 是否必须 | 注释     |
+|------|------|--------|
+| md5  | √    | 文件MD5值 |
 
 - responseParameter:
 
-  | 参数名称 | 注释     |
-  | -------- | -------- |
-  | data  | 文件名字   |  
-  | status   | 状态码   |
+| 参数名称   | 注释   |
+|--------|------|
+| data   | 文件名字 |  
+| status | 状态码  |
 
 - example:
 
@@ -258,17 +258,17 @@
 - method:`get`
 - requestParameter:
 
-| 参数名称 | 是否必须 | 注释   |
-| -------- | -------- | ------ |
-| md5 | √        | 文件MD5值|
-| filename | √        | 文件名字|
-| token | √        | token|
+| 参数名称     | 是否必须 | 注释     |
+|----------|------|--------|
+| md5      | √    | 文件MD5值 |
+| filename | √    | 文件名字   |
+| token    | √    | token  |
 
 - responseParameter:
 
-  | 参数名称 | 注释     |
-  | -------- | -------- |
-  |ResponseEntity|文件流|  
+| 参数名称           | 注释  |
+|----------------|-----|
+| ResponseEntity | 文件流 |  
 
 ### 获取全部文件名字
 - url:`/file/api/getAllFileNames`
@@ -276,10 +276,10 @@
   
 - responseParameter:
 
-  | 参数名称 | 注释     |
-    | -------- | -------- |
-  | data  | 全部文件名字   |  
-  | status   | 状态码   |
+| 参数名称   | 注释     |
+|--------|--------|
+| data   | 全部文件名字 |  
+| status | 状态码    |
 
 - example:
 

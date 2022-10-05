@@ -12,7 +12,7 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 
 /**
  * @author wzp
- * @date 2022/5/14
+ * Created On 2022/5/14
  * @version 1.0
  */
 public class ChatHandler extends ChannelInitializer<SocketChannel> {

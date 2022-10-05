@@ -7,7 +7,7 @@ import top.xinsin.interceptor.AuthenticationInterceptor;
 
 /**
  * @author xinxin
- * @date 2021/12/12 21:05
+ * Created On 2021/12/12 21:05
  * @version 1.0
  */
 @Configuration

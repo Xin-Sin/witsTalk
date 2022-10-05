@@ -1,17 +1,20 @@
 package top.xinsin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import top.xinsin.Utils.ResultData;
 import top.xinsin.service.FileUpLoadService;
+import top.xinsin.utils.ResultData;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 /**
  * @author xinxin
- * @date 2021/12/14 14:07
+ * Created On 2021/12/14 14:07
  * @version 1.0
  */
 @RestController
