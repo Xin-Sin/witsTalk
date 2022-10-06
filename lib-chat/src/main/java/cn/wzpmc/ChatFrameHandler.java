@@ -23,8 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @ChannelHandler.Sharable
 @Slf4j
 public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
-    public static ConcurrentHashMap<ChannelId,Channel> channels = new ConcurrentHashMap<>();
-    public static ConcurrentHashMap<ChannelId,Boolean> loginTable= new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<ChannelId,Channel> channels = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<ChannelId,Boolean> loginTable= new ConcurrentHashMap<>();
 
     public static SqlSession session;
     public static ChatDao chatDao;

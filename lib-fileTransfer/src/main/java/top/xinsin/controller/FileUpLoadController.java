@@ -1,7 +1,6 @@
 package top.xinsin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,9 +27,5 @@ public class FileUpLoadController {
     @PostMapping("/api/fileUpload")
     public ResultData<String> fileUpload(@RequestBody MultipartFile file) throws NoSuchAlgorithmException, IOException {
         return fileUpLoadService.fileUpload(file);
-    }
-    @GetMapping("/file/api/debug")
-    public String debug(){
-        return "123";
     }
 }
