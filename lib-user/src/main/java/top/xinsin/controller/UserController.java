@@ -60,12 +60,13 @@ public class UserController {
 
     /**
      * 获取用户头像接口
+     *
      * @param username 用户名
      * @return 用户头像的base64
      */
     @GetMapping("/user/api/getUserHeadPortrait/{username}")
-    public String getUserHeadPortrait(@PathVariable String username){
-        return userService.getUserHeadPortrait(username).toString();
+    public ResultData<String> getUserHeadPortrait(@PathVariable String username) {
+        return userService.getUserHeadPortrait(username);
     }
 
     /**

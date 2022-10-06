@@ -122,6 +122,9 @@ export default {
           }
           if (Array.isArray(jsonData)) {
             //全部消息
+            jsonData.sort(function (a, b) {
+              return a.id - b.id
+            });
             this.someMessage = jsonData;
           }else{
             //单条消息
