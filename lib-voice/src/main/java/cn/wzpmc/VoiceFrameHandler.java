@@ -19,7 +19,7 @@ public class VoiceFrameHandler extends SimpleChannelInboundHandler<TextWebSocket
     /**
      * 用于存储所有客户端的连接
      */
-    public static ConcurrentHashMap<ChannelId, Channel> channels = new ConcurrentHashMap<>();
+    public static final ConcurrentHashMap<ChannelId, Channel> channels = new ConcurrentHashMap<>();
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame){
         /*
