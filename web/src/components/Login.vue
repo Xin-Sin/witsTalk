@@ -16,7 +16,7 @@
         </el-input>
       </div>
       <div class="login-window-child login-button">
-        <el-button plain type="primary">登录</el-button>
+        <el-button plain type="primary" @click="Login">登录</el-button>
       </div>
     </div>
     <div class="inline-div left img"/>
@@ -51,9 +51,6 @@ export default {
         // 绘制
         render.drawAllHeader();
       });
-
-      // 开启性能监视
-      // tick.useStats();
     }
 
     // 自适应
@@ -87,9 +84,11 @@ export default {
 </script>
 <script lang="ts" setup>
 import {ref} from "vue";
-
 const username = ref<string>();
 const password = ref<string>();
+const Login = function () {
+
+}
 
 </script>
 
@@ -100,6 +99,7 @@ const password = ref<string>();
   box-shadow: var(--el-box-shadow-dark);
   width: 60%;
   height: 40%;
+  min-height: 300px;
   left: 50%;
   top: 50%;
   margin-left: -30%;

@@ -1,5 +1,3 @@
-let lastTime = 0;
-
 export default class Tick {
 
     // 总用时
@@ -30,7 +28,6 @@ export default class Tick {
 
             // 继续循环
             requestAnimationFrame(loop);
-            // this.requestNextFrame(loop);
 
         }
 
@@ -44,12 +41,4 @@ export default class Tick {
             requestAnimationFrame(loop);
         })
     }
-
-    requestNextFrame(fn: Function) {
-        setTimeout(() => {
-            let currTime = new Date().getTime();
-            let timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            fn(currTime + timeToCall);
-        }, 1);
-    };
 }
