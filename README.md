@@ -8,7 +8,7 @@
 **如何开发** `开发方法`
 - 1.使用`git clone https://github.com/XinSin-top/witsTalk.git` 下载我们的项目
 - 2.我们建议您使用`idea`来进行开发,那样将会为您省去很多配置环境时间
-- 4.在数据库中创建`user`表
+- 3.在数据库中创建`user`表
 ``` mysql
   CREATE TABLE `user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户表id',
@@ -22,7 +22,7 @@
   INDEX `username`(`username`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 ```
-- 5.在数据库中创建`message`表
+- 4.在数据库中创建`message`表
 ``` mysql
 CREATE TABLE `message`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '消息表id',
@@ -36,7 +36,7 @@ CREATE TABLE `message`  (
   CONSTRAINT `message_ibfk_1` FOREIGN KEY (`sender`) REFERENCES `witstalk`.`user` (`username`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 ```
-- 6.在数据库中创建`file`表
+- 5.在数据库中创建`file`表
 ``` mysql
 CREATE TABLE `file`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文件表id',
@@ -47,16 +47,16 @@ CREATE TABLE `file`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 ```
-- 7.在数据库中创建`v_message_base64_info`视图
+- 6.在数据库中创建`v_message_base64_info`视图
 ``` mysql
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_message_base64_info` AS select `message`.`id` AS `id`,`message`.`content` AS `content`,`message`.`sender` AS `sender`,`message`.`recall` AS `recall`,`message`.`sendtime` AS `sendtime`,`message`.`type` AS `type`,`user`.`base64` AS `base64` from (`message` join `user` on((`message`.`sender` = `user`.`username`)));
 ```
-- 8.调整每一个模块的数据库`url`
-- 9.使用`maven`来下载后端项目依赖
-- 10.检查`mysql`数据库版本,并更改`pom.xml`中`JDBC`依赖版本
-- 11.使用`npm install`下载前端项目依赖
-- 12.(可选).配置`nginx`反向代理,和端口号
-- 13.启动前端项目`npm run dev`,启动nginx,启动后端项目:(还用我教吗?-_-):
+- 7.调整每一个模块的数据库`url`
+- 8.使用`maven`来下载后端项目依赖
+- 9.检查`mysql`数据库版本,并更改`pom.xml`中`JDBC`依赖版本
+- 10.使用`npm install`下载前端项目依赖
+- 11.(可选).配置`nginx`反向代理,和端口号
+- 12.启动前端项目`npm run dev`,启动nginx,启动后端项目:(还用我教吗?-_-):
 
 **如何使用** `使用方法`
 - ~~由于该项目还在开发中,暂不提供使用方式,只提供开发方法~~
@@ -83,5 +83,5 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_message_base64_info` A
 - [Wzp-2008 的 GitHub](https://github.com/Wzp-2008)
 
 **鸣谢** `鸣谢`
-- [jetbrains](www.jetbrains.com)
+- [jetbrains](https://www.jetbrains.com)
 - ![jetbrains](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png?_gl=1*avq98w*_ga*NjQ5OTM0MzUxLjE2NDY1NTIyMzQ.*_ga_V0XZL7QHEB*MTY0Njk2NjY2Mi4zLjAuMTY0Njk2NjY2Mi4w)
