@@ -26,8 +26,11 @@ import java.nio.charset.StandardCharsets;
 @Component
 @Slf4j
 public class AuthenticationInterceptor implements HandlerInterceptor {
+    private final UserVerifyService userVerifyService;
     @Autowired
-    private UserVerifyService userVerifyService;
+    public AuthenticationInterceptor(UserVerifyService userVerifyService){
+        this.userVerifyService = userVerifyService;
+    }
     public static final String OPTIONS = "OPTIONS";
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

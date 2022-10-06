@@ -2,10 +2,7 @@
   "name": "web",
   "version": "1.0.0",
   "description": "witstalk vue web project",
-  "author": [
-    "xinxin <2890826955@qq.com>",
-    "wzpMC <335722099@qq.com>"
-  ],
+  "author": "xinxin <2890826955@qq.com>,wzpMC <335722099@qq.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
