@@ -1,7 +1,7 @@
 <template>
-  <div class="background">
-    <canvas id="bgCanvas"></canvas>
-  </div>
+  <!--div class="background">
+    <canvas id="bgCanvas" />
+  </div-->
   <div class="login-window">
     <div class="inline-div right">
       <div class="login-window-child title" style="margin-top: 5vh">登录</div>
@@ -24,12 +24,11 @@
 </template>
 
 <script lang="ts">
-import Render from '../Render'
-import Tick from '../Tick'
 
 export default {
   name: "Login",
   mounted() {
+    /*
     const canvas: HTMLCanvasElement = document.getElementById("bgCanvas") as HTMLCanvasElement;
     const render = new Render(canvas);
     let tick;
@@ -62,11 +61,12 @@ export default {
     canvas.onmousemove = function (e) {
       render.mouseMove(e.offsetX, e.offsetY);
     }
-
+    */
     /**
      * 渲染器启动方法
      * @param headerUrl
      */
+    /*
     function start(headerUrl: string[]) {
 
       // 添加头颅;
@@ -79,6 +79,7 @@ export default {
     // 获取玩家列表
     let e = ["A__H", "BYCBZ", "Dong_Yi_feng", "Eznae", "Fearlicia", "GG_guanggao", "Im_airman", "linseng520", "Li_Zi_Shou", "maltcrafter44", "mc_xinxin", "qianxiao3333", "QianZhuo05", "qing_chen_you", "tot222", "wzpMC", "YunyunOVO", "mrkbear"];
     start(e.map((v) => "./tex/" + v + "/"));
+    */
   }
 }
 </script>
