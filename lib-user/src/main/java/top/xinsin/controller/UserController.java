@@ -76,13 +76,4 @@ public class UserController {
     public ResultData<List<User>> getOnlineUser(){
         return userService.getOnlineUser();
     }
-
-    /**
-     * 调试用接口
-     * @return 调试信息
-     */
-    @GetMapping("/user/api/debug")
-    public ResultData<List<User>> debug(){
-        return userService.getOnlineUser();
-    }
 }
