@@ -5,7 +5,7 @@
   <div class="background">
     <div id="window" class="login-window">
       <div class="inline-div right">
-        <div class="login-window-child title" style="margin-top: 5vh">登录</div>
+        <div class="login-window-child title" style="margin-top: 5vh">{{ title }}</div>
         <div class="login-window-child input" style="margin-top: 25px">
           <el-input v-model="username" placeholder="请在此输入昵称">
             <template #prepend>昵称</template>
@@ -17,7 +17,7 @@
           </el-input>
         </div>
         <div class="login-window-child login-button">
-          <el-button plain type="primary" @click="Login">登录</el-button>
+          <el-button plain size="large" style="width: 10vh" type="primary" @click="Login">登录</el-button>
         </div>
       </div>
       <div class="inline-div left img"/>
@@ -31,16 +31,22 @@ export default {
 }
 </script>
 <script lang="ts" setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import SlideVerify, {SlideVerifyInstance} from "vue3-slide-verify";
 import "vue3-slide-verify/dist/style.css";
-import {login} from './Requester'
+import {login, getHitokoto} from './Requester'
 import {ElMessage} from "element-plus";
 
 const username = ref<string>();
 const password = ref<string>();
 const showSlideWindow = ref<boolean>();
 const slider = ref<SlideVerifyInstance>();
+let title = "登录";
+onMounted(async () => {
+  await getHitokoto().then(async (data) => {
+    title = data.data.hitokoto;
+  })
+})
 const Login = function () {
   showSlideWindow.value = true;
   slider.value?.refresh();
@@ -88,7 +94,7 @@ const onSlideSuccess = function () {
 }
 
 .login-button {
-  margin-left: 45%;
+  margin-left: 40%;
 }
 
 .inline-div {
@@ -129,7 +135,7 @@ const onSlideSuccess = function () {
   text-align: center;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1000px) {
   .img {
     display: none;
   }
@@ -139,10 +145,6 @@ const onSlideSuccess = function () {
     border-left: 2px var(--el-border-color);
     border-top-left-radius: var(--el-border-radius-round);
     border-bottom-left-radius: var(--el-border-radius-round);
-  }
-
-  .login-window {
-
   }
 
   .title {
@@ -159,7 +161,7 @@ div.background {
   width: 100%;
   height: 100vh;
   background-repeat: no-repeat;
-  background-image: url("./src/assets/background2.jpeg");
+  background-image: url("./src/assets/img.png");
   background-size: 100% 100%;
 }
 </style>

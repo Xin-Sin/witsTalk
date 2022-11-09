@@ -48,7 +48,7 @@ export function login(username: string, password: string) {
 /**
  * 获取每日一言
  */
-export function getHitokoto() {
+export async function getHitokoto() {
     return instance({
         url: "https://v1.hitokoto.cn/",
         method: "get",
