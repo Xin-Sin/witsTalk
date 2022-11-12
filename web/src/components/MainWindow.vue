@@ -2,7 +2,7 @@
   <el-container>
     <el-header class="header">
       <div class="logo">
-        <el-icon><img alt="" class="logo" src="src/assets/logo.svg"/></el-icon>
+        <el-icon><img alt="" class="logo" src="/logo.svg"/></el-icon>
       </div>
       <div class="user">
         <el-avatar :size="50" :src="headimgBase64" style="margin-right: 10px"/>
@@ -65,11 +65,11 @@
 <script lang="ts" setup>
 import {ArrowDown, ChatDotRound, Files, Mic, Setting} from '@element-plus/icons-vue'
 import {computed, onMounted, ref} from 'vue'
-import NotFound from "../NotFound.vue";
-import Chat from './Chat/Chat.vue'
-import FileTransfer from './FileTransfer.vue'
-import UserSettings from './UserSettings.vue'
-import VoiceChat from './VoiceChat.vue'
+import NotFound from "./NotFound.vue";
+import Chat from '../page/chat/Chat.vue'
+import FileTransfer from '../page/file/FileTransfer.vue'
+import UserSettings from '../page/setting/UserSettings.vue'
+import VoiceChat from '../page/voice/VoiceChat.vue'
 import {ElMessage} from "element-plus";
 
 const routes: Map<string, any> = new Map<string, any>();
