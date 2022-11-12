@@ -34,7 +34,7 @@ export default {
 import {onMounted, ref} from "vue";
 import SlideVerify, {SlideVerifyInstance} from "vue3-slide-verify";
 import "vue3-slide-verify/dist/style.css";
-import {login, getHitokoto} from './Requester'
+import {login, getHitokoto} from '../../components/api/requester'
 import {ElMessage} from "element-plus";
 
 const username = ref<string>();
@@ -124,7 +124,7 @@ const onSlideSuccess = function () {
 
 .img {
   background-repeat: no-repeat;
-  background-image: url("./src/assets/img.png");
+  background-image: url("../../assets/img.png");
   background-size: 100% 100%;
   border-left: 2px var(--el-border-color);
   border-top-left-radius: var(--el-border-radius-round);
@@ -163,7 +163,7 @@ div.background {
   width: 100%;
   height: 100vh;
   background-repeat: no-repeat;
-  background-image: url("./src/assets/img.png");
+  background-image: url("../../assets/img.png");
   background-size: 100% 100%;
 }
 </style>

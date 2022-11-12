@@ -1,14 +1,14 @@
 <template>
   <div class="messages">
-    <Message v-for="item in messagesData" v-if="messagesData" :data="item"></Message>
+    <Message v-for="(item,index) in messageData" :key="index" :data="item"></Message>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {onMounted, onUnmounted, ref} from "vue";
+import {nextTick, onMounted, onUnmounted, reactive, ref, watch} from "vue";
 import {ElMessage} from "element-plus";
 import Message from "./Message.vue";
-import {MessageData} from "./MessageData";
+import {MessageData, MessageTypes} from "./MessageData";
 
 const ws = ref<WebSocket>();
 const waitingPong = function () {
@@ -17,7 +17,7 @@ const waitingPong = function () {
 }
 const pongId = ref<number>();
 const hasConnection = ref<boolean>(false);
-let messagesData: Array<typeof MessageData> = [];
+let messageData: Array<MessageData> = reactive([]);
 const heartBeat = function () {
   ws.value?.send(JSON.stringify({"op": "heartCheck"}));
   pongId.value = window.setTimeout(waitingPong, 1000 * 50);
@@ -33,6 +33,7 @@ const websocketClose = function (this: WebSocket, event: Event): any {
 }
 const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
   let data: string | undefined = event.data;
+  console.log(data);
   if (data === undefined) {
   } else if (data === "true") {
     heartBeat();
@@ -52,13 +53,20 @@ const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
     }
   } else {
     if (data.indexOf("connected") != -1) {
-      console.log(data)
     } else {
       try {
         let jsonData = JSON.parse(data);
         if (Array.isArray(jsonData)) {
-          messagesData = jsonData;
-          console.log(messagesData);
+          for (let jsonDataKey of jsonData) {
+            messageData.push(new MessageData(jsonDataKey.id,
+                jsonDataKey.content,
+                jsonDataKey.sender,
+                jsonDataKey.recall,
+                jsonDataKey.sendtime,
+                jsonDataKey.base64,
+                jsonDataKey.type === "text" ? MessageTypes.text : MessageTypes.img
+            ));
+          }
         } else {
           let op = jsonData.op;
           if (op === "pong") {

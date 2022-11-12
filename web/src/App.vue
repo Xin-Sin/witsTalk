@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import {computed, ref} from 'vue'
-import Login from './components/Login.vue'
+import Login from './page/login/Login.vue'
 import NotFound from './components/NotFound.vue'
-import MainWindow from './components/Main/MainWindow.vue'
+import MainWindow from './components/MainWindow.vue'
 
 const routes: Map<string, any> = new Map<string, any>()
 routes.set('', Login)
