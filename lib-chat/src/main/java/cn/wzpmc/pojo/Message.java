@@ -25,7 +25,7 @@ public class Message {
     private int recall;
     private String sendtime;
     private String base64;
-    MessageTypes type;
+    private MessageTypes type;
     public Message(int id){
         this.id = id;
     }

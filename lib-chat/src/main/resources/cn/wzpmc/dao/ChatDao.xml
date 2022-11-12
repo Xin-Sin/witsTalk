@@ -10,7 +10,10 @@
         update message set recall=1 where id=#{id};
     </update>
     <select id="getMessage" resultType="cn.wzpmc.pojo.Message">
-        select * from `v_message_base64_info` where `recall` = 0 and `id` >= #{id_min} and `id` &lt;= #{id_max};
+        select *
+        from `v_message_base64_info`
+        where id >= #{id_min}
+        limit #{count};
     </select>
     <select id="getUserHeadPortrait" resultType="java.lang.String">
         select `base64` from user where `username`=#{username};

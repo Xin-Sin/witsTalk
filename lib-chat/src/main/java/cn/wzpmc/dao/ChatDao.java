@@ -21,11 +21,12 @@ public interface ChatDao {
 
     /**
      * get message with id > id_min and id < id_max
-     * @param idMax the min value of id
+     *
+     * @param count the count of message
      * @param idMin the max value of id
      * @return some message objects
      */
-    ArrayList<Message> getMessage(@Param("id_min") int idMin, @Param("id_max") int idMax);
+    ArrayList<Message> getMessage(@Param("id_min") int idMin, @Param("count") int count);
 
     /**
      * get all messages count

@@ -27,6 +27,7 @@
             default-active="1"
             @mouseenter="isCollapse = false"
             @mouseleave="isCollapse = true"
+            :collapse-transition="true"
         >
           <el-menu-item index="1">
             <el-icon>
@@ -65,7 +66,7 @@
 import {ArrowDown, ChatDotRound, Files, Mic, Setting} from '@element-plus/icons-vue'
 import {computed, onMounted, ref} from 'vue'
 import NotFound from "../NotFound.vue";
-import Chat from './Chat.vue'
+import Chat from './Chat/Chat.vue'
 import FileTransfer from './FileTransfer.vue'
 import UserSettings from './UserSettings.vue'
 import VoiceChat from './VoiceChat.vue'
@@ -88,6 +89,19 @@ const isCollapse = ref<boolean>(true);
 const headimgBase64 = ref<string>();
 const userToken = ref<string>();
 const username = ref<string>();
+onMounted(() => {
+  let name = window.sessionStorage.getItem("username");
+  let headimg = window.sessionStorage.getItem("headimg");
+  let token = window.sessionStorage.getItem("token");
+  if (name && headimg && token) {
+    username.value = name;
+    headimgBase64.value = "data:image/png;base64," + headimg;
+    userToken.value = token;
+  } else {
+    ElMessage.error("你还没有登录，请登陆后再试")
+    window.location.hash = "/"
+  }
+})
 const handlerUserSettingsCommand = function (command: string) {
   switch (command) {
     case "settings":
@@ -105,19 +119,6 @@ const handlerUserSettingsCommand = function (command: string) {
       break;
   }
 }
-onMounted(() => {
-  let name = window.sessionStorage.getItem("username");
-  let headimg = window.sessionStorage.getItem("headimg");
-  let token = window.sessionStorage.getItem("token");
-  if (name && headimg && token) {
-    username.value = name;
-    headimgBase64.value = "data:image/png;base64," + headimg;
-    userToken.value = token;
-  } else {
-    ElMessage.error("你还没有登录，请登陆后再试")
-    window.location.hash = "/"
-  }
-})
 </script>
 
 <style scoped>
