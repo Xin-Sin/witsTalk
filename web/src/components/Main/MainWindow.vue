@@ -1,7 +1,24 @@
 <template>
   <el-container>
     <el-header class="header">
-
+      <div class="logo">
+        <el-icon><img alt="" class="logo" src="src/assets/logo.svg"/></el-icon>
+      </div>
+      <div class="user">
+        <el-avatar :size="50" :src="headimgBase64" style="margin-right: 10px"/>
+        <div ref="usernameDiv" class="username"></div>
+        <el-dropdown @command="handlerUserSettingsCommand">
+        <span class="el-dropdown-link" style="color: #000000">
+          {{ username }}<el-icon class="el-icon--right"><ArrowDown/></el-icon>
+        </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="settings">用户设置</el-dropdown-item>
+              <el-dropdown-item command="exit">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
     </el-header>
     <el-container>
       <el-aside width="200px">
@@ -37,7 +54,7 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
-      <el-main>
+      <el-main style="width: 100%; height: 80vh">
         <component :is="currentView"/>
       </el-main>
     </el-container>
@@ -45,14 +62,20 @@
 </template>
 
 <script lang="ts" setup>
-import {ChatDotRound, Files, Mic, Setting} from '@element-plus/icons-vue'
+import {ArrowDown, ChatDotRound, Files, Mic, Setting} from '@element-plus/icons-vue'
 import {computed, onMounted, ref} from 'vue'
 import NotFound from "../NotFound.vue";
 import Chat from './Chat.vue'
+import FileTransfer from './FileTransfer.vue'
+import UserSettings from './UserSettings.vue'
+import VoiceChat from './VoiceChat.vue'
 import {ElMessage} from "element-plus";
 
 const routes: Map<string, any> = new Map<string, any>();
 routes.set('', Chat)
+routes.set('file', FileTransfer)
+routes.set('settings', UserSettings)
+routes.set('voice', VoiceChat)
 const currentPath = ref(window.location.hash)
 window.addEventListener('hashchange', () => {
   currentPath.value = window.location.hash
@@ -62,16 +85,33 @@ const currentView = computed(() => {
 })
 //主逻辑
 const isCollapse = ref<boolean>(true);
-const username = ref<string>();
 const headimgBase64 = ref<string>();
 const userToken = ref<string>();
+const username = ref<string>();
+const handlerUserSettingsCommand = function (command: string) {
+  switch (command) {
+    case "settings":
+      ElMessage.warning("功能未实现！")
+      break;
+    case "exit":
+      window.sessionStorage.removeItem("username");
+      window.sessionStorage.removeItem("headimg");
+      window.sessionStorage.removeItem("token");
+      ElMessage.success("成功退出登录，返回登陆页面");
+      window.location.hash = "/"
+      break;
+    default:
+      ElMessage.error("CNM出问题了，请将此消息内容复制并发送给网站管理员   command=" + command)
+      break;
+  }
+}
 onMounted(() => {
   let name = window.sessionStorage.getItem("username");
   let headimg = window.sessionStorage.getItem("headimg");
   let token = window.sessionStorage.getItem("token");
   if (name && headimg && token) {
     username.value = name;
-    headimgBase64.value = headimg;
+    headimgBase64.value = "data:image/png;base64," + headimg;
     userToken.value = token;
   } else {
     ElMessage.error("你还没有登录，请登陆后再试")
@@ -82,6 +122,27 @@ onMounted(() => {
 
 <style scoped>
 .header {
-  background: #0061AB;
+  display: flex;
+  background-color: rgba(0, 97, 171, 75%);
+  justify-content: space-between;
+  align-items: center;
+}
+
+img.logo {
+  width: 40px;
+  height: 40px;
+}
+
+div.logo {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+div.user {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
 }
 </style>

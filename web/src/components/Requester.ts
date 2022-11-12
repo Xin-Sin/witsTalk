@@ -51,10 +51,11 @@ export function login(username: string, password: string) {
 export async function getHitokoto() {
     return instance({
         url: "https://v1.hitokoto.cn/",
-        method: "get",
+        method: "post",
         headers: {
             "Content-Type": 'application/json'
         },
+        params: {"min_length": 5, "max_length": 6}
     });
 }
 
