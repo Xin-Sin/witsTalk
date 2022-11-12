@@ -2,7 +2,7 @@
   <el-container>
     <el-header class="header">
       <div class="logo">
-        <el-icon><img alt="" class="logo" src="../assets/logo.svg"/></el-icon>
+        <el-icon><img alt="" class="logo" src="/logo.svg"/></el-icon>
       </div>
       <div class="user">
         <el-avatar :size="50" :src="headimgBase64" style="margin-right: 10px"/>
