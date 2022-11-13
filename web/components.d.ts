@@ -7,7 +7,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Chat: typeof import('./src/components/Main/Chat.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -22,11 +21,10 @@ declare module '@vue/runtime-core' {
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
-    FileTransfer: typeof import('./src/page/file/FileTransfer.vue')['default']
-    Login: typeof import('./src/page/login/Login.vue')['default']
+    ElTag: typeof import('element-plus/es')['ElTag']
     MainWindow: typeof import('./src/components/MainWindow.vue')['default']
     NotFound: typeof import('./src/components/NotFound.vue')['default']
-    UserSettings: typeof import('./src/page/setting/UserSettings.vue')['default']
-    VoiceChat: typeof import('./src/page/voice/VoiceChat.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
   }
 }
