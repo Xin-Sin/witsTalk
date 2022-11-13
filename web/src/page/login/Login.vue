@@ -5,13 +5,14 @@
   <div class="background">
     <div id="window" class="login-window">
       <div class="inline-div right">
-        <div ref="title" class="login-window-child title" style="margin-top: 5vh"></div>
-        <div class="login-window-child input" style="margin-top: 25px">
+        <div ref="title" class="login-window-child title" style="margin-top: 5vh;font-size: 20px;overflow: hidden"></div>
+
+        <div class="login-window-child input" style="margin-top: 30px;margin-bottom: 30px">
           <el-input v-model="username" placeholder="请在此输入昵称">
             <template #prepend>昵称</template>
           </el-input>
         </div>
-        <div class="login-window-child input">
+        <div class="login-window-child input" style="margin-bottom: 30px">
           <el-input v-model="password" placeholder="请在此输入密码" show-password type="password">
             <template #prepend>密码</template>
           </el-input>

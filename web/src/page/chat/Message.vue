@@ -1,14 +1,19 @@
 <template>
-  <div :class="div_class">
-    <el-avatar :size="52" :src='"data:image/png;base64," + props.data.base64' style="margin-top: 15px"/>
-    <div :class="in_div_class">
-      <el-tag v-if="show" :type="tag_type">{{ props.data.sender }}</el-tag>
-      <div :style="message_box_style"><img v-if="isSelf" alt="" class="angle" src="src/assets/95ec69.svg"/><img v-else
-                                                                                                                alt=""
-                                                                                                                class="angle"
-                                                                                                                src="src/assets/ffffff.svg">
-        <div :class="message_div">
-          <div style="border: 5px solid rgba(255,255,255,0%);">{{ props.data.content }}</div>
+  <div>
+    <div :class="div_class">
+      <el-avatar :size="52" :src='"data:image/png;base64," + props.data.base64' style="margin-top: 15px"/>
+      <div :class="in_div_class">
+        <el-tag v-if="show" :type="tag_type">{{ props.data.sender }}</el-tag>
+        <div :style="message_box_style"><img v-if="isSelf" alt="" class="angle" src="src/assets/95ec69.svg"/>
+          <img v-else alt="" class="angle" src="src/assets/ffffff.svg">
+          <div :class="message_div">
+            <el-popover :visible="visible" placement="top" :width="160">
+              <el-link type="info">撤回</el-link>
+              <template #reference>
+                <div style="border: 5px solid rgba(255,255,255,0%);" @click="visibleMethod(props.data.sender)">{{ props.data.content }}</div>
+              </template>
+            </el-popover>
+          </div>
         </div>
       </div>
     </div>
@@ -17,8 +22,15 @@
 
 <script lang="ts" setup>
 import {MessageData} from "./MessageData";
-import {ref} from "vue";
+import {ref, unref} from "vue";
 
+const visibleMethod = (sender:string) =>{
+  let name = sessionStorage.getItem("username");
+  if (name === sender){
+    visible.value = visible.value != true;
+  }
+}
+const visible = ref(false)
 const props = defineProps({data: MessageData})
 const tag_type = ref<string>("success");
 const div_class = ref<string>("message-out-div");

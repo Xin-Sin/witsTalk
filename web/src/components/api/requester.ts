@@ -55,7 +55,7 @@ export async function getHitokoto() {
         headers: {
             "Content-Type": 'application/json'
         },
-        params: {"min_length": 5, "max_length": 6}
+        // params: {"min_length": 5, "max_length": 6}
     });
 }
 
