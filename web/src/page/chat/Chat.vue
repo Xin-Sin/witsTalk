@@ -1,11 +1,11 @@
 <template>
-  <div class="messages">
+  <div ref="messageDiv" class="messages">
     <Message v-for="(item,index) in messageData" :key="index" :data="item"></Message>
   </div>
 </template>
 
 <script lang="ts" setup>
-import {nextTick, onMounted, onUnmounted, reactive, ref, watch} from "vue";
+import {nextTick, onMounted, onUnmounted, reactive, ref} from "vue";
 import {ElMessage} from "element-plus";
 import Message from "./Message.vue";
 import {MessageData, MessageTypes} from "./MessageData";
@@ -17,7 +17,9 @@ const waitingPong = function () {
 }
 const pongId = ref<number>();
 const hasConnection = ref<boolean>(false);
+const messageDiv = ref<HTMLDivElement>();
 let messageData: Array<MessageData> = reactive([]);
+const lastId = ref<number>(0);
 const heartBeat = function () {
   ws.value?.send(JSON.stringify({"op": "heartCheck"}));
   pongId.value = window.setTimeout(waitingPong, 1000 * 50);
@@ -33,7 +35,6 @@ const websocketClose = function (this: WebSocket, event: Event): any {
 }
 const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
   let data: string | undefined = event.data;
-  console.log(data);
   if (data === undefined) {
   } else if (data === "true") {
     heartBeat();
@@ -46,17 +47,20 @@ const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
     window.location.hash = "/"
   } else if (!isNaN(Number(data))) {
     let count = Number.parseInt(data);
-    if (count >= 10) {
-      ws.value?.send(JSON.stringify({"op": "get", "args": {"min": count - 10, "count": 10}}))
-    } else {
-      ws.value?.send(JSON.stringify({"op": "get", "args": {"min": 0, "count": 10}}));
-    }
+    count >= 10 ? lastId.value = count - 10 : lastId.value = 0;
+    ws.value?.send(JSON.stringify({"op": "get", "args": {"min": lastId.value, "count": 10}}))
   } else {
     if (data.indexOf("connected") != -1) {
     } else {
       try {
         let jsonData = JSON.parse(data);
         if (Array.isArray(jsonData)) {
+          jsonData = jsonData.sort((a, b) => {
+            return a.id !== undefined && b.id !== undefined ? a.id - b.id : 0
+          });
+          for (let i = 0; i < 10; i++) {
+            console.log(messageData.pop());
+          }
           for (let jsonDataKey of jsonData) {
             messageData.push(new MessageData(jsonDataKey.id,
                 jsonDataKey.content,
@@ -67,6 +71,11 @@ const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
                 jsonDataKey.type === "text" ? MessageTypes.text : MessageTypes.img
             ));
           }
+          nextTick(() => {
+            if (messageDiv.value) {
+              messageDiv.value.scrollTop = messageDiv.value.scrollHeight
+            }
+          })
         } else {
           let op = jsonData.op;
           if (op === "pong") {
@@ -90,6 +99,20 @@ onMounted(() => {
   ws.value.onerror = websocketError;
   ws.value.onclose = websocketClose;
   ws.value.onmessage = websocketMessage;
+  if (messageDiv.value) {
+    messageDiv.value.onscroll = function (event: Event) {
+      if (messageDiv.value?.scrollTop === 0) {
+        if (lastId.value > 0) {
+          if (lastId.value >= 10) {
+            lastId.value -= 10;
+          }
+          lastId.value = 0;
+        }
+
+        ws.value?.send(JSON.stringify({"op": "get", "args": {"min": lastId.value, "count": 10}}))
+      }
+    }
+  }
 });
 onUnmounted(() => {
   ws.value?.close();
@@ -99,11 +122,15 @@ onUnmounted(() => {
 
 <style scoped>
 div.messages {
-  background: rgba(72, 70, 70, 0.2);
+  background: rgba(245, 245, 245);
   width: 90%;
   height: 80%;
   border: 2px dashed var(--el-border-color);
   border-radius: 20px;
   box-shadow: var(--el-box-shadow-lighter);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 </style>
