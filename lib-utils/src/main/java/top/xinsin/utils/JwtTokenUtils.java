@@ -58,10 +58,23 @@ public class JwtTokenUtils {
 
     /**
      * 从token中提取信息
+     *
      * @param token token
      * @return token中包含的信息
      */
-    public static DecodedJWT getTokenInfo(String token){
+    public static DecodedJWT getTokenInfo(String token) {
         return JWT.require(Algorithm.HMAC512(KEY)).build().verify(token);
+    }
+
+    /**
+     * 判断token与用户名是否对应
+     *
+     * @param token    token
+     * @param username 用户名
+     * @return 是否对应
+     */
+    public static boolean isUser(String token, String username) {
+        String tokenUsername = getTokenInfo(token).getClaim("username").asString();
+        return tokenUsername.equals(username);
     }
 }

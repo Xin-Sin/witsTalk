@@ -50,10 +50,10 @@ public interface UserMapper {
 
     /**
      * set a user's headingImg
+     *
      * @param user user with new base64
-     * @return this user
      */
-    User setHeadPortrait(User user);
+    void setHeadPortrait(User user);
 
     /**
      * get users online equals 1
@@ -63,8 +63,13 @@ public interface UserMapper {
 
     /**
      * get a user's headingImg
+     *
      * @param username the name of this user
      * @return base64
      */
     String getUserHeadPortrait(@Param("username") String username);
+
+    void changeUsername(String username, String old_username);
+
+    void changeUsernameUpdateMessage(String username, String old_username);
 }

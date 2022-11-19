@@ -7,6 +7,7 @@ import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
 import top.xinsin.utils.ResultData;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -43,20 +44,24 @@ public class UserController {
     public ResultData<JSONObject> addUser(@RequestBody User user) {return userService.addUser(user);}
 
     /**
-     *
      * @param user 需要修改密码的用户，此用户的password字段为需要为修改后的密码
      * @return 受影响行数
      */
     @PostMapping("/user/api/changepassword")
-    public ResultData<JSONObject> changePassword(@RequestBody User user) {return userService.changePassword(user);}
+    public ResultData<JSONObject> changePassword(@RequestBody User user, HttpServletRequest request) {
+        return userService.changePassword(user, request);
+    }
 
     /**
      * 设置用户头像接口
+     *
      * @param user 需要修改头像的用户，此用户的head
      * @return 受影响行数
      */
     @PostMapping("/user/api/setHeadPortrait")
-    public ResultData<String > setHeadPortrait(@RequestBody User user){return userService.setHeadPortrait(user);}
+    public ResultData<JSONObject> setHeadPortrait(@RequestBody User user, HttpServletRequest request) {
+        return userService.setHeadPortrait(user, request);
+    }
 
     /**
      * 获取用户头像接口
@@ -70,10 +75,23 @@ public class UserController {
 
     /**
      * 获取所有在线用户接口
+     *
      * @return 在线用户
      */
     @GetMapping("/user/api/getOnlineUser")
-    public ResultData<List<User>> getOnlineUser(){
+    public ResultData<List<User>> getOnlineUser() {
         return userService.getOnlineUser();
+    }
+
+    /**
+     * 修改用户名
+     *
+     * @param user    新用户
+     * @param request 请求
+     * @return 是否成功
+     */
+    @PostMapping("/user/api/changeUsername")
+    public ResultData<Boolean> changeUsername(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+        return userService.changeUsername(user, request, response);
     }
 }
