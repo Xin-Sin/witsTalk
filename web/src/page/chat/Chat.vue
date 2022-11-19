@@ -12,8 +12,10 @@ import {MessageData, MessageTypes} from "./MessageData";
 
 const ws = ref<WebSocket>();
 const waitingPong = function () {
-  ElMessage.error("当前网络质量不佳，请更换网络后重试！")
-  ws.value?.close();
+  if (!ws.value?.CLOSED) {
+    ElMessage.error("当前网络质量不佳，请更换网络后重试！")
+    ws.value?.close();
+  }
 }
 const pongId = ref<number>();
 const hasConnection = ref<boolean>(false);
@@ -24,14 +26,16 @@ const heartBeat = function () {
   ws.value?.send(JSON.stringify({"op": "heartCheck"}));
   pongId.value = window.setTimeout(waitingPong, 1000 * 50);
 }
-const websocketOpen = function (this: WebSocket, event: Event): any {
+const websocketOpen = function (this: WebSocket, _: Event): any {
   this.send(JSON.stringify({"op": "login", "args": {"token": window.sessionStorage.getItem("token")}}));
 }
-const websocketError = function (this: WebSocket, event: Event): any {
+const websocketError = function (this: WebSocket, _: Event): any {
   ElMessage.error("与服务器沟通出现错误！");
 }
-const websocketClose = function (this: WebSocket, event: Event): any {
-  ElMessage.error("与服务器连接断开！");
+const websocketClose = function (this: WebSocket, _: Event): any {
+  if (window.location.hash === "#/main") {
+    ElMessage.error("与服务器连接断开！");
+  }
 }
 const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
   let data: string | undefined = event.data;
@@ -59,7 +63,7 @@ const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
             return a.id !== undefined && b.id !== undefined ? a.id - b.id : 0
           });
           for (let i = 0; i < 10; i++) {
-            console.log(messageData.pop());
+            messageData.pop()
           }
           for (let jsonDataKey of jsonData) {
             messageData.push(new MessageData(jsonDataKey.id,
@@ -100,7 +104,7 @@ onMounted(() => {
   ws.value.onclose = websocketClose;
   ws.value.onmessage = websocketMessage;
   if (messageDiv.value) {
-    messageDiv.value.onscroll = function (event: Event) {
+    messageDiv.value.onscroll = function (_: Event) {
       if (messageDiv.value?.scrollTop === 0) {
         if (lastId.value > 0) {
           if (lastId.value >= 10) {

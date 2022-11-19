@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from "axios";
+import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import {Md5} from "ts-md5/dist/esm/md5";
 
 const instance = axios.create({
@@ -12,6 +12,16 @@ const responseInterceptors = function (response: AxiosResponse): AxiosResponse {
     return response;
 }
 instance.interceptors.response.use(responseInterceptors,)
+const requestInterceptors = function (request: AxiosRequestConfig): AxiosRequestConfig {
+    let token = window.sessionStorage.getItem("token");
+    if (request.headers) {
+        request.headers["Access-Token"] = token;
+    } else {
+        request.headers = {"Access-Token": token}
+    }
+    return request;
+}
+instance.interceptors.request.use(requestInterceptors);
 
 /**
  * 获取所有文件
@@ -80,6 +90,52 @@ export function getHeadImg(username: string) {
         url: "/user/api/getUserHeadPortrait/" + username,
         headers: {
             'Content-Type': 'application/json',
+        }
+    })
+}
+
+/**
+ * 修改用户密码接口
+ * @param username
+ * @param password
+ */
+export function changeUserPassword(username: string, password: string) {
+    return instance({
+        url: "/user/api/changepassword",
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "username": username,
+            "password": Md5.hashStr(password)
+        }
+    })
+}
+
+export function changeUserHeadImg(username: string, base64: string) {
+    return instance({
+        url: "/user/api/setHeadPortrait",
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "username": username,
+            "password": base64
+        }
+    })
+}
+
+export function changeUsername(username: string) {
+    return instance({
+        url: "/user/api/changeUsername",
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "username": username
         }
     })
 }

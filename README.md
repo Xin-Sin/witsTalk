@@ -33,7 +33,6 @@ CREATE TABLE `message`  (
   `type` enum('text','img') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'text' COMMENT '消息表消息类型',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `sender`(`sender`) USING BTREE,
-  CONSTRAINT `message_ibfk_1` FOREIGN KEY (`sender`) REFERENCES `witstalk`.`user` (`username`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 ```
 - 6.在数据库中创建`file`表
@@ -83,5 +82,5 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_message_base64_info` A
 - [Wzp-2008 的 GitHub](https://github.com/Wzp-2008)
 
 **鸣谢** `鸣谢`
-- [jetbrains](www.jetbrains.com)
+- [jetbrains](https://www.jetbrains.com)
 - ![jetbrains](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png?_gl=1*avq98w*_ga*NjQ5OTM0MzUxLjE2NDY1NTIyMzQ.*_ga_V0XZL7QHEB*MTY0Njk2NjY2Mi4zLjAuMTY0Njk2NjY2Mi4w)

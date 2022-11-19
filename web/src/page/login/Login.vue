@@ -44,17 +44,26 @@ const password = ref<string>();
 const showSlideWindow = ref<boolean>();
 const slider = ref<SlideVerifyInstance>();
 const title = ref<HTMLDivElement>();
+const Login = function () {
+  if (username.value !== '' && password.value !== '') {
+    showSlideWindow.value = true;
+    slider.value?.refresh();
+  } else {
+    ElMessage.error("请输入账号密码！")
+  }
+}
 onMounted(async () => {
   await getHitokoto().then(async (data) => {
     if (title.value) {
       title.value.innerText = data.data.hitokoto;
     }
+  });
+  document.addEventListener("keydown", ev => {
+    if ((ev.key) === 'Enter') {
+      Login()
+    }
   })
 })
-const Login = function () {
-  showSlideWindow.value = true;
-  slider.value?.refresh();
-}
 const onSlideSuccess = function () {
   login(username.value as string, password.value as string).then((data) => {
     showSlideWindow.value = false;

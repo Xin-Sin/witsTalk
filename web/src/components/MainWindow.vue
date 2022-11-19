@@ -6,7 +6,6 @@
       </div>
       <div class="user">
         <el-avatar :size="50" :src="headimgBase64" style="margin-right: 10px"/>
-        <div ref="usernameDiv" class="username"></div>
         <el-dropdown @command="handlerUserSettingsCommand">
         <span class="el-dropdown-link" style="color: #000000">
           {{ username }}<el-icon class="el-icon--right"><ArrowDown/></el-icon>
@@ -24,9 +23,10 @@
       <el-aside width="200px">
         <el-menu
             :collapse="isCollapse"
-            default-active="1"
+            :default-active="active"
             @mouseenter="isCollapse = false"
             @mouseleave="isCollapse = true"
+            @select="menuSelected"
             :collapse-transition="true"
         >
           <el-menu-item index="1">
@@ -81,8 +81,31 @@ const currentPath = ref(window.location.hash)
 window.addEventListener('hashchange', () => {
   currentPath.value = window.location.hash
 })
+const active = ref<string>("1");
 const currentView = computed(() => {
-  return routes.get(currentPath.value.slice(1).split("/")[2] || '') || NotFound
+  let pageName = currentPath.value.slice(1).split("/")[2] || '';
+  let pages = routes.get(pageName);
+  if (pages == undefined) {
+    window.location.hash = "/404"
+    return NotFound
+  }
+  switch (pageName) {
+    case '':
+      active.value = "1";
+      break;
+    case 'voice':
+      active.value = "2";
+      break;
+    case 'file':
+      active.value = "3";
+      break;
+    case 'settings':
+      active.value = "4";
+      break;
+    default:
+      break;
+  }
+  return pages;
 })
 //主逻辑
 const isCollapse = ref<boolean>(true);
@@ -102,10 +125,29 @@ onMounted(() => {
     window.location.hash = "/"
   }
 })
+const menuSelected = function (index: string) {
+  switch (index) {
+    case "1":
+      window.location.hash = "/main"
+      break
+    case "2":
+      window.location.hash = "/main/voice"
+      break
+    case "3":
+      window.location.hash = "/main/file"
+      break
+    case "4":
+      window.location.hash = "/main/settings"
+      break
+    default:
+      break
+  }
+}
 const handlerUserSettingsCommand = function (command: string) {
+  console.log(command)
   switch (command) {
     case "settings":
-      ElMessage.warning("功能未实现！")
+      window.location.hash = "/main/settings"
       break;
     case "exit":
       window.sessionStorage.removeItem("username");
