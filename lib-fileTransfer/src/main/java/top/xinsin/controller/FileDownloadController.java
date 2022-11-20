@@ -1,5 +1,6 @@
 package top.xinsin.controller;
 
+import com.alibaba.fastjson2.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import top.xinsin.service.FileDownloadService;
 import top.xinsin.utils.ResultData;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author xinxin
@@ -32,11 +32,12 @@ public class FileDownloadController {
     }
 
     @GetMapping("/file/api/downloadFile")
-    public ResponseEntity<InputStreamResource> getFile(@RequestParam("md5") String md5, @RequestParam("filename") String filename,@RequestParam("token") String token) throws IOException {
-        return fileDownloadService.getFile(md5,filename,token);
+    public ResponseEntity<InputStreamResource> getFile(@RequestParam("md5") String md5, @RequestParam("filename") String filename, @RequestParam("token") String token) throws IOException {
+        return fileDownloadService.getFile(md5, filename, token);
     }
+
     @PostMapping("/file/api/getAllFileNames")
-    public ResultData<List<?>> getAllFileNames(){
-        return fileDownloadService.getAllFileNames();
+    public ResultData<JSONObject> getAllFileNames(@RequestParam("min_id") int minId) {
+        return fileDownloadService.getAllFileNames(minId);
     }
 }

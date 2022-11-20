@@ -19,6 +19,7 @@
         select *
         from `v_message_base64_info`
         where id >= #{id_min}
+          and recall = 0
         limit #{count};
     </select>
     <select id="getUserHeadPortrait" resultType="java.lang.String">

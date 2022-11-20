@@ -22,20 +22,6 @@ const requestInterceptors = function (request: AxiosRequestConfig): AxiosRequest
     return request;
 }
 instance.interceptors.request.use(requestInterceptors);
-
-/**
- * 获取所有文件
- */
-export function getAllFileNames() {
-    return instance({
-        url: "/file/api/getAllFileNames",
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-    });
-}
-
 /**
  * 登录接口
  * @param username 用户名
@@ -136,6 +122,23 @@ export function changeUsername(username: string) {
         },
         data: {
             "username": username
+        }
+    })
+}
+
+/**
+ * 获取文件
+ * @param idMin 最小id
+ */
+export function getFiles(idMin: number) {
+    return instance({
+        url: "/file/api/getAllFileNames",
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        params: {
+            "min_id": idMin,
         }
     })
 }

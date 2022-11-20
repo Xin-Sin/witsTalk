@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.xinsin.dao.FileUploadMapper">
     <insert id="addFile" parameterType="top.xinsin.pojo.FileObject">
-        insert into file set size=#{size},name=#{name},md5=#{md5};
+        insert into file
+        set size=#{size},
+            name=#{name},
+            md5=#{md5},
+            uploadTime=now(),
+            uploaderId=#{uploaderId};
     </insert>
 </mapper>

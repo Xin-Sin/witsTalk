@@ -10,8 +10,10 @@ import top.xinsin.dao.FileUploadMapper;
 import top.xinsin.enums.HttpCodes;
 import top.xinsin.pojo.FileObject;
 import top.xinsin.utils.FileUtils;
+import top.xinsin.utils.JwtTokenUtils;
 import top.xinsin.utils.ResultData;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -43,19 +45,21 @@ public class FileUpLoadService {
 
     /**
      * 上传文件服务
-     * @param file 文件
+     *
+     * @param file    文件
+     * @param request 请求
      * @return 是否成功
      */
 
-    public ResultData<String> fileUpload(MultipartFile file) throws NoSuchAlgorithmException, IOException {
-        if(file.isEmpty()){
-            return ResultData.failed(HttpCodes.HTTP_CODES401,"文件是空的");
+    public ResultData<String> fileUpload(MultipartFile file, HttpServletRequest request) throws NoSuchAlgorithmException, IOException {
+        if (file.isEmpty()) {
+            return ResultData.failed(HttpCodes.HTTP_CODES401, "文件是空的");
         }
         log.info("starting saving");
         //获取原始文件名
         String originalFilename = file.getOriginalFilename();
         //获取文件的InputStream
-        InputStream input =  file.getInputStream();
+        InputStream input = file.getInputStream();
         //拼接文件保存路径
         String savePath = fileSaveFolder + File.separator + originalFilename;
         //获取文件对象
@@ -85,8 +89,9 @@ public class FileUpLoadService {
             boolean b = file1.renameTo(newFile);
             log.info("fileRenamed,Succeed:{}",b);
             log.info("Sending to database");
+            int id = Integer.parseInt(JwtTokenUtils.getTokenInfo(request.getHeader("Access-Token")).getClaim("id").asString());
             //新建FileObject
-            FileObject fileObject = new FileObject(originalFilename,file.getSize(),md5);
+            FileObject fileObject = new FileObject(originalFilename, file.getSize(), md5, id);
             //上传数据库
             fileUploadMapper.addFile(fileObject);
             log.info("Sanded");

@@ -1,5 +1,6 @@
 package top.xinsin.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import top.xinsin.pojo.FileObject;
 
@@ -21,7 +22,10 @@ public interface FileDownloadMapper {
 
     /**
      * 获取所有文件的名称
+     *
      * @return 文件名称列表
      */
-    ArrayList<FileObject> getAllFileNames();
+    ArrayList<FileObject> getAllFileNames(@Param("min_id") int minId);
+
+    Integer selectFileCount();
 }

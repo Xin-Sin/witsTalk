@@ -1,5 +1,6 @@
 package top.xinsin.service;
 
+import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,6 @@ import top.xinsin.utils.ResultData;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * @author xinxin
@@ -52,11 +52,15 @@ public class FileDownloadService {
 
     /**
      * 获取所有文件名称
+     *
      * @return 文件名称
      */
-    public ResultData<List<?>> getAllFileNames(){
+    public ResultData<JSONObject> getAllFileNames(int minId) {
         log.info("getAllFileNames --> begin");
-        return ResultData.success(fileDownloadMapper.getAllFileNames());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.fluentPut("files", fileDownloadMapper.getAllFileNames(minId));
+        jsonObject.fluentPut("total", fileDownloadMapper.selectFileCount());
+        return ResultData.success(jsonObject);
     }
 
     /**
