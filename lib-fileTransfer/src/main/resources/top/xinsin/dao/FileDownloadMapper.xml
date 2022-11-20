@@ -10,7 +10,7 @@
         select f.id, f.size, f.`name`, f.md5, f.uploadTime, u.username as uploaderName
         from file f
                  INNER JOIN `user` u on u.id = f.uploaderId
-        LIMIT #{min_id} ,10
+        LIMIT #{min_id} ,#{pageSize}
     </select>
     <select id="selectFileCount" resultType="java.lang.Integer">
         select count(*)

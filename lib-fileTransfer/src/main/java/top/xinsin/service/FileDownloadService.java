@@ -55,10 +55,10 @@ public class FileDownloadService {
      *
      * @return 文件名称
      */
-    public ResultData<JSONObject> getAllFileNames(int minId) {
+    public ResultData<JSONObject> getAllFileNames(Integer minId,Integer pageSize) {
         log.info("getAllFileNames --> begin");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.fluentPut("files", fileDownloadMapper.getAllFileNames(minId));
+        jsonObject.fluentPut("files", fileDownloadMapper.getAllFileNames(minId,pageSize));
         jsonObject.fluentPut("total", fileDownloadMapper.selectFileCount());
         return ResultData.success(jsonObject);
     }

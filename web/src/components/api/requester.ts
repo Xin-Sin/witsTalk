@@ -130,7 +130,7 @@ export function changeUsername(username: string) {
  * 获取文件
  * @param idMin 最小id
  */
-export function getFiles(idMin: number) {
+export function getFiles(idMin: number,pageSize: number) {
     return instance({
         url: "/file/api/getAllFileNames",
         method: "POST",
@@ -139,6 +139,15 @@ export function getFiles(idMin: number) {
         },
         params: {
             "min_id": idMin,
+            'pageSize': pageSize
         }
     })
+}
+export function getShowFile(md5: string,name:string,token:string) {
+    return instance({
+        url: "file/api/downloadFile?md5=" + md5 + "&filename=" + name + "&token=" + token,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
 }

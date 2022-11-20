@@ -37,7 +37,7 @@ public class FileDownloadController {
     }
 
     @PostMapping("/file/api/getAllFileNames")
-    public ResultData<JSONObject> getAllFileNames(@RequestParam("min_id") int minId) {
-        return fileDownloadService.getAllFileNames(minId);
+    public ResultData<JSONObject> getAllFileNames(@RequestParam("min_id") int minId,@RequestParam("pageSize") Integer pageSize) {
+        return fileDownloadService.getAllFileNames(minId,pageSize);
     }
 }
