@@ -25,7 +25,7 @@ public interface FileDownloadMapper {
      *
      * @return 文件名称列表
      */
-    ArrayList<FileObject> getAllFileNames(@Param("min_id") int minId);
+    ArrayList<FileObject> getAllFileNames(@Param("min_id")Integer minId,@Param("pageSize")Integer pageSize);
 
     Integer selectFileCount();
 }

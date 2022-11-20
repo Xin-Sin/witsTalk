@@ -72,6 +72,7 @@ const onSlideSuccess = function () {
       ElMessage.success("登录成功！");
       window.sessionStorage.setItem("username", username.value as string);
       window.sessionStorage.setItem("headimg", data.data.data.base64);
+      window.sessionStorage.setItem("auth", data.data.data.auth);
       window.location.hash = "/main";
     } else {
       ElMessage.error("用户名或密码错误！");

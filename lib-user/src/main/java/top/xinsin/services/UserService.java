@@ -47,7 +47,8 @@ public class UserService {
             response.setHeader("token", token);
             response.setHeader("Access-Control-Expose-Headers", "token");
             jsonObject.fluentPut("base64", user1.getBase64())
-                    .fluentPut("canLogin", true);
+                    .fluentPut("canLogin", true)
+                    .fluentPut("auth",user1.getAuth().toString());
         } else {
             jsonObject.fluentPut("canLogin", false);
             return ResultData.failed(HttpCodes.HTTP_CODES501, jsonObject);

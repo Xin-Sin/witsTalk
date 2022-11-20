@@ -1,6 +1,5 @@
 server:
   port: 8003
-
 spring:
   datasource:
     username: witstalk
