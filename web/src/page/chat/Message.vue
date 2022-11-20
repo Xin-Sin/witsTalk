@@ -22,7 +22,7 @@
 
 <script lang="ts" setup>
 import {MessageData} from "./MessageData";
-import {ref, unref} from "vue";
+import {ref} from "vue";
 
 const visibleMethod = (sender:string) =>{
   let name = sessionStorage.getItem("username");
