@@ -2,7 +2,7 @@ import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import {Md5} from "ts-md5/dist/esm/md5";
 
 const instance = axios.create({
-    baseURL: 'http://127.0.0.1:8080'
+    baseURL: '/'
 });
 const responseInterceptors = function (response: AxiosResponse): AxiosResponse {
     let token = response.headers.token;
@@ -129,6 +129,7 @@ export function changeUsername(username: string) {
 /**
  * 获取文件
  * @param idMin 最小id
+ * @param pageSize 页面大小
  */
 export function getFiles(idMin: number,pageSize: number) {
     return instance({
