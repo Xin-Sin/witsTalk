@@ -1,16 +1,31 @@
 <template>
   <div ref="messageDiv" class="messages">
-    <Message v-for="(item,index) in messageData" :key="index" :data="item"></Message>
+    <Message v-for="(item,index) in messageData" :key="index" :data="item"/>
+  </div>
+  <el-input
+      v-model="sendContent"
+      :disabled="!hasConnection"
+      class="input-area"
+      maxlength="500"
+      placeholder=""
+      rows="4"
+      show-word-limit
+      type="textarea"
+  />
+  <div class="button-div">
+    <el-button :disabled="!hasConnection" class="send-button" plain type="warning" @click="sendMessage">发送</el-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import {nextTick, onMounted, onUnmounted, reactive, ref} from "vue";
-import {ElMessage} from "element-plus";
+import {ElLoading, ElMessage} from "element-plus";
 import Message from "./Message.vue";
 import {MessageData, MessageTypes} from "./MessageData";
+import {LoadingInstance} from "element-plus/es/components/loading/src/loading";
 
 const ws = ref<WebSocket>();
+const sendContent = ref<string>();
 const waitingPong = function () {
   if (!ws.value?.CLOSED) {
     ElMessage.error("当前网络质量不佳，请更换网络后重试！")
@@ -29,14 +44,24 @@ const heartBeat = function () {
 const websocketOpen = function (this: WebSocket, _: Event): any {
   this.send(JSON.stringify({"op": "login", "args": {"token": window.sessionStorage.getItem("token")}}));
 }
-const websocketError = function (this: WebSocket, _: Event): any {
+const websocketError = function (this: WebSocket, evt: Event): any {
+  console.log(evt);
   ElMessage.error("与服务器沟通出现错误！");
 }
 const websocketClose = function (this: WebSocket, _: Event): any {
   if (window.location.hash === "#/main") {
-    ElMessage.error("与服务器连接断开！");
+    ElMessage.error("与服务器连接断开，尝试重连！");
+    for (let i = 0; i < messageData.length; i++) {
+      messageData.pop();
+    }
+    initWebsocket();
+    if (!loadingInstance.value) {
+      loadingInstance.value = ElLoading.service({"target": messageDiv.value})
+    }
   }
+  hasConnection.value = false;
 }
+const loadingInstance = ref<LoadingInstance | null>();
 const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
   let data: string | undefined = event.data;
   if (data === undefined) {
@@ -59,6 +84,15 @@ const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
       try {
         let jsonData = JSON.parse(data);
         if (Array.isArray(jsonData)) {
+          if (loadingInstance.value) {
+            loadingInstance.value.close();
+            loadingInstance.value = null;
+            document.addEventListener("keydown", (evt) => {
+              if (evt.key === "Enter" && evt.ctrlKey) {
+                sendMessage()
+              }
+            });
+          }
           jsonData = jsonData.sort((a, b) => {
             return a.id !== undefined && b.id !== undefined ? a.id - b.id : 0
           });
@@ -90,14 +124,44 @@ const websocketMessage = function (this: WebSocket, event: MessageEvent): any {
             window.clearTimeout(pongId.value);
             window.setTimeout(heartBeat, 1000 * 30);
           }
+          if (op === undefined) {
+            messageData.push(new MessageData(jsonData.id,
+                jsonData.content,
+                jsonData.sender,
+                jsonData.recall,
+                jsonData.sendtime,
+                jsonData.base64,
+                jsonData.type === "text" ? MessageTypes.text : MessageTypes.img
+            ));
+          }
         }
       } catch (e) {
         ElMessage.error("出现错误，请尝试刷新！");
+        console.log(e);
       }
     }
   }
 }
-onMounted(() => {
+const sendMessage = function () {
+  if (!sendContent.value) {
+    ElMessage.error("请输入要发送的内容！");
+    return;
+  }
+  if (!ws.value) {
+    ElMessage.error("出现错误，与服务器未连接")
+    return
+  }
+  const username = window.sessionStorage.getItem("username");
+  if (username) {
+    ws.value.send(JSON.stringify({
+      "op": "send",
+      "args": {"sender": username, "content": sendContent.value, "type": "text"}
+    }))
+    ElMessage.success("发送成功！")
+    sendContent.value = "";
+  }
+}
+const initWebsocket = function () {
   ws.value = new WebSocket("ws://127.0.0.1:8080/chat");
   ws.value.onopen = websocketOpen;
   ws.value.onerror = websocketError;
@@ -117,6 +181,10 @@ onMounted(() => {
       }
     }
   }
+}
+onMounted(() => {
+  loadingInstance.value = ElLoading.service({"target": messageDiv.value})
+  initWebsocket();
 });
 onUnmounted(() => {
   ws.value?.close();
@@ -127,7 +195,7 @@ onUnmounted(() => {
 <style scoped>
 div.messages {
   background: rgba(245, 245, 245);
-  width: 90%;
+  width: 100%;
   height: 80%;
   border: 2px dashed var(--el-border-color);
   border-radius: 20px;
@@ -136,5 +204,18 @@ div.messages {
   flex-direction: column;
   overflow: hidden;
   overflow-y: scroll;
+}
+
+.input-area {
+  margin-top: 20px;
+}
+
+.send-button {
+  margin-top: 10px;
+}
+
+.button-div {
+  display: flex;
+  flex-direction: row-reverse;
 }
 </style>

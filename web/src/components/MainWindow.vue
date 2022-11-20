@@ -20,12 +20,12 @@
       </div>
     </el-header>
     <el-container>
-      <el-aside width="200px">
+      <el-aside :width="max_with + 'px'" class="aside">
         <el-menu
             :collapse="isCollapse"
             :default-active="active"
-            @mouseenter="isCollapse = false"
-            @mouseleave="isCollapse = true"
+            @mouseenter="onMouseEnter"
+            @mouseleave="onMouseLeave"
             @select="menuSelected"
             :collapse-transition="true"
         >
@@ -55,7 +55,7 @@
           </el-menu-item>
         </el-menu>
       </el-aside>
-      <el-main style="width: 100%; height: 80vh">
+      <el-main style="width: 100%; height: 80vh; overflow-x: hidden; overflow-y: hidden;">
         <component :is="currentView"/>
       </el-main>
     </el-container>
@@ -72,6 +72,7 @@ import UserSettings from '../page/setting/UserSettings.vue'
 import VoiceChat from '../page/voice/VoiceChat.vue'
 import {ElMessage} from "element-plus";
 
+const max_with = ref<number>(64);
 const routes: Map<string, any> = new Map<string, any>();
 routes.set('', Chat)
 routes.set('file', FileTransfer)
@@ -161,6 +162,14 @@ const handlerUserSettingsCommand = function (command: string) {
       break;
   }
 }
+const onMouseEnter = function () {
+  isCollapse.value = false
+  max_with.value = 200;
+}
+const onMouseLeave = function () {
+  isCollapse.value = true
+  max_with.value = 64;
+}
 </script>
 
 <style scoped>
@@ -187,5 +196,10 @@ div.user {
   justify-content: flex-end;
   align-items: center;
   height: 100%;
+}
+
+.aside {
+  transition: width 500ms;
+  overflow-x: hidden;
 }
 </style>
