@@ -3,16 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.wzpmc.dao.ChatDao">
-    <insert id="sendMessage" parameterType="cn.wzpmc.pojo.Message">
-        insert into message set content=#{content},sender=#{sender},type=#{type},sendtime=#{sendtime};
+    <insert id="sendMessage" parameterType="cn.wzpmc.pojo.Message" useGeneratedKeys="true" keyProperty="id">
+        insert into message
+        set content=#{content},
+            sender=#{sender},
+            type=#{type},
+            sendtime=#{sendtime};
     </insert>
     <update id="recall" parameterType="cn.wzpmc.pojo.Message">
-        update message set recall=1 where id=#{id};
+        update message
+        set recall=1
+        where id = #{id};
     </update>
     <select id="getMessage" resultType="cn.wzpmc.pojo.Message">
         select *
         from `v_message_base64_info`
         where id >= #{id_min}
+          and recall = 0
         limit #{count};
     </select>
     <select id="getUserHeadPortrait" resultType="java.lang.String">
