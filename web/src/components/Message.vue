@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import {MessageData} from "./MessageData";
+import {MessageData} from "../util/MessageData";
 import {ref} from "vue";
 
 const visibleMethod = (sender:string) =>{

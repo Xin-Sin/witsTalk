@@ -1,13 +1,8 @@
 <template>
   <img alt="" class="bg" src="../assets/404.png"/>
 </template>
-
 <script>
-export default {
-  name: "NotFound"
-}
 </script>
-
 <style scoped>
 .bg {
   width: 100%;

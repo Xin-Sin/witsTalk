@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<!-- <script lang="ts" setup>
 import {computed, ref} from 'vue'
 import Login from './page/login/Login.vue'
 import NotFound from './components/NotFound.vue'
@@ -21,4 +21,7 @@ const currentView = computed(() => {
 </template>
 
 <style scoped>
-</style>
+</style> -->
+<template>
+  <router-view/>
+</template>

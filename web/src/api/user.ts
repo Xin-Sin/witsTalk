@@ -1,27 +1,5 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import {Md5} from "ts-md5/dist/esm/md5";
-
-const instance = axios.create({
-    baseURL: '/'
-});
-const responseInterceptors = function (response: AxiosResponse): AxiosResponse {
-    let token = response.headers.token;
-    if (token) {
-        window.sessionStorage.setItem("token", token);
-    }
-    return response;
-}
-instance.interceptors.response.use(responseInterceptors,)
-const requestInterceptors = function (request: AxiosRequestConfig): AxiosRequestConfig {
-    let token = window.sessionStorage.getItem("token");
-    if (request.headers) {
-        request.headers["Access-Token"] = token;
-    } else {
-        request.headers = {"Access-Token": token}
-    }
-    return request;
-}
-instance.interceptors.request.use(requestInterceptors);
+import instance from "./requester";
 /**
  * 登录接口
  * @param username 用户名
@@ -124,31 +102,4 @@ export function changeUsername(username: string) {
             "username": username
         }
     })
-}
-
-/**
- * 获取文件
- * @param idMin 最小id
- * @param pageSize 页面大小
- */
-export function getFiles(idMin: number,pageSize: number) {
-    return instance({
-        url: "/file/api/getAllFileNames",
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        params: {
-            "min_id": idMin,
-            'pageSize': pageSize
-        }
-    })
-}
-export function getShowFile(md5: string,name:string,token:string) {
-    return instance({
-        url: "file/api/downloadFile?md5=" + md5 + "&filename=" + name + "&token=" + token,
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
 }
