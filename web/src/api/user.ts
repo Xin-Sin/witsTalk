@@ -1,5 +1,6 @@
 import {Md5} from "ts-md5/dist/esm/md5";
 import instance from "./requester";
+
 /**
  * 登录接口
  * @param username 用户名
@@ -100,6 +101,20 @@ export function changeUsername(username: string) {
         },
         data: {
             "username": username
+        }
+    })
+}
+
+export function registerUser(username: string, password: string) {
+    return instance({
+        url: "/user/api/adduser",
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            "username": username,
+            "password": Md5.hashStr(password),
         }
     })
 }

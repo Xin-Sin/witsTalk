@@ -1,5 +1,4 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
-import { defineAsyncComponent } from 'vue'
 
 const router = createRouter({ 
     history: createWebHashHistory(),
@@ -13,9 +12,17 @@ const router = createRouter({
             },
         },
         {
+            path: '/reg',
+            name: 'register',
+            component: () => import(`../views/register/index.vue`),
+            meta: {
+                title: '注册',
+            },
+        },
+        {
             path: '/404',
             name: '404',
-            component : () => import(`../components/NotFound.vue`),
+            component: () => import(`../components/NotFound.vue`),
             meta: {
                 title: '哎呦，页面找不到了',
             }
