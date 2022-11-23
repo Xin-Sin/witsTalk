@@ -17,7 +17,7 @@ CREATE TABLE `user` (
 	`auth` ENUM ( 'admin', 'user' ) NOT NULL DEFAULT 'user' COMMENT '用户表用户类型',
 	`online` BIT ( 1 ) NOT NULL DEFAULT 0 COMMENT '用户表用户在线',
 	`last_login` DATETIME NULL DEFAULT NULL COMMENT '用户表用户最后上线时间',
-	`base64` LONGTEXT NOT NULL COMMENT '用户表用户头像',
+	`base64` LONGTEXT NULL COMMENT '用户表用户头像',
 	PRIMARY KEY ( `id` ),
 INDEX `id` ( `id` ASC ) USING BTREE COMMENT '主键id索引' 
 );

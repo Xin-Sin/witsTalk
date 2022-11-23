@@ -23,7 +23,7 @@
   import Message from "../../components/Message.vue";
   import {MessageData, MessageTypes} from "../../util/MessageData";
   import {LoadingInstance} from "element-plus/es/components/loading/src/loading";
-  
+
   const ws = ref<WebSocket>();
   const sendContent = ref<string>();
   const waitingPong = function () {
@@ -162,7 +162,7 @@
     }
   }
   const initWebsocket = function () {
-    ws.value = new WebSocket("ws://127.0.0.1:8080/chat");
+    ws.value = new WebSocket("ws://wzpmc.cn:16384/chat");
     ws.value.onopen = websocketOpen;
     ws.value.onerror = websocketError;
     ws.value.onclose = websocketClose;

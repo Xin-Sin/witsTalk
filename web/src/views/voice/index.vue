@@ -64,7 +64,7 @@
       //用户名元素
       let name = document.createElement("span");
       //设置用户名
-      name.innerText = username;
+      name.innerText = username as string;
       //添加元素至div
       outDiv.appendChild(name);
       outDiv.appendChild(audio);
@@ -79,7 +79,7 @@
     // 获取用户音频流
     await navigator.mediaDevices.getUserMedia({"audio": true})
         .then((mediaStream) => localMediaStream = mediaStream)
-        .catch((_) => ElMessage.error("无法获取用户麦克风，请检查麦克风权限是否给予"))
+        .catch((_) => console.log(_))//ElMessage.error("无法获取用户麦克风，请检查麦克风权限是否给予"))
     ElMessage.success("连接到语音服务器，开始鉴权")
     //登录鉴权
     sendWebSocket({"op": "login", "token": sessionStorage.getItem("token"), "media": localMediaStream.id})
@@ -88,7 +88,7 @@
    * 用户退出事件
    * @param jsonData 数据
    */
-  const handlerUserLeave = function (jsonData: object) {
+  const handlerUserLeave = function (jsonData: any) {
     //将用户从mediaId和username的表中删除
     usernames.delete(jsonData.user);
   }
@@ -96,7 +96,7 @@
    * 处理STUN服务器选择事件
    * @param event 事件
    */
-  const handlerIceServerIceCandidate = function (event) {
+  const handlerIceServerIceCandidate = function (event: RTCPeerConnectionIceEvent) {
     if (event.candidate) {
       //广播STUN服务器
       sendWebSocket({"op": "candidate", "data": event.candidate});
@@ -106,7 +106,7 @@
    * 处理用户登录成功事件
    * @param jsonData 数据
    */
-  const handlerUserLoginSuccessCallback = async function (jsonData: object) {
+  const handlerUserLoginSuccessCallback = async function (jsonData: any) {
     //Login Success Callback
     //是否登录成功
     if (!jsonData.data.right) {
@@ -137,7 +137,7 @@
    * 处理用户连接事件
    * @param jsonData 数据
    */
-  const handlerUserAdd = function (jsonData: object) {
+  const handlerUserAdd = function (jsonData: any) {
     //将媒体流id和用户名放入表中
     usernames.set(jsonData.data.id, jsonData.data.name);
   }
@@ -145,7 +145,7 @@
    * 处理Offer事件
    * @param offer 数据
    */
-  const handlerOffer = function (offer: object) {
+  const handlerOffer = function (offer: RTCSessionDescriptionInit) {
     //设置远端描述为传过来的描述
     connection.setRemoteDescription(new RTCSessionDescription(offer));
     //创建应答数据并广播
@@ -159,7 +159,7 @@
    * 处理远端应答事件
    * @param answer 数据
    */
-  const handlerAnswer = function (answer: object) {
+  const handlerAnswer = function (answer: RTCSessionDescriptionInit) {
     //设置远端描述为发过来的
     connection.setRemoteDescription(new RTCSessionDescription(answer));
   }
@@ -218,7 +218,7 @@
   }
   onMounted(() => {
     //初始化WebSocket连接
-    webSocketConnection = new WebSocket("ws://192.168.1.4:8080/voice");
+    webSocketConnection = new WebSocket("ws://wzpmc.cn:16384/voice");
     webSocketConnection.onmessage = handlerWebSocketMessage;
     webSocketConnection.onopen = handlerWebSocketConnect;
     webSocketConnection.onclose = handlerWebSocketClose;
