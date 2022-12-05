@@ -1,10 +1,16 @@
 package top.xinsin.controller;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import lombok.SneakyThrows;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
+import top.xinsin.utils.IpUtils;
 import top.xinsin.utils.ResultData;
 
 import javax.servlet.http.HttpServletRequest;
@@ -93,5 +99,38 @@ public class UserController {
     @PostMapping("/user/api/changeUsername")
     public ResultData<Boolean> changeUsername(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
         return userService.changeUsername(user, request, response);
+    }
+    @Value("${map-key}")
+    private String key;
+    @SneakyThrows
+    @GetMapping("/user/api/getWeather")
+    public ResultData<JSONObject> getWeather(HttpServletRequest httpServletRequest){
+        String ipAddr = IpUtils.getIpAddr(httpServletRequest);
+//        检测为本地ip则进行默认地点查询
+        if ("127.0.0.1".equals(ipAddr)){
+            HttpClient httpClient = new HttpClient();
+            httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(15000);
+            GetMethod getWeather = new GetMethod("https://restapi.amap.com/v3/weather/weatherInfo?key=" + key + "&city=220382&extensions=base");
+            httpClient.executeMethod(getWeather);
+            String getWeatherResult = getWeather.getResponseBodyAsString();
+            getWeather.releaseConnection();
+            return ResultData.success(JSON.parseObject(getWeatherResult));
+        }else{
+            HttpClient httpClient = new HttpClient();
+            httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(15000);
+            GetMethod getMethod = new GetMethod("https://restapi.amap.com/v3/ip?key=" + key + "&ip=" + ipAddr);
+            httpClient.executeMethod(getMethod);
+            String result = getMethod.getResponseBodyAsString();
+            getMethod.releaseConnection();
+            String adcode = JSON.parseObject(result).getString("adcode");
+            if (adcode != null){
+                GetMethod getWeather = new GetMethod("https://restapi.amap.com/v3/weather/weatherInfo?key=" + key + "&city=" + adcode + "&extensions=base");
+                String getWeatherResult = getWeather.getResponseBodyAsString();
+                getWeather.releaseConnection();
+                return ResultData.success(JSON.parseObject(getWeatherResult));
+            }else{
+                return ResultData.success(new JSONObject().fluentPut("status","未查询到相关天气信息"));
+            }
+        }
     }
 }

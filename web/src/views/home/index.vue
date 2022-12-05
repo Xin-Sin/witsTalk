@@ -4,6 +4,26 @@
         <div class="logo">
           <el-icon><img alt="" class="logo" src="/logo.svg"/></el-icon>
         </div>
+        <div>
+          <span>
+            <span style="color: #FFCC33">
+              {{weather.city}}
+            </span>
+            今日天气:
+            <span style="color: #FFFFCC">
+              {{weather.weather}}
+            </span>
+            温度:
+            <span style="color: #FFFF66">
+              {{weather.temperature}}度
+            </span>
+            风向:
+            <span style="color: #9933CC">
+              {{weather.winddirection}}风
+              {{weather.windpower}}级
+            </span>
+          </span>
+        </div>
         <div class="user">
           <el-avatar :size="50" :src="headimgBase64" style="margin-right: 10px"/>
           <el-dropdown @command="handlerUserSettingsCommand">
@@ -66,6 +86,7 @@
   import {ArrowDown, ChatDotRound, Files, Mic, Setting} from '@element-plus/icons-vue'
   import {onMounted, ref} from 'vue'
   import {ElMessage} from "element-plus";
+  import {getWeather} from "../../api/user";
   
   const max_with = ref<number>(64);
   const active = ref<string>("1");
@@ -74,7 +95,13 @@
   const headimgBase64 = ref<string>();
   const userToken = ref<string>();
   const username = ref<string>();
+  const weather = ref<Object>({});
   onMounted(() => {
+    getWeather().then(res =>{
+      weather.value = res.data.data.lives[0]
+    }).catch(res =>{
+      ElMessage.error("获取天气时出现了错误")
+    })
     let name = window.sessionStorage.getItem("username");
     let headimg = window.sessionStorage.getItem("headimg");
     let token = window.sessionStorage.getItem("token");

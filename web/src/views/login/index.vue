@@ -26,11 +26,6 @@
     </div>
   </template>
   
-  <script lang="ts">
-  export default {
-    name: "Login",
-  }
-  </script>
   <script lang="ts" setup>
   import {onMounted, ref} from "vue";
   import SlideVerify, {SlideVerifyInstance} from "vue3-slide-verify";
@@ -73,7 +68,11 @@
         window.sessionStorage.setItem("username", username.value as string);
         window.sessionStorage.setItem("headimg", data.data.data.base64);
         window.sessionStorage.setItem("auth", data.data.data.auth);
-        window.location.hash = "/home";
+        if(window.innerWidth > 800){
+          window.location.hash = "/home";
+        }else{
+            
+        }
       } else {
         ElMessage.error("用户名或密码错误！");
       }

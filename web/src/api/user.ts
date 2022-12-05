@@ -118,3 +118,9 @@ export function registerUser(username: string, password: string) {
         }
     })
 }
+export function getWeather() {
+    return instance({
+        url: "/user/api/getWeather",
+        method: "get",
+    })
+}
