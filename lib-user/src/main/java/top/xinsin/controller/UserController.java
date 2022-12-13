@@ -110,7 +110,12 @@ public class UserController {
         if ("127.0.0.1".equals(ipAddr)){
             HttpClient httpClient = new HttpClient();
             httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(15000);
-            GetMethod getWeather = new GetMethod("https://restapi.amap.com/v3/weather/weatherInfo?key=" + key + "&city=220382&extensions=base");
+            GetMethod getMethod = new GetMethod("https://restapi.amap.com/v3/ip?key=" + key);
+            httpClient.executeMethod(getMethod);
+            String responseBodyAsString = getMethod.getResponseBodyAsString();
+            JSONObject jsonObject = JSON.parseObject(responseBodyAsString);
+            getMethod.releaseConnection();
+            GetMethod getWeather = new GetMethod("https://restapi.amap.com/v3/weather/weatherInfo?key=" + key + "&city="+jsonObject.getString("adcode")+"&awextensions=base");
             httpClient.executeMethod(getWeather);
             String getWeatherResult = getWeather.getResponseBodyAsString();
             getWeather.releaseConnection();
