@@ -31,4 +31,4 @@ spring:
     type-aliases-package: top.xinsin.dao
     configuration:
       map-underscore-to-camel-case: true
-
+map-key: 3d665cbd98ac252863b898625450e2a3

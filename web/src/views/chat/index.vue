@@ -162,7 +162,7 @@
     }
   }
   const initWebsocket = function () {
-    ws.value = new WebSocket("ws://wzpmc.cn:16384/chat");
+    ws.value = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/chat");
     ws.value.onopen = websocketOpen;
     ws.value.onerror = websocketError;
     ws.value.onclose = websocketClose;

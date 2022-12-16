@@ -218,7 +218,7 @@
   }
   onMounted(() => {
     //初始化WebSocket连接
-    webSocketConnection = new WebSocket("ws://wzpmc.cn:16384/voice");
+    webSocketConnection = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/voice");
     webSocketConnection.onmessage = handlerWebSocketMessage;
     webSocketConnection.onopen = handlerWebSocketConnect;
     webSocketConnection.onclose = handlerWebSocketClose;

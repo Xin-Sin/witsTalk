@@ -2,65 +2,26 @@
 **本项目名称为:** `WitsTalk`
 - `WitsTalk`是我们项目团队在2021/12/11制作的开源项目,项目的构思是在群语音的时候发现了一些缺点,才开发此项目.
 - 实现在语音聊天中群员可以调节任何群员的`输出音量`以及自己的`输入音量`
-- 管理员拥有最高权限,可以开关群员的`麦克风`,也可以调节群员的`输入音量` ...暂定是这些功能
-- 项目的初衷是给minecraft玩家一个更舒服的语音环境,更好的交流环境
+- 管理员拥有最高权限,可以开关群员的`麦克风`,也可以调节群员的`输入音量`
+- 新分支暂加功能
+  - 消息回复功能
+  - 可发送表情信息
+  - 文件分享功能
+    - 对文件上传或者下载
+    - 对简单文件进行在线预览,如(yml,xml,json,txt,log,mp3,mav,ogg,flv,mp4等格式)
+- 暂不提供频道功能,会在这个项目开发完毕之后根据用户反馈,在考虑是否要进行二开(会对整个项目进行大重构,包括后端和数据加密进行处理)
+- 项目的初衷是给minecraft玩家一个更舒服的语音环境,更好的交流环境,更友好的文件分享
 
 **如何开发** `开发方法`
 - 1.使用`git clone https://github.com/XinSin-top/witsTalk.git` 下载我们的项目
 - 2.我们建议您使用`idea`来进行开发,那样将会为您省去很多配置环境时间
-- 4.在数据库中创建`user`表
-``` mysql
-CREATE TABLE `user` (
-	`id` INT NOT NULL AUTO_INCREMENT COMMENT '用户表主键id',
-	`username` VARCHAR ( 25 ) NOT NULL COMMENT '用户表用户名',
-	`password` VARCHAR ( 128 ) NOT NULL COMMENT '用户表用户密码',
-	`auth` ENUM ( 'admin', 'user' ) NOT NULL DEFAULT 'user' COMMENT '用户表用户类型',
-	`online` BIT ( 1 ) NOT NULL DEFAULT 0 COMMENT '用户表用户在线',
-	`last_login` DATETIME NULL DEFAULT NULL COMMENT '用户表用户最后上线时间',
-	`base64` LONGTEXT NULL COMMENT '用户表用户头像',
-	PRIMARY KEY ( `id` ),
-INDEX `id` ( `id` ASC ) USING BTREE COMMENT '主键id索引' 
-);
-```
-- 5.在数据库中创建`message`表
-
-``` mysql
-CREATE TABLE `message` (
-	`id` INT NOT NULL AUTO_INCREMENT COMMENT '消息表主键消息id',
-	`content` LONGTEXT NOT NULL COMMENT '消息表消息内容',
-	`sender` VARCHAR ( 25 ) NOT NULL COMMENT '消息表消息发送者',
-	`recall` BIT ( 1 ) NOT NULL DEFAULT 0 COMMENT '消息表消息是否撤回',
-	`sendtime` DATETIME NOT NULL COMMENT '消息表消息发送时间',
-	`type` ENUM ( 'text', 'img' ) NOT NULL DEFAULT 'text' COMMENT '消息表消息类型',
-	PRIMARY KEY ( `id` ),
-INDEX `id` ( `id` ASC ) USING BTREE COMMENT '主键id索引' 
-);
-```
-- 6.在数据库中创建`file`表
-
-``` mysql
-CREATE TABLE `file` (
-	`id` INT NOT NULL AUTO_INCREMENT COMMENT '文件表主键文件id',
-	`size` DOUBLE NOT NULL COMMENT '文件表文件大小',
-	`name` VARCHAR ( 200 ) NOT NULL COMMENT '文件表文件名称',
-	`md5` VARCHAR ( 32 ) NOT NULL COMMENT '文件表文件md5',
-	`uploadTime` DATETIME NOT NULL COMMENT '文件表文件上传时间',
-	`uploaderId` INT NOT NULL COMMENT '文件表文件上传者id',
-	PRIMARY KEY ( `id` ),
-	INDEX `id` ( `id` ASC ) USING BTREE COMMENT '文件表主键id索引',
-CONSTRAINT `uploaderId` FOREIGN KEY ( `uploaderId` ) REFERENCES `witstalk`.`user` ( `id` ) ON DELETE RESTRICT ON UPDATE RESTRICT 
-);
-```
-- 7.在数据库中创建`v_message_base64_info`视图
-``` mysql
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_message_base64_info` AS select `message`.`id` AS `id`,`message`.`content` AS `content`,`message`.`sender` AS `sender`,`message`.`recall` AS `recall`,`message`.`sendtime` AS `sendtime`,`message`.`type` AS `type`,`user`.`base64` AS `base64` from (`message` join `user` on((`message`.`sender` = `user`.`username`)));
-```
-- 8.调整每一个模块的数据库`url`
-- 9.使用`maven`来下载后端项目依赖
-- 10.检查`mysql`数据库版本,并更改`pom.xml`中`JDBC`依赖版本
-- 11.使用`npm install`下载前端项目依赖
-- 12.(可选).配置`nginx`反向代理,和端口号
-- 13.启动前端项目`npm run dev`,启动nginx,启动后端项目:(还用我教吗?-_-):
+- 3.由于该分支正在积极开发(推进度),有很多不确定因素,所以我们暂不提供DDL语句
+- 4.调整每一个模块的数据库`url`
+- 5.使用`maven`来下载后端项目依赖
+- 6.检查`mysql`数据库版本,并更改`pom.xml`中`JDBC`依赖版本
+- 7.使用`npm install`下载前端项目依赖
+- 8.(可选).配置`nginx`反向代理,和端口号
+- 9.启动前端项目`npm run dev`,启动nginx,启动后端项目:(还用我教吗?-_-):
 
 **如何使用** `使用方法`
 - ~~由于该项目还在开发中,暂不提供使用方式,只提供开发方法~~
