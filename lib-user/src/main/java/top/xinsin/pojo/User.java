@@ -22,6 +22,7 @@ public class User {
     private Auth auth = Auth.user;
     private int online;
     private String lastLogin;
+    private String exclusiveColor;
     private String base64;
     public User(String username){
         this.username = username;

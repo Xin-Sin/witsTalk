@@ -67,9 +67,10 @@ const onSlideSuccess = function () {
     let canLogin: boolean = data.data.data.canLogin;
     if (canLogin) {
       ElMessage.success("登录成功！");
-      window.sessionStorage.setItem("username", username.value as string);
-      window.sessionStorage.setItem("headimg", data.data.data.base64);
-      window.sessionStorage.setItem("auth", data.data.data.auth);
+      sessionStorage.setItem("username", username.value as string);
+      sessionStorage.setItem("headimg", data.data.data.base64);
+      sessionStorage.setItem("auth", data.data.data.auth);
+      sessionStorage.setItem("exclusiveColor", data.data.data.exclusiveColor);
       if(window.innerWidth > 800){
         window.location.hash = "/home";
       }else{
