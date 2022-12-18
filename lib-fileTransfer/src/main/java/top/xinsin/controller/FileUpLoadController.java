@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import top.xinsin.service.FileUpLoadService;
-import top.xinsin.utils.ResultData;
+import top.xinsin.utils.RData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class FileUpLoadController {
     }
 
     @PostMapping("/file/api/fileUpload")
-    public ResultData<String> fileUpload(@RequestBody MultipartFile file, HttpServletRequest request) throws NoSuchAlgorithmException, IOException {
+    public RData<String> fileUpload(@RequestBody MultipartFile file, HttpServletRequest request) throws NoSuchAlgorithmException, IOException {
         return fileUpLoadService.fileUpload(file, request);
     }
 

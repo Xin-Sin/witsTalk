@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import top.xinsin.dao.FileDownloadMapper;
 import top.xinsin.pojo.FileObject;
 import top.xinsin.utils.JwtTokenUtils;
-import top.xinsin.utils.ResultData;
+import top.xinsin.utils.RData;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,10 +44,10 @@ public class FileDownloadService {
      * @param fileObject 文件对象
      * @return 原始文件名
      */
-    public ResultData<String> getFileName(FileObject fileObject){
+    public RData<String> getFileName(FileObject fileObject){
         log.info("getFileName,args:{}",fileObject);
         String fileName = fileDownloadMapper.getFileName(fileObject);
-        return ResultData.success(fileName);
+        return RData.success(fileName);
     }
 
     /**
@@ -55,12 +55,12 @@ public class FileDownloadService {
      *
      * @return 文件名称
      */
-    public ResultData<JSONObject> getAllFileNames(Integer minId,Integer pageSize) {
+    public RData<JSONObject> getAllFileNames(Integer minId, Integer pageSize) {
         log.info("getAllFileNames --> begin");
         JSONObject jsonObject = new JSONObject();
         jsonObject.fluentPut("files", fileDownloadMapper.getAllFileNames(minId,pageSize));
         jsonObject.fluentPut("total", fileDownloadMapper.selectFileCount());
-        return ResultData.success(jsonObject);
+        return RData.success(jsonObject);
     }
 
     /**
