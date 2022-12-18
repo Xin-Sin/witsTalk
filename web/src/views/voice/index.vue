@@ -9,7 +9,7 @@
   const IceServer: RTCIceServer = {
     "credential": "XinSin123",
     "credentialType": "password",
-    "urls": "stun:xinsin.top:3478",
+    "urls": "turn:xinsin.top:3478",
     "username": "xinsin"
   }
   //初始化websocket
