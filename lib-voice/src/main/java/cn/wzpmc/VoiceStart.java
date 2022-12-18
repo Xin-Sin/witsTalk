@@ -1,38 +1,25 @@
 package cn.wzpmc;
 
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
-
-import java.net.InetSocketAddress;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author wzp
  * Created On 2022/5/14
  * @version 1.0
  */
+@SpringBootApplication
 public class VoiceStart {
+    private static VoiceNetty voiceNetty;
+    @Autowired
+    public VoiceStart(VoiceNetty voiceNetty){
+        VoiceStart.voiceNetty = voiceNetty;
+    }
     public static void main(String[] args) {
-        EventLoopGroup boss = new NioEventLoopGroup();
-        EventLoopGroup worker = new NioEventLoopGroup();
-        try{
-            ServerBootstrap bootstrap = new ServerBootstrap();
-            bootstrap
-                    .group(boss,worker)
-                    .handler(new LoggingHandler(LogLevel.DEBUG))
-                    .childHandler(new VoiceHandler())
-                    .channel(NioServerSocketChannel.class);
-            ChannelFuture channelFuture = bootstrap.bind(new InetSocketAddress(8006)).sync();
-            channelFuture.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }finally {
-            boss.shutdownGracefully();
-            worker.shutdownGracefully();
-        }
+        SpringApplication springApplication = new SpringApplication(VoiceStart.class);
+        springApplication.run(args);
+        springApplication.addListeners(voiceNetty);
+        voiceNetty.start();
     }
 }

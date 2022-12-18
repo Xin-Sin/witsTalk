@@ -9,13 +9,19 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import org.springframework.stereotype.Component;
 
 /**
  * @author wzp
  * Created On 2022/5/14
  * @version 1.0
  */
+@Component
 public class ChatHandler extends ChannelInitializer<SocketChannel> {
+    private final ChatFrameHandler chatFrameHandler;
+    public ChatHandler(ChatFrameHandler chatFrameHandler){
+        this.chatFrameHandler = chatFrameHandler;
+    }
     @Override
     protected void initChannel(SocketChannel socket){
         //获取pipeline
@@ -32,6 +38,6 @@ public class ChatHandler extends ChannelInitializer<SocketChannel> {
         //设置uri为/connect
         pipeline.addLast(new WebSocketServerProtocolHandler("/chat"));
         //自定义解析器
-        pipeline.addLast(new ChatFrameHandler());
+        pipeline.addLast(chatFrameHandler);
     }
 }
