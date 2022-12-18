@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.xinsin.pojo.FileObject;
 import top.xinsin.service.FileDownloadService;
-import top.xinsin.utils.ResultData;
+import top.xinsin.utils.RData;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ public class FileDownloadController {
         this.fileDownloadService = fileDownloadService;
     }
     @GetMapping("/file/api/getName")
-    public ResultData<String> getFileName(@RequestParam("md5") String md5){
+    public RData<String> getFileName(@RequestParam("md5") String md5){
         return fileDownloadService.getFileName(new FileObject(md5));
     }
 
@@ -37,7 +37,7 @@ public class FileDownloadController {
     }
 
     @PostMapping("/file/api/getAllFileNames")
-    public ResultData<JSONObject> getAllFileNames(@RequestParam("min_id") int minId,@RequestParam("pageSize") Integer pageSize) {
+    public RData<JSONObject> getAllFileNames(@RequestParam("min_id") int minId, @RequestParam("pageSize") Integer pageSize) {
         return fileDownloadService.getAllFileNames(minId,pageSize);
     }
 }

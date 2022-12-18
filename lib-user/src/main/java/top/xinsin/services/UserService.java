@@ -10,7 +10,7 @@ import top.xinsin.dao.UserMapper;
 import top.xinsin.enums.HttpCodes;
 import top.xinsin.pojo.User;
 import top.xinsin.utils.JwtTokenUtils;
-import top.xinsin.utils.ResultData;
+import top.xinsin.utils.RData;
 import top.xinsin.utils.SqlUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +32,7 @@ public class UserService {
     public UserService(UserMapper userMapper){
         this.userMapper = userMapper;
     }
-    public ResultData<JSONObject> canLogin(User user, HttpServletResponse response){
+    public RData<JSONObject> canLogin(User user, HttpServletResponse response){
         log.info("canLogin args:user=" + user);
         JSONObject jsonObject = new JSONObject();
         String password = user.getPassword();
@@ -52,19 +52,19 @@ public class UserService {
                     .fluentPut("exclusiveColor",user1.getExclusiveColor());
         } else {
             jsonObject.fluentPut("canLogin", false);
-            return ResultData.failed(HttpCodes.HTTP_CODES501, jsonObject);
+            return RData.failed(HttpCodes.HTTP_CODES501, jsonObject);
         }
-        return ResultData.success(jsonObject);
+        return RData.success(jsonObject);
     }
 
-    public ResultData<JSONObject> addUser(User user) {
+    public RData<JSONObject> addUser(User user) {
         log.info("addUser args:user=" + user);
         user.setPassword(DigestUtils.sha512Hex(user.getPassword()));
         JSONObject jsonObject = SqlUtils.insertOperate(userMapper.addUser(user));
-        return ResultData.success(jsonObject);
+        return RData.success(jsonObject);
     }
 
-    public ResultData<JSONObject> changePassword(User user, HttpServletRequest request) {
+    public RData<JSONObject> changePassword(User user, HttpServletRequest request) {
         String token = request.getHeader("Access-Token");
         JSONObject jsonObject = new JSONObject();
         jsonObject.fluentPut("is_success", false);
@@ -73,9 +73,9 @@ public class UserService {
             user.setPassword(s);
             jsonObject = SqlUtils.updateOperate(userMapper.changePassword(user));
             jsonObject.fluentPut("is_success", true);
-            return ResultData.success(jsonObject);
+            return RData.success(jsonObject);
         }
-        return ResultData.failed(HttpCodes.INVALID_TOKEN, jsonObject);
+        return RData.failed(HttpCodes.INVALID_TOKEN, jsonObject);
     }
 
     public void setOnline(User user) {
@@ -88,7 +88,7 @@ public class UserService {
         user.setOnline(0);
     }
 
-    public ResultData<JSONObject> setHeadPortrait(User user, HttpServletRequest request) {
+    public RData<JSONObject> setHeadPortrait(User user, HttpServletRequest request) {
         // 因为传入两个string所以password即为base64
         String token = request.getHeader("Access-Token");
         JSONObject jsonObject = new JSONObject();
@@ -96,21 +96,21 @@ public class UserService {
         if (JwtTokenUtils.isUser(token, user.getUsername())) {
             userMapper.setHeadPortrait(user);
             jsonObject.fluentPut("is_success", true);
-            return ResultData.success(jsonObject);
+            return RData.success(jsonObject);
         }
-        return ResultData.failed(HttpCodes.INVALID_TOKEN, jsonObject);
+        return RData.failed(HttpCodes.INVALID_TOKEN, jsonObject);
     }
 
-    public ResultData<String> getUserHeadPortrait(String name) {
+    public RData<String> getUserHeadPortrait(String name) {
         String b64 = userMapper.getUserHeadPortrait(name);
-        return ResultData.success(b64);
+        return RData.success(b64);
     }
 
-    public ResultData<List<User>> getOnlineUser() {
-        return ResultData.success(userMapper.getOnlineUser());
+    public RData<List<User>> getOnlineUser() {
+        return RData.success(userMapper.getOnlineUser());
     }
 
-    public ResultData<Boolean> changeUsername(User user, HttpServletRequest request, HttpServletResponse httpServletResponse) {
+    public RData<Boolean> changeUsername(User user, HttpServletRequest request, HttpServletResponse httpServletResponse) {
         String token = request.getHeader("Access-Token");
         DecodedJWT tokenInfo = JwtTokenUtils.getTokenInfo(token);
         String username = tokenInfo.getClaim("username").asString();
@@ -122,7 +122,7 @@ public class UserService {
         payload.put("id", id);
         payload.put("username", newUsername);
         httpServletResponse.addHeader("token", JwtTokenUtils.getToken(payload));
-        return ResultData.success(true);
+        return RData.success(true);
     }
     public ResultData<Boolean> setColorById(String exclusiveColor,String username){
         userMapper.setColorById(exclusiveColor,username);

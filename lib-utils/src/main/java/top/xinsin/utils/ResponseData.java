@@ -14,6 +14,7 @@ import java.util.Map;
  * Created On 2021/12/16 20:39
  * @version 1.0
  */
+@Deprecated
 @Data
 public class ResponseData {
     private JSONObject data;

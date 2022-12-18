@@ -109,14 +109,11 @@
   const handlerUserLoginSuccessCallback = async function (jsonData: any) {
     //Login Success Callback
     //是否登录成功
-    if (!jsonData.data.right) {
+    if (!jsonData.data.success) {
       ElMessage.error("鉴权失败，请重新登录后重试！")
       return;
     }
-    //登录成功后将媒体流id和用户名放入表中
-    for (let d of jsonData.data.data) {
-      usernames.set(d.media, d.user);
-    }
+    //TODO 登录成功后将媒体流id和用户名放入表中
     ElMessage.success("鉴权成功！");
     usernames.set(localMediaStream.id, jsonData.data.username);
     //将本地流上传（添加至STUN服务器）
@@ -177,10 +174,11 @@
    */
   const handlerWebSocketMessage = function (evt: MessageEvent) {
     let jsonData = JSON.parse(evt.data);
+    console.log(jsonData);
     //获取操作并执行相关方法
     let operator = jsonData.op;
     switch (operator) {
-      case "lcbak":
+      case "login":
         handlerUserLoginSuccessCallback(jsonData);
         break;
       case "uadd":

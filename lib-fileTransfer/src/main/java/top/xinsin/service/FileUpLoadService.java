@@ -11,7 +11,7 @@ import top.xinsin.enums.HttpCodes;
 import top.xinsin.pojo.FileObject;
 import top.xinsin.utils.FileUtils;
 import top.xinsin.utils.JwtTokenUtils;
-import top.xinsin.utils.ResultData;
+import top.xinsin.utils.RData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -51,9 +51,9 @@ public class FileUpLoadService {
      * @return 是否成功
      */
 
-    public ResultData<String> fileUpload(MultipartFile file, HttpServletRequest request) throws NoSuchAlgorithmException, IOException {
+    public RData<String> fileUpload(MultipartFile file, HttpServletRequest request) throws NoSuchAlgorithmException, IOException {
         if (file.isEmpty()) {
-            return ResultData.failed(HttpCodes.HTTP_CODES401, "文件是空的");
+            return RData.failed(HttpCodes.HTTP_CODES401, "文件是空的");
         }
         log.info("starting saving");
         //获取原始文件名
@@ -97,6 +97,6 @@ public class FileUpLoadService {
             log.info("Sanded");
             log.info("fileUpload done");
         }
-        return ResultData.success(md5);
+        return RData.success(md5);
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
 import top.xinsin.utils.IpUtils;
-import top.xinsin.utils.ResultData;
+import top.xinsin.utils.RData;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +37,7 @@ public class UserController {
      * @return 是否可以登陆
      */
     @PostMapping("/user/api/login")
-    public ResultData<JSONObject> login(@RequestBody User user, HttpServletResponse response) {
+    public RData<JSONObject> login(@RequestBody User user, HttpServletResponse response) {
         return userService.canLogin(user,response);
     }
 
@@ -47,14 +47,14 @@ public class UserController {
      * @return 受影响行数
      */
     @PostMapping("/user/api/adduser")
-    public ResultData<JSONObject> addUser(@RequestBody User user) {return userService.addUser(user);}
+    public RData<JSONObject> addUser(@RequestBody User user) {return userService.addUser(user);}
 
     /**
      * @param user 需要修改密码的用户，此用户的password字段为需要为修改后的密码
      * @return 受影响行数
      */
     @PostMapping("/user/api/changepassword")
-    public ResultData<JSONObject> changePassword(@RequestBody User user, HttpServletRequest request) {
+    public RData<JSONObject> changePassword(@RequestBody User user, HttpServletRequest request) {
         return userService.changePassword(user, request);
     }
 
@@ -65,7 +65,7 @@ public class UserController {
      * @return 受影响行数
      */
     @PostMapping("/user/api/setHeadPortrait")
-    public ResultData<JSONObject> setHeadPortrait(@RequestBody User user, HttpServletRequest request) {
+    public RData<JSONObject> setHeadPortrait(@RequestBody User user, HttpServletRequest request) {
         return userService.setHeadPortrait(user, request);
     }
 
@@ -85,7 +85,7 @@ public class UserController {
      * @return 在线用户
      */
     @GetMapping("/user/api/getOnlineUser")
-    public ResultData<List<User>> getOnlineUser() {
+    public RData<List<User>> getOnlineUser() {
         return userService.getOnlineUser();
     }
 
@@ -97,7 +97,7 @@ public class UserController {
      * @return 是否成功
      */
     @PostMapping("/user/api/changeUsername")
-    public ResultData<Boolean> changeUsername(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+    public RData<Boolean> changeUsername(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
         return userService.changeUsername(user, request, response);
     }
     @GetMapping("/user/api/setUserExclusiveColor")
@@ -106,7 +106,7 @@ public class UserController {
     private String key;
     @SneakyThrows
     @GetMapping("/user/api/getWeather")
-    public ResultData<JSONObject> getWeather(HttpServletRequest httpServletRequest){
+    public RData<JSONObject> getWeather(HttpServletRequest httpServletRequest){
         String ipAddr = IpUtils.getIpAddr(httpServletRequest);
 //        检测为本地ip则进行默认地点查询
         if ("127.0.0.1".equals(ipAddr)){
@@ -121,7 +121,7 @@ public class UserController {
             httpClient.executeMethod(getWeather);
             String getWeatherResult = getWeather.getResponseBodyAsString();
             getWeather.releaseConnection();
-            return ResultData.success(JSON.parseObject(getWeatherResult));
+            return RData.success(JSON.parseObject(getWeatherResult));
         }else{
             HttpClient httpClient = new HttpClient();
             httpClient.getHttpConnectionManager().getParams().setConnectionTimeout(15000);
@@ -134,9 +134,9 @@ public class UserController {
                 GetMethod getWeather = new GetMethod("https://restapi.amap.com/v3/weather/weatherInfo?key=" + key + "&city=" + adcode + "&extensions=base");
                 String getWeatherResult = getWeather.getResponseBodyAsString();
                 getWeather.releaseConnection();
-                return ResultData.success(JSON.parseObject(getWeatherResult));
+                return RData.success(JSON.parseObject(getWeatherResult));
             }else{
-                return ResultData.success(new JSONObject().fluentPut("status","未查询到相关天气信息"));
+                return RData.success(new JSONObject().fluentPut("status","未查询到相关天气信息"));
             }
         }
     }
