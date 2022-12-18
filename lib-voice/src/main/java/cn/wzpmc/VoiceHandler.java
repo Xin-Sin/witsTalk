@@ -1,5 +1,6 @@
 package cn.wzpmc;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  */
 @Component
+@ChannelHandler.Sharable
 public class VoiceHandler extends ChannelInitializer<SocketChannel> {
     private final VoiceFrameHandler voiceFrameHandler;
     @Autowired
