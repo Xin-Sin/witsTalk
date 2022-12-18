@@ -7,7 +7,8 @@ import com.alibaba.fastjson2.JSONObject;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import top.xinsin.utils.JwtTokenUtils;
 
 import java.util.ArrayList;
@@ -22,12 +23,22 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @ChannelHandler.Sharable
 @Slf4j
+@Component
 public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     public static ConcurrentHashMap<ChannelId, Channel> channels = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<ChannelId, Boolean> loginTable = new ConcurrentHashMap<>();
+    private static final String LOGIN_COMMAND = "login";
+    private static final String SEND_COMMAND = "send";
+    private static final String GET_MESSAGE_COMMAND = "get";
+    private static final String GET_MESSAGE_COUNT_COMMAND = "count";
+    private static final String RECALL_MESSAGE_COMMAND = "recall";
+    private static final String HEART_CHECK_COMMAND = "heartCheck";
 
-    public static SqlSession session;
-    public static ChatDao chatDao;
+    private final ChatDao chatDao;
+    @Autowired
+    public ChatFrameHandler(ChatDao chatDao){
+        this.chatDao = chatDao;
+    }
 
     public static void sendHeartCheckPong(ChannelId id) {
         Channel channel = channels.get(id);
@@ -134,8 +145,6 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         此方法会在收到消息时调用
          */
         //
-        session = ChatStart.factory.openSession();
-        chatDao = session.getMapper(ChatDao.class);
         //获取传输通道
         Channel channel = channelHandlerContext.channel();
         //获取通道ID
@@ -159,14 +168,8 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         String operating = json.getString("op");
         //获取操作的参数
         JSONObject args = json.getJSONObject("args");
-        String loginCommand = "login";
-        String sendCommand = "send";
-        String getMessageCommand = "get";
-        String getMessageCountCommand = "count";
-        String recallMessageCommand = "recall";
-        String heartCheckCommand = "heartCheck";
         //登录操作
-        if(Objects.equals(operating, loginCommand)){
+        if(Objects.equals(operating, LOGIN_COMMAND)){
             Boolean r = JwtTokenUtils.isRight(args.getString("token"));
             log.debug("logon,r = {} ip = {} id = {}",r,channel.remoteAddress().toString(),id.asShortText());
             loginTable.put(id,r);
@@ -174,11 +177,11 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         }else if(loginTable.get(id)){
             //业务逻辑
 //            如果为心跳包，则返回pong
-            if (Objects.equals(operating,heartCheckCommand)){
+            if (Objects.equals(operating, HEART_CHECK_COMMAND)){
                 sendHeartCheckPong(id);
             }
             //如果操作为send
-            if(Objects.equals(operating, sendCommand)){
+            if(Objects.equals(operating, SEND_COMMAND)){
                 //获取发送者
                 String sender = args.getString("sender");
                 //获取发送内容
@@ -191,7 +194,6 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 Message message = new Message(content, sender, type);
                 //Dao层发送消息
                 chatDao.sendMessage(message);
-                session.commit();
                 //获取用户头像
                 String b64 = chatDao.getUserHeadPortrait(sender);
                 message.setBase64(b64);
@@ -199,7 +201,7 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 String rawJson = JSON.toJSONString(message);
                 sendToAll(rawJson);
             }//如果操作为getMessage
-            else if (Objects.equals(operating, getMessageCommand)) {
+            else if (Objects.equals(operating, GET_MESSAGE_COMMAND)) {
                 //获取id最小值
                 Integer min = args.getInteger("min");
                 //获取数量
@@ -213,18 +215,17 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
                 sendMessage(id, JSON.toJSONString(messages));
             }
             //如果操作为getMessageCount
-            else if(Objects.equals(operating,getMessageCountCommand)){
+            else if(Objects.equals(operating, GET_MESSAGE_COUNT_COMMAND)){
                 //日志
                 log.info("getMessageCount");
                 //从数据库获取消息数量
                 Integer count = chatDao.getCount().get(0);
                 sendMessage(id,count);
-            }else if(Objects.equals(operating,recallMessageCommand)){
+            }else if(Objects.equals(operating, RECALL_MESSAGE_COMMAND)){
                 int i = args.getInteger("id");
                 Message message = new Message(i);
                 log.info("Recall Message message={}",message);
                 chatDao.recall(message);
-                session.commit();
                 HashMap<String,String> resp = new HashMap<>(10);
                 resp.put("op","recall");
                 resp.put("id",String.valueOf(i));
@@ -233,6 +234,5 @@ public class ChatFrameHandler extends SimpleChannelInboundHandler<TextWebSocketF
         }else{
             sendMessage(id,"You are not login!");
         }
-        session.close();
     }
 }

@@ -10,6 +10,7 @@ import io.netty.channel.ChannelId;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import top.xinsin.utils.JwtTokenUtils;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  */
 @Slf4j
+@Component
 public class VoiceFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     /**
      * 用于存储所有客户端的连接

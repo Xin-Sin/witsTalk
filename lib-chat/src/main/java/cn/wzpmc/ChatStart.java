@@ -1,24 +1,30 @@
 package cn.wzpmc;
 
 import lombok.SneakyThrows;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-
-import java.io.InputStream;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author wzp
  * Created On 2022/5/14
  * @version 1.0
  */
+@MapperScan("cn.wzpmc.dao")
+@SpringBootApplication
 public class ChatStart {
-    public static SqlSessionFactory factory;
+    private static Netty netty;
+    @Autowired
+    public void setNetty(Netty netty){
+        ChatStart.netty = netty;
+    }
+
     @SneakyThrows
     public static void main(String[] args) {
-        Netty netty = new Netty();
-        InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
-        factory = new SqlSessionFactoryBuilder().build(inputStream);
+        SpringApplication springApplication = new SpringApplication(ChatStart.class);
+        springApplication.run(args);
+        springApplication.addListeners(netty);
         netty.start();
     }
 }
