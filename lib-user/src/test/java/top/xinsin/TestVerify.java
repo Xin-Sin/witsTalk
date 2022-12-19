@@ -10,5 +10,6 @@ public class TestVerify {
         String username = "DongYifeng";
         String username1 = "DongYiFeng";
         System.out.println(DigestUtils.sha512Hex(DigestUtils.md5Hex(username)).equals(DigestUtils.sha512Hex(DigestUtils.md5Hex(username1))));
+        System.out.println(DigestUtils.sha512Hex(DigestUtils.md5Hex("13630594060cloua")));
     }
 }

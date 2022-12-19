@@ -23,7 +23,11 @@
   import Message from "../../components/Message.vue";
   import {MessageData, MessageTypes} from "../../entities/MessageData";
   import {LoadingInstance} from "element-plus/es/components/loading/src/loading";
+  import {useStore} from "../../store";
+  import {useRouter} from "vue-router";
 
+  const store = useStore();
+  const router = useRouter();
   const ws = ref<WebSocket>();
   const sendContent = ref<string>();
   const waitingPong = function () {
@@ -69,11 +73,10 @@
       heartBeat();
       ElMessage.success("成功连接聊天服务器！");
     } else if (data === "false") {
-      ElMessage.error("登录失败，请尝试重新登录！");
-      window.sessionStorage.removeItem("username");
-      window.sessionStorage.removeItem("headimg");
-      window.sessionStorage.removeItem("token");
-      window.location.hash = "/"
+      ElMessage.error("token验证失败，请尝试重新登录！");
+      store.$reset();
+      window.localStorage.clear();
+      router.push("/")
     } else if (!isNaN(Number(data))) {
       let count = Number.parseInt(data);
       count >= 10 ? lastId.value = count - 10 : lastId.value = 0;

@@ -1,4 +1,6 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
+import {useStore} from "../store";
+import {ElMessage} from "element-plus";
 
 const router = createRouter({ 
     history: createWebHashHistory(),
@@ -78,14 +80,17 @@ const router = createRouter({
 })
 // 全局路由守卫
 router.beforeEach((to, from, next)=>{
+    if (to.path !== "/"){
+        let store = useStore();
+        if (store.userinfo === null){
+            ElMessage.warning("您还未登录,请进行登陆后重试");
+            return '/'
+        }
+    }
     if (to.meta.title) {
         document.title =  "智慧语音-" + `${to.meta.title}`;
     }
     next()
-})
-
-router.afterEach((to, from)=>{
-    console.log(to,from)
 })
 
 export default router

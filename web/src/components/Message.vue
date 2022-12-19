@@ -23,9 +23,15 @@
 <script lang="ts" setup>
 import {MessageData} from "../entities/MessageData";
 import {ref} from "vue";
+import {useStore} from "../store";
+
+const store = useStore();
 
 const visibleMethod = (sender:string) =>{
-  let name = sessionStorage.getItem("username");
+  let name = null;
+  if (store.userinfo != null){
+    name = store.userinfo.username;
+  }
   if (name === sender){
     visible.value = visible.value != true;
   }

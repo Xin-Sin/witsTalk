@@ -46,10 +46,12 @@ public class UserService {
             String token = JwtTokenUtils.getToken(payload);
             response.setHeader("token", token);
             response.setHeader("Access-Control-Expose-Headers", "token");
-            jsonObject.fluentPut("base64", user1.getBase64())
-                    .fluentPut("canLogin", true)
+            jsonObject.fluentPut("canLogin", true)
+                    .fluentPut("base64", user1.getBase64())
                     .fluentPut("auth",user1.getAuth().toString())
-                    .fluentPut("exclusiveColor",user1.getExclusiveColor());
+                    .fluentPut("exclusiveColor",user1.getExclusiveColor())
+                    .fluentPut("username",user1.getUsername())
+                    .fluentPut("id",user1.getId());
         } else {
             jsonObject.fluentPut("canLogin", false);
             return RData.failed(HttpCodes.HTTP_CODES501, jsonObject);
