@@ -46,10 +46,12 @@ public class UserService {
             String token = JwtTokenUtils.getToken(payload);
             response.setHeader("token", token);
             response.setHeader("Access-Control-Expose-Headers", "token");
-            jsonObject.fluentPut("base64", user1.getBase64())
-                    .fluentPut("canLogin", true)
+            jsonObject.fluentPut("canLogin", true)
+                    .fluentPut("base64", user1.getBase64())
                     .fluentPut("auth",user1.getAuth().toString())
-                    .fluentPut("exclusiveColor",user1.getExclusiveColor());
+                    .fluentPut("exclusiveColor",user1.getExclusiveColor())
+                    .fluentPut("username",user1.getUsername())
+                    .fluentPut("id",user1.getId());
         } else {
             jsonObject.fluentPut("canLogin", false);
             return RData.failed(HttpCodes.HTTP_CODES501, jsonObject);
@@ -92,13 +94,14 @@ public class UserService {
         // 因为传入两个string所以password即为base64
         String token = request.getHeader("Access-Token");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.fluentPut("is_success", false);
         if (JwtTokenUtils.isUser(token, user.getUsername())) {
             userMapper.setHeadPortrait(user);
             jsonObject.fluentPut("is_success", true);
             return RData.success(jsonObject);
+        }else{
+            jsonObject.fluentPut("is_success", false);
+            return RData.failed(HttpCodes.INVALID_TOKEN, jsonObject);
         }
-        return RData.failed(HttpCodes.INVALID_TOKEN, jsonObject);
     }
 
     public RData<String> getUserHeadPortrait(String name) {

@@ -85,9 +85,11 @@
   
   <script lang="ts" setup>
   import {ArrowDown, ChatDotRound, Files, Mic, Setting} from '@element-plus/icons-vue'
-  import {onMounted, ref} from 'vue'
+  import { onMounted, ref} from 'vue'
   import {ElMessage} from "element-plus";
   import {getWeather} from "../../api/user";
+  import {useStore} from "../../store";
+  import {useRouter} from "vue-router";
   
   const max_with = ref<number>(64);
   const active = ref<string>("1");
@@ -97,42 +99,46 @@
   const userToken = ref<string>();
   const username = ref<string>();
   const weather = ref<Object>({});
+  const store = useStore();
+  const router = useRouter();
+
   onMounted(() => {
+    // 获取天气
     getWeather().then(res =>{
       weather.value = res.data.data.lives[0]
     }).catch(res =>{
       ElMessage.error("获取天气时出现了错误")
     })
-    let name = window.sessionStorage.getItem("username");
-    let headimg = window.sessionStorage.getItem("headimg");
-    let token = window.localStorage.getItem("token");
-    if (name && headimg && token) {
-      username.value = name;
-      headimgBase64.value = "data:image/png;base64," + headimg;
-      userToken.value = token;
-    } else {
-      ElMessage.error("你还没有登录，请登陆后再试")
-      window.location.hash = "/"
+    // 将store中数据存入当前页面
+    if (store.userinfo !== null){
+      username.value = store.userinfo.username;
+      headimgBase64.value = "data:image/png;base64," + store.userinfo.headimg;
+      userToken.value = window.localStorage.getItem("token") as string;
     }
   })
   const handlerUserSettingsCommand = function (command: string) {
+    // 处理下拉菜单的指令
     console.log(command)
     switch (command) {
       case "settings":
-        window.location.hash = "/home/setting"
+        // 跳转至个人设置页面
+        router.push("/home/setting");
         break;
       case "exit":
-        window.sessionStorage.removeItem("username");
-        window.sessionStorage.removeItem("headimg");
-        window.sessionStorage.removeItem("token");
+        // 清空pinia中userinfo数据
+        store.$reset();
+        //   清空token
+        window.localStorage.clear()
         ElMessage.success("成功退出登录，返回登陆页面");
-        window.location.hash = "/"
+        router.push('/')
         break;
+      //   出现未知指令进行处理
       default:
         ElMessage.error("CNM出问题了，请将此消息内容复制并发送给网站管理员   command=" + command)
         break;
     }
   }
+  // 菜单栏获取鼠标焦点进行动画展示
   const onMouseEnter = function () {
     isCollapse.value = false
     max_with.value = 200;

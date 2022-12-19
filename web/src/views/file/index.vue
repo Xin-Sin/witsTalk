@@ -31,7 +31,7 @@
         </el-table-column>
       </el-table>
       <el-pagination
-          :page-size="15"
+          :page-size="17"
           :layout="'prev, pager, next'"
           :total="pageCount"
           @current-change="changePage"
@@ -40,10 +40,9 @@
         <el-main>
           <el-empty v-if="selectFile == null" description="当前未选择文件" />
           <div v-else>
-            <el-tag>{{selectFile.name}}</el-tag>
-            <el-tag style="margin-left:20%"><span>校验值: </span>{{selectFile.md5}}</el-tag>
-            <el-button type="success" round style="float:right" size="small" @click="downloadFile(selectFile.md5,selectFile.name)">下载</el-button>
-            <br/>
+            <el-tag style="float: left"><span>文件名称: </span>{{selectFile.name}} <span style="color: #71c346">大小: {{selectFile.size}}</span></el-tag>
+            <el-button style="margin-left: 40px" type="success" round size="small" @click="downloadFile(selectFile.md5,selectFile.name)">文件下载</el-button>
+            <el-tag style="float: right"><span>MD5校验值: </span>{{selectFile.md5}}</el-tag>
             <el-divider/>
             <el-image v-if="showImg !== '' && !showAudio" style="width: 750px; height: 670px" :src="showImg" fit="fill" />
             <el-input
@@ -65,6 +64,8 @@
   <script lang="ts" setup>
   import {onMounted, ref} from "vue";
   import {getFiles,getShowFile} from "../../api/file";
+  import {useStore} from "../../store";
+  import {ElMessage} from "element-plus";
   
   const files = ref([]);
   const pageCount = ref<number>(1)
@@ -76,42 +77,46 @@
   const showAudioSrc = ref<string>()
   const showAudio = ref<boolean>(false)
   const loading = ref<boolean>(true)
-  
+
+  const store = useStore();
+
+  // 创建文件url进行访问或者在线获取文件二进制
   const connectedFileUrl = function(md5:string, fileName:string){
     return "http://localhost:8080/file/api/downloadFile?md5=" + md5 + "&filename=" + fileName + "&token=" + window.localStorage.getItem("token");
-  } 
+  }
+  // 在线展示文件内容
   const handleCurrentChange = function(val: object | undefined){
     showAudio.value = false;
     selectFile.value = val
+    // 判断文件后缀，进行相对应的文件格式解析
     let a = selectFile.value?.name.split(".");
     if(a[a.length-1] === 'jpg' || a[a.length-1] === 'png'){
       showImg.value = connectedFileUrl(selectFile.value?.md5, selectFile.value?.name)
     }else if(a[a.length-1] === 'mp3' || a[a.length-1] === 'ogg' || a[a.length-1] === 'wav'){
       showAudioSrc.value = connectedFileUrl(selectFile.value?.md5, selectFile.value?.name)
-      console.log(showAudioSrc.value)
       showAudio.value = true;
     }else{
-      getShowFile(selectFile.value?.md5, selectFile.value?.name,sessionStorage.getItem("token") as string).then(res =>{
-        // let a = new Blob(res.data);
-        // console.log(a.text);
+      // 获取文件内容
+      getShowFile(selectFile.value?.md5, selectFile.value?.name,localStorage.getItem("token") as string).then(res =>{
         showImg.value = ''
         if(res.data instanceof Object){
           textarea.value = JSON.stringify(res.data)
         }else{
           textarea.value = res.data;
         }
-      }).catch(res =>{
-        
+      }).catch(_ =>{
+        ElMessage.error("获取文件时出现错误")
       })
     }
   }
+  // 下载文件
   const downloadFile = function (md5:string,name:string){
-    // /file/api/downloadFile
-    window.open("http://localhost:8080/file/api/downloadFile?md5=" + md5 + "&filename=" + name + "&token=" + window.localStorage.getItem("token"),"_blank");
+    window.open(connectedFileUrl(md5,name),"_blank");
   }
   const deleteRow = function (index:object){
   
   }
+  // 获取文件列表
   const getFile = function (id: number) {
     loading.value = true;
     getFiles(id,pageSize.value).then((response) => {
@@ -122,10 +127,14 @@
   }
   onMounted(() => {
     getFile(0);
-    auth.value = sessionStorage.getItem("auth") as string
+    // 将用户权限赋值到本页面
+    if (store.userinfo !== null){
+      auth.value = store.userinfo.auth;
+    }
   })
+  // 分页钩子
   const changePage = function (id: number) {
-    getFile((id - 1) * 10);
+    getFile((id - 1) * 17);
   }
   </script>
   

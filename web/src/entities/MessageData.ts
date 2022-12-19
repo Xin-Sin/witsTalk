@@ -1,3 +1,5 @@
+import {useStore} from "../store";
+
 export enum MessageTypes {
     /**
      * 文本消息
@@ -29,7 +31,11 @@ export class MessageData {
     }
 
     public isSelf(): boolean {
-        let name = window.sessionStorage.getItem("username");
+        const store = useStore();
+        let name = null;
+        if (store.userinfo !== null){
+            name = store.userinfo.username
+        }
         return this.sender === name;
     }
 }
