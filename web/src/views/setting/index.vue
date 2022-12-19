@@ -9,12 +9,7 @@
         </div>
       </div>
       <label style="margin: 0 20px" ref="usernameColor">{{username}}</label>
-      <el-color-picker v-model="textColor" @change="changeColor" />
-    </div>
-    <el-button class="item" plain type="warning" @click="changePassword">修改密码</el-button>
-    <div class="end-page">
-      <el-button plain type="success" @click="submit">提交</el-button>
-      <el-button plain type="danger" @click="giveUp">放弃</el-button>
+      <el-color-picker v-model="textColor" @change="updateColor" />
     </div>
     <el-upload>
 
@@ -23,8 +18,9 @@
   
   <script lang="ts" setup>
   import {onMounted, ref} from "vue";
-  import {ElMessage, ElMessageBox} from "element-plus";
+  import {ElMessage} from "element-plus";
   import {changeUserHeadImg, changeUsername, changeUserPassword, setUserExclusiveColor} from "../../api/user";
+  import {useStore} from "../../store";
   
   const headimgBase64 = ref<string>();
   const userToken = ref<string>();
@@ -32,53 +28,38 @@
   const fileUploader = ref<HTMLInputElement>();
   const textColor = ref<string>();
   const usernameColor = ref<HTMLLabelElement>()
+  const store = useStore();
+
+  // 更新用户字体颜色
   const changeColor = function (color:string){
-    updateColor(color);
+    if (usernameColor.value){
+      usernameColor.value.style.color = color;
+    }
   }
+  // 上传用户字体颜色修改
   const updateColor = function (color:string){
     if (usernameColor.value){
       usernameColor.value.style.color = color;
-      setUserExclusiveColor(color as string,sessionStorage.getItem('username') as string)
+      // 修改用户的专属颜色接口
+      setUserExclusiveColor(color as string,username.value as string)
     }
   }
   onMounted(() => {
-    let name = window.sessionStorage.getItem("username");
-    let headimg = window.sessionStorage.getItem("headimg");
-    let token = window.localStorage.getItem("token");
-    textColor.value = sessionStorage.getItem("exclusiveColor") as string;
-    updateColor(textColor.value as string);
-    if (name && headimg && token) {
-      username.value = name;
-      headimgBase64.value = "data:image/png;base64," + headimg;
-      userToken.value = token;
-    } else {
-      ElMessage.error("你还没有登录，请登陆后再试")
-      window.location.hash = "/"
+    // 取值赋页面
+    if (store.userinfo != null){
+      username.value = store.userinfo.username;
+      headimgBase64.value = "data:image/png;base64," + store.userinfo.headimg;
+      textColor.value = store.userinfo.exclusiveColor
+      userToken.value = window.localStorage.getItem("token") as string;
     }
+    changeColor(textColor.value as string);
   })
-  const submit = function () {
-    changeUsername(username.value as string).then((response) => {
-      if (response.data) {
-        ElMessage.success("成功修改！");
-        window.sessionStorage.setItem("username", username.value as string);
-        location.reload();
-        return;
-      }
-      ElMessage.error("修改失败，请重试！");
-    }).catch((err) => {
-      ElMessage.error("更改失败，请将此报错内容发送至网站管理员！" + err);
-    });
-  }
-  const giveUp = function () {
-    let name = window.sessionStorage.getItem("username");
-    if (name) {
-      username.value = name;
-    }
-  }
+  // 修改头像方法前缀
   const changeHeadimg = function () {
     fileUploader.value?.click();
   }
   const selectFile = function (_: Event) {
+    // 进行图片处理
     if (!fileUploader.value) {
       return;
     }
@@ -103,13 +84,21 @@
           return;
         }
         let base64 = img.src.replace("data:" + file.type + ";base64,", "")
+        // 计算出的base64上传至服务器
         changeUserHeadImg(username.value as string, base64).then((response) => {
           if (!response.data.data.is_success) {
             ElMessage.error("更改失败，请重试！");
             return;
           }
           ElMessage.info("更改成功！");
-          window.sessionStorage.setItem("headimg", base64);
+          // 将base64进行数据更新
+          if (store.userinfo !== null){
+            let data = store.userinfo;
+            data.headimg = base64;
+            store.$patch({
+              userinfo:data
+            })
+          }
           base64 = "data:" + file.type + ";base64," + base64
           headimgBase64.value = base64;
         }).catch((err) => {
@@ -119,40 +108,6 @@
       img.src = data as string;
     }
     fileReader.readAsDataURL(file);
-  }
-  const changePassword = function () {
-    ElMessageBox.prompt('请输入你要修改的密码', '修改密码', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-    }).then(value => {
-      if (!value.value) {
-        ElMessage.error("请输入要修改的密码！");
-        return;
-      }
-      if (value.value.length < 7) {
-        ElMessage.error("请输入长度大于等于7位的密码！");
-        return;
-      }
-      if (username.value) {
-        changeUserPassword(username.value, value.value).then((response) => {
-          if (response.data.data.is_success) {
-            ElMessage.success("修改成功！")
-            return;
-          }
-          ElMessage.error("修改失败，请尝试重新登录！")
-        }).catch((response) => {
-          ElMessage.error("错误，请将此报错发送给网站管理员！" + response)
-        });
-        return;
-      }
-      ElMessage.error("出现错误，会话存储username为空，请将此报错报告给网站管理员！")
-    }).catch(reason => {
-      if (reason === "cancel") {
-        return;
-      } else {
-        console.log(reason);
-      }
-    })
   }
   </script>
   
