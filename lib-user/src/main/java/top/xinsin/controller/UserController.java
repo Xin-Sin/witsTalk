@@ -66,6 +66,7 @@ public class UserController {
      */
     @PostMapping("/user/api/setHeadPortrait")
     public RData<JSONObject> setHeadPortrait(@RequestBody User user, HttpServletRequest request) {
+        System.out.println("anc");
         return userService.setHeadPortrait(user, request);
     }
 

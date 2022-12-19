@@ -92,13 +92,14 @@ public class UserService {
         // 因为传入两个string所以password即为base64
         String token = request.getHeader("Access-Token");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.fluentPut("is_success", false);
         if (JwtTokenUtils.isUser(token, user.getUsername())) {
             userMapper.setHeadPortrait(user);
             jsonObject.fluentPut("is_success", true);
             return RData.success(jsonObject);
+        }else{
+            jsonObject.fluentPut("is_success", false);
+            return RData.failed(HttpCodes.INVALID_TOKEN, jsonObject);
         }
-        return RData.failed(HttpCodes.INVALID_TOKEN, jsonObject);
     }
 
     public RData<String> getUserHeadPortrait(String name) {

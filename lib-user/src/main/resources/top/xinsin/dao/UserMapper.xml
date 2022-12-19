@@ -6,46 +6,46 @@
     </insert>
 
     <update id="changePassword" parameterType="top.xinsin.pojo.User">
-        update user set password = #{password} where username = #{username};
+        update user set password = #{password} where BINARY username = #{username};
     </update>
 
     <update id="setOnline" parameterType="top.xinsin.pojo.User">
-        update user set online = 1 where username = #{username} and password=#{password};
+        update user set online = 1 where BINARY username = #{username} and password=#{password};
     </update>
 
     <update id="setOffline" parameterType="top.xinsin.pojo.User">
         update user
         set online = 0
-        where username = #{username}
+        where BINARY username = #{username}
           and password = #{password};
     </update>
 
     <select id="canLogin" parameterType="top.xinsin.pojo.User" resultType="top.xinsin.pojo.User">
         select *
         from user
-        where username = #{username}
+        where BINARY username = #{username}
           and password = #{password}
           and ban = 0;
     </select>
     <update id="setHeadPortrait" parameterType="top.xinsin.pojo.User">
         update user
         set base64 = #{password}
-        where username = #{username};
+        where BINARY username = #{username};
     </update>
     <update id="changeUsername" parameterType="top.xinsin.pojo.User">
         update user
         set username = #{username}
-        where username = #{old_username};
+        where BINARY username = #{old_username};
     </update>
     <update id="changeUsernameUpdateMessage">
         update message
         set sender = #{username}
-        where sender = #{old_username};
+        where BINARY sender = #{old_username};
     </update>
     <select id="getUserHeadPortrait" resultType="java.lang.String">
         select `base64`
         from user
-        where `username` = #{username};
+        where BINARY `username` = #{username};
     </select>
     <select id="getOnlineUser" resultType="top.xinsin.pojo.User">
         SELECT last_login
@@ -55,6 +55,6 @@
     <update id="setColorById">
         update user
         set exclusiveColor = #{exclusiveColor}
-        where username = #{username};
+        where BINARY username = #{username};
     </update>
 </mapper>
