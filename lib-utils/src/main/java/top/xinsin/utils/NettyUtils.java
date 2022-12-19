@@ -25,8 +25,12 @@ public class NettyUtils {
         types.add(ChannelHandlerContext.class);
         args.add(channelHandlerContext);
         jsonObject.forEach((key , value) -> {
-            types.add(value.getClass());
-            args.add(value);
+            if(value == null){
+                System.out.println(key);
+            }else{
+                types.add(value.getClass());
+                args.add(value);
+            }
         });
         Method declaredMethod;
         try {

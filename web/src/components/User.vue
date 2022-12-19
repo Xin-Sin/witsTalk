@@ -1,4 +1,11 @@
 <template>
+  <el-card class="box-card">
+    <template #header>
+      <div class="card-header">
+        <span>{{prop.username}}</span>
+      </div>
+    </template>
+  </el-card>
   <audio ref="audio" autoplay style="display: none" />
 </template>
 
@@ -8,21 +15,21 @@ import {onMounted, ref} from "vue";
 const prop = defineProps<{mediaStream: MediaStream, username: string, webSocket: WebSocket}>();
 import {IceServer} from "../config/GlobalConfig";
 import {ElMessage} from "element-plus";
-let connection: RTCPeerConnection = new RTCPeerConnection({"iceServers": [IceServer]});
+let connection: RTCPeerConnection;
 const audio = ref<HTMLAudioElement>();
-const remoteStream = new MediaStream();
 /**
  * 处理Offer事件
  * @param offer 数据
  */
 const handlerOffer = function (offer: RTCSessionDescriptionInit) {
+  console.log(prop.username + "-handlerOffer")
   //设置远端描述为传过来的描述
   connection.setRemoteDescription(new RTCSessionDescription(offer));
   //创建应答数据并广播
   connection.createAnswer().then((answer) => {
     //设置本地描述
     connection.setLocalDescription(answer);
-    prop.webSocket.send(JSON.stringify({"op": "answer", "data": answer}));
+    prop.webSocket.send(JSON.stringify({"op": "answer", "data": answer, "to": prop.username}));
   }).catch((err) => ElMessage.error("出现错误" + err))
 }
 /**
@@ -30,6 +37,7 @@ const handlerOffer = function (offer: RTCSessionDescriptionInit) {
  * @param answer 数据
  */
 const handlerAnswer = function (answer: RTCSessionDescriptionInit) {
+  console.log(prop.username + "-handlerAnswer")
   //设置远端描述为发过来的
   connection.setRemoteDescription(new RTCSessionDescription(answer));
 }
@@ -37,7 +45,8 @@ const handlerAnswer = function (answer: RTCSessionDescriptionInit) {
  * 处理远端STUN服务器选择事件
  * @param candidate 数据
  */
-const handlerCandidate = function (candidate: object) {
+const handlerCandidate = function (candidate: RTCIceCandidate) {
+  console.log(prop.username + "-handlerCandidate")
   //将远端的STUN服务器选项加入备选名单中
   connection.addIceCandidate(new RTCIceCandidate(candidate));
 }
@@ -47,14 +56,11 @@ const handlerCandidate = function (candidate: object) {
  */
 const handlerIceServerIceCandidate = function (event: RTCPeerConnectionIceEvent) {
   if (event.candidate) {
+    console.log("sendCandidate")
     //广播STUN服务器
-    prop.webSocket.send(JSON.stringify({"op": "candidate", "data": event.candidate}));
+    prop.webSocket.send(JSON.stringify({"op": "candidate", "data": event.candidate, "to": prop.username}));
   }
 };
-/**
- * 处理RTCTrackEvent
- * @param evt 事件
- */
 const handlerIceServerTrace = function (evt: RTCTrackEvent) {
   //获取远端音频流
   let audioStream = evt.streams[0];
@@ -64,6 +70,7 @@ const handlerIceServerTrace = function (evt: RTCTrackEvent) {
   }
 }
 onMounted(() => {
+  connection = new RTCPeerConnection({"iceServers": [IceServer]});
   for (let track of prop.mediaStream.getTracks()) {
     connection.addTrack(track, prop.mediaStream)
   }
@@ -71,12 +78,19 @@ onMounted(() => {
   connection.ontrack = handlerIceServerTrace;
   connection.onicecandidate = handlerIceServerIceCandidate;
   //创建Offer并广播
+})
+const createOffer = function(){
+  console.log("createOffer-" + prop.username);
   connection.createOffer()
       .then((offer) => {
-        prop.webSocket.send(JSON.stringify({"op": "offer", "data": offer}));
+        prop.webSocket.send(JSON.stringify({"op": "offer", "data": offer, "to": prop.username}));
         connection.setLocalDescription(offer);
-      }).catch((err) => ElMessage.error("出现错误！" + err));
-})
+      }).catch((err) => console.log(err));
+}
+const getName = function () {
+  return prop.username;
+}
+defineExpose({handlerAnswer, handlerCandidate, handlerOffer, getName, createOffer})
 </script>
 
 <style scoped>
