@@ -8,7 +8,8 @@
           <el-avatar :size="50" :src="headimgBase64" style="margin-right: 10px"/>
         </div>
       </div>
-      <el-input v-model="username" class="username-input" placeholder="用户名"/>
+      <label style="margin: 0 20px" ref="usernameColor">{{username}}</label>
+      <el-color-picker v-model="textColor" @change="changeColor" />
     </div>
     <el-button class="item" plain type="warning" @click="changePassword">修改密码</el-button>
     <div class="end-page">
@@ -16,23 +17,36 @@
       <el-button plain type="danger" @click="giveUp">放弃</el-button>
     </div>
     <el-upload>
-  
+
     </el-upload>
   </template>
   
   <script lang="ts" setup>
   import {onMounted, ref} from "vue";
   import {ElMessage, ElMessageBox} from "element-plus";
-  import {changeUserHeadImg, changeUsername, changeUserPassword} from "../../api/user";
+  import {changeUserHeadImg, changeUsername, changeUserPassword, setUserExclusiveColor} from "../../api/user";
   
   const headimgBase64 = ref<string>();
   const userToken = ref<string>();
   const username = ref<string>();
   const fileUploader = ref<HTMLInputElement>();
+  const textColor = ref<string>();
+  const usernameColor = ref<HTMLLabelElement>()
+  const changeColor = function (color:string){
+    updateColor(color);
+  }
+  const updateColor = function (color:string){
+    if (usernameColor.value){
+      usernameColor.value.style.color = color;
+      setUserExclusiveColor(color as string,sessionStorage.getItem('username') as string)
+    }
+  }
   onMounted(() => {
     let name = window.sessionStorage.getItem("username");
     let headimg = window.sessionStorage.getItem("headimg");
-    let token = window.sessionStorage.getItem("token");
+    let token = window.localStorage.getItem("token");
+    textColor.value = sessionStorage.getItem("exclusiveColor") as string;
+    updateColor(textColor.value as string);
     if (name && headimg && token) {
       username.value = name;
       headimgBase64.value = "data:image/png;base64," + headimg;

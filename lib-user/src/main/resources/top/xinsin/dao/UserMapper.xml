@@ -24,7 +24,8 @@
         select *
         from user
         where username = #{username}
-          and password = #{password};
+          and password = #{password}
+          and ban = 0;
     </select>
     <update id="setHeadPortrait" parameterType="top.xinsin.pojo.User">
         update user
@@ -51,4 +52,9 @@
         from user
         WHERE `online` = 1;
     </select>
+    <update id="setColorById">
+        update user
+        set exclusiveColor = #{exclusiveColor}
+        where username = #{username};
+    </update>
 </mapper>

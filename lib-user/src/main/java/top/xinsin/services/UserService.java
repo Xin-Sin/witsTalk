@@ -48,7 +48,8 @@ public class UserService {
             response.setHeader("Access-Control-Expose-Headers", "token");
             jsonObject.fluentPut("base64", user1.getBase64())
                     .fluentPut("canLogin", true)
-                    .fluentPut("auth",user1.getAuth().toString());
+                    .fluentPut("auth",user1.getAuth().toString())
+                    .fluentPut("exclusiveColor",user1.getExclusiveColor());
         } else {
             jsonObject.fluentPut("canLogin", false);
             return RData.failed(HttpCodes.HTTP_CODES501, jsonObject);
@@ -122,5 +123,9 @@ public class UserService {
         payload.put("username", newUsername);
         httpServletResponse.addHeader("token", JwtTokenUtils.getToken(payload));
         return RData.success(true);
+    }
+    public ResultData<Boolean> setColorById(String exclusiveColor,String username){
+        userMapper.setColorById(exclusiveColor,username);
+        return ResultData.success(true);
     }
 }
