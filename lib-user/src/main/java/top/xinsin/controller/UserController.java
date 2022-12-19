@@ -101,7 +101,7 @@ public class UserController {
         return userService.changeUsername(user, request, response);
     }
     @GetMapping("/user/api/setUserExclusiveColor")
-    public ResultData<Boolean> setUserExclusiveColor(@RequestHeader("color") String color,@RequestHeader("username")String username){return userService.setColorById(color,username);}
+    public RData<Boolean> setUserExclusiveColor(@RequestHeader("color") String color,@RequestHeader("username")String username){return userService.setColorById(color,username);}
     @Value("${map-key}")
     private String key;
     @SneakyThrows

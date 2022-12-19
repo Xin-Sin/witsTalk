@@ -124,8 +124,8 @@ public class UserService {
         httpServletResponse.addHeader("token", JwtTokenUtils.getToken(payload));
         return RData.success(true);
     }
-    public ResultData<Boolean> setColorById(String exclusiveColor,String username){
+    public RData<Boolean> setColorById(String exclusiveColor,String username){
         userMapper.setColorById(exclusiveColor,username);
-        return ResultData.success(true);
+        return RData.success(true);
     }
 }
