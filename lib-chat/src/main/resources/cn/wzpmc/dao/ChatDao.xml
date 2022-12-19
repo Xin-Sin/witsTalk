@@ -23,7 +23,7 @@
         limit #{count};
     </select>
     <select id="getUserHeadPortrait" resultType="java.lang.String">
-        select `base64` from user where `username`=#{username};
+        select `base64` from user where BINARY `username`=#{username};
     </select>
     <select id="getCount" resultType="java.lang.Integer">
         select COUNT(*) from message;

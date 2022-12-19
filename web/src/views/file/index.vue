@@ -40,9 +40,13 @@
         <el-main>
           <el-empty v-if="selectFile == null" description="当前未选择文件" />
           <div v-else>
-            <el-tag>{{selectFile.name}}</el-tag>
-            <el-tag style="margin-left:20%"><span>校验值: </span>{{selectFile.md5}}</el-tag>
-            <el-button type="success" round style="float:right" size="small" @click="downloadFile(selectFile.md5,selectFile.name)">下载</el-button>
+            <el-tag><span>文件名称: </span>{{selectFile.name}}</el-tag>
+            <br>
+            <el-tag><span>文件大小: </span>{{selectFile.size}}</el-tag>
+            <br>
+            <el-tag><span>MD5校验值: </span>{{selectFile.md5}}</el-tag>
+            <br><br>
+            <el-button type="success" round size="small" @click="downloadFile(selectFile.md5,selectFile.name)">文件下载</el-button>
             <br/>
             <el-divider/>
             <el-image v-if="showImg !== '' && !showAudio" style="width: 750px; height: 670px" :src="showImg" fit="fill" />
