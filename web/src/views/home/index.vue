@@ -90,6 +90,7 @@
   import {getWeather} from "../../api/user";
   import {useStore} from "../../store";
   import {useRouter} from "vue-router";
+  import {Weather} from "../../entities/Weather";
   
   const max_with = ref<number>(64);
   const active = ref<string>("1");
@@ -98,15 +99,15 @@
   const headimgBase64 = ref<string>();
   const userToken = ref<string>();
   const username = ref<string>();
-  const weather = ref<Object>({});
+  const weather = ref<Weather>({adcode: undefined, city: undefined, humidity: undefined, province: undefined, reporttime: undefined, temperature: undefined, weather: undefined, winddirection: undefined, windpower: undefined});
   const store = useStore();
   const router = useRouter();
 
   onMounted(() => {
     // 获取天气
     getWeather().then(res =>{
-      weather.value = res.data.data.lives[0]
-    }).catch(res =>{
+      weather.value = res.data.data.lives[0] as Weather
+    }).catch(_ =>{
       ElMessage.error("获取天气时出现了错误")
     })
     // 将store中数据存入当前页面
