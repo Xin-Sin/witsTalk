@@ -36,7 +36,10 @@ public class NettyUtils {
             return null;
         }
         try {
-            return new TextWebSocketFrame(new JSONObject().fluentPut("op",command).fluentPut("data", declaredMethod.invoke(null, args.toArray())).toJSONString());
+            Object result = declaredMethod.invoke(null, args.toArray());
+            if(result != null){
+                return new TextWebSocketFrame(new JSONObject().fluentPut("op",command).fluentPut("data", result).toJSONString());
+            }
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }

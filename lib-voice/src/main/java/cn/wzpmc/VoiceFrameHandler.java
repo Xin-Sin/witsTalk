@@ -19,12 +19,25 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @ChannelHandler.Sharable
 public class VoiceFrameHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+    /**
+     * 用于保存ChannelId和Channel
+     * key 为 ChannelId
+     * value 为 Channel
+     */
     public static final Map<ChannelId, Channel> users = new ConcurrentHashMap<>();
+    /**
+     * 用于保存用户登陆状态
+     * key 为 ChannelId
+     * value 为 是否登陆
+     */
+    public static final Map<ChannelId, Boolean> loginStatus = new ConcurrentHashMap<>();
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) {
         WebSocketFrame handler = NettyUtils.handler(CommandHandler.class, channelHandlerContext, textWebSocketFrame);
-        channelHandlerContext.writeAndFlush(handler);
+        if (handler != null){
+            channelHandlerContext.writeAndFlush(handler);
+        }
     }
     @Override
     public void handlerAdded(ChannelHandlerContext channelHandlerContext){
@@ -37,6 +50,7 @@ public class VoiceFrameHandler extends SimpleChannelInboundHandler<TextWebSocket
     public void handlerRemoved(ChannelHandlerContext channelHandlerContext) {
         Channel channel = channelHandlerContext.channel();
         ChannelId id = channel.id();
+        CommandHandler.handlerConnectionClose(channelHandlerContext);
         users.remove(id);
         log.info("User {} disconnected with channel {}", channel.remoteAddress(), id.asShortText());
     }
