@@ -78,7 +78,7 @@
   const loading = ref<boolean>(true)
   
   const connectedFileUrl = function(md5:string, fileName:string){
-    return "http://localhost:8080/file/api/downloadFile?md5=" + md5 + "&filename=" + fileName + "&token=" + sessionStorage.getItem("token");
+    return "http://localhost:8080/file/api/downloadFile?md5=" + md5 + "&filename=" + fileName + "&token=" + window.localStorage.getItem("token");
   } 
   const handleCurrentChange = function(val: object | undefined){
     showAudio.value = false;
@@ -107,7 +107,7 @@
   }
   const downloadFile = function (md5:string,name:string){
     // /file/api/downloadFile
-    window.open("http://localhost:8080/file/api/downloadFile?md5=" + md5 + "&filename=" + name + "&token=" + sessionStorage.getItem("token"),"_blank"); 
+    window.open("http://localhost:8080/file/api/downloadFile?md5=" + md5 + "&filename=" + name + "&token=" + window.localStorage.getItem("token"),"_blank");
   }
   const deleteRow = function (index:object){
   

@@ -124,3 +124,13 @@ export function getWeather() {
         method: "get",
     })
 }
+export function setUserExclusiveColor(color:string,username:string) {
+    return instance({
+        url: "/user/api/setUserExclusiveColor",
+        method: "get",
+        headers:{
+            color:color,
+            username:username
+        }
+    })
+}

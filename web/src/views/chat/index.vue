@@ -42,7 +42,7 @@
     pongId.value = window.setTimeout(waitingPong, 1000 * 50);
   }
   const websocketOpen = function (this: WebSocket, _: Event): any {
-    this.send(JSON.stringify({"op": "login", "args": {"token": window.sessionStorage.getItem("token")}}));
+    this.send(JSON.stringify({"op": "login", "args": {"token": window.localStorage.getItem("token")}}));
   }
   const websocketError = function (this: WebSocket, evt: Event): any {
     console.log(evt);

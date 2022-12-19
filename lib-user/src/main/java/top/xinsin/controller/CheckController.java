@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.xinsin.pojo.User;
 import top.xinsin.services.UserService;
-import top.xinsin.utils.ResultData;
+import top.xinsin.utils.RData;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -28,10 +28,10 @@ public class CheckController {
     }
     public static HashMap<User, Date> checklist = new HashMap<>();
     @PostMapping("/user/api/check")
-    public ResultData<Date> check(@RequestBody User user){
+    public RData<Date> check(@RequestBody User user){
         log.info("Check args:user=" + user);
         checklist.put(user,new Date());
         userService.setOnline(user);
-        return ResultData.success(checklist.get(user));
+        return RData.success(checklist.get(user));
     }
 }

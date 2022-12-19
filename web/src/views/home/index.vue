@@ -5,7 +5,8 @@
           <el-icon><img alt="" class="logo" src="/logo.svg"/></el-icon>
         </div>
         <div>
-          <span>
+          <span v-if="weather.city === undefined" style="color: #f56c6c">未查询到您当地的天气信息</span>
+          <span v-if="weather.city !== undefined">
             <span style="color: #FFCC33">
               {{weather.city}}
             </span>
@@ -104,7 +105,7 @@
     })
     let name = window.sessionStorage.getItem("username");
     let headimg = window.sessionStorage.getItem("headimg");
-    let token = window.sessionStorage.getItem("token");
+    let token = window.localStorage.getItem("token");
     if (name && headimg && token) {
       username.value = name;
       headimgBase64.value = "data:image/png;base64," + headimg;

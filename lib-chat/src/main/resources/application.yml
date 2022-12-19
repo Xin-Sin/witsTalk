@@ -1,0 +1,29 @@
+server:
+  port: 8005
+spring:
+  datasource:
+    username: witstalk
+    password: witsTalk
+    url: jdbc:mysql://wzpmc.cn:3306/witstalk?serverTimezone=UTC-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    druid配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  mybatis:
+    mapper-locations: classpath:cn/wzpmc/dao/*Dao.xml
+    type-aliases-package: cn.wzpmc.dao
