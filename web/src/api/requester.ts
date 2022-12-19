@@ -1,7 +1,6 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
-
 const instance = axios.create({
-    baseURL: 'http://localhost:8080'
+    baseURL: window.location.protocol + '//' + window.location.hostname + ":" + window.location.port
 });
 const responseInterceptors = function (response: AxiosResponse): AxiosResponse {
     let token = response.headers.token;

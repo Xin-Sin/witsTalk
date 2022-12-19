@@ -1,23 +1,18 @@
 <template>
-    <div ref="audiosDiv"></div>
+    <div ref="audiosDiv">
+      <User v-for="" :media-stream="localMediaStream" :web-socket="webSocketConnection" />
+    </div>
   </template>
   
   <script lang="ts" setup>
   import {onMounted, ref} from "vue";
   import {ElMessage} from "element-plus";
-  // STUN服务器地址
-  const IceServer: RTCIceServer = {
-    "credential": "XinSin123",
-    "credentialType": "password",
-    "urls": "turn:xinsin.top:3478",
-    "username": "xinsin"
-  }
+  const users = ref<string>();
   //初始化websocket
   let webSocketConnection: WebSocket;
   //获取div
   const audiosDiv = ref<HTMLDivElement>();
   //获取RTC连接
-  let connection: RTCPeerConnection = new RTCPeerConnection({"iceServers": [IceServer]});
   /**
    * 在websocket通道上发送消息
    * @param data 数据
@@ -34,43 +29,6 @@
   let localMediaStream: MediaStream;
   //远端音频流
   const remoteStream = new MediaStream();
-  /**
-   * 处理RTCTrackEvent
-   * @param evt 事件
-   */
-  const handlerIceServerTrace = function (evt: RTCTrackEvent) {
-    //获取远端音频流
-    let audioStream = evt.streams[0];
-    //通过远端音频流id获取此用户用户名
-    let username = usernames.get(audioStream.id);
-    //将此流播放
-    for (let stream of audioStream.getTracks()) {
-      remoteStream.addTrack(stream);
-    }
-    //添加audio元素至div
-    if (audiosDiv.value) {
-      //外侧div
-      let outDiv = document.createElement("div");
-      //audio元素
-      let audio = document.createElement("audio");
-      //设置自动播放
-      audio.autoplay = true;
-      //设置可控
-      audio.controls = true;
-      //设置不可见
-      audio.style.display = "none";
-      //设置远端音频流
-      audio.srcObject = audioStream;
-      //用户名元素
-      let name = document.createElement("span");
-      //设置用户名
-      name.innerText = username as string;
-      //添加元素至div
-      outDiv.appendChild(name);
-      outDiv.appendChild(audio);
-      audiosDiv.value?.appendChild(outDiv);
-    }
-  }
   /**
    * 处理WebSocket连接事件
    * @param _ 事件
@@ -93,16 +51,6 @@
     usernames.delete(jsonData.user);
   }
   /**
-   * 处理STUN服务器选择事件
-   * @param event 事件
-   */
-  const handlerIceServerIceCandidate = function (event: RTCPeerConnectionIceEvent) {
-    if (event.candidate) {
-      //广播STUN服务器
-      sendWebSocket({"op": "candidate", "data": event.candidate});
-    }
-  };
-  /**
    * 处理用户登录成功事件
    * @param jsonData 数据
    */
@@ -113,22 +61,9 @@
       ElMessage.error("鉴权失败，请重新登录后重试！")
       return;
     }
-    //TODO 登录成功后将媒体流id和用户名放入表中
     ElMessage.success("鉴权成功！");
     usernames.set(localMediaStream.id, jsonData.data.username);
-    //将本地流上传（添加至STUN服务器）
-    for (let track of localMediaStream.getTracks()) {
-      connection.addTrack(track, localMediaStream)
-    }
-    //初始化STUN服务器
-    connection.ontrack = handlerIceServerTrace;
-    connection.onicecandidate = handlerIceServerIceCandidate;
-    //创建Offer并广播
-    connection.createOffer()
-        .then((offer) => {
-          sendWebSocket({"op": "offer", "data": offer});
-          connection.setLocalDescription(offer);
-        }).catch((err) => ElMessage.error("出现错误！" + err));
+
   }
   /**
    * 处理用户连接事件
@@ -138,36 +73,7 @@
     //将媒体流id和用户名放入表中
     usernames.set(jsonData.data.id, jsonData.data.name);
   }
-  /**
-   * 处理Offer事件
-   * @param offer 数据
-   */
-  const handlerOffer = function (offer: RTCSessionDescriptionInit) {
-    //设置远端描述为传过来的描述
-    connection.setRemoteDescription(new RTCSessionDescription(offer));
-    //创建应答数据并广播
-    connection.createAnswer().then((answer) => {
-      //设置本地描述
-      connection.setLocalDescription(answer);
-      sendWebSocket({"op": "answer", "data": answer});
-    }).catch((err) => ElMessage.error("出现错误" + err))
-  }
-  /**
-   * 处理远端应答事件
-   * @param answer 数据
-   */
-  const handlerAnswer = function (answer: RTCSessionDescriptionInit) {
-    //设置远端描述为发过来的
-    connection.setRemoteDescription(new RTCSessionDescription(answer));
-  }
-  /**
-   * 处理远端STUN服务器选择事件
-   * @param candidate 数据
-   */
-  const handlerCandidate = function (candidate: object) {
-    //将远端的STUN服务器选项加入备选名单中
-    connection.addIceCandidate(new RTCIceCandidate(candidate));
-  }
+
   /**
    * 处理websocket消息事件
    * @param evt 事件

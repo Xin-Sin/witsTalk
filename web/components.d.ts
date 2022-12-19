@@ -36,6 +36,7 @@ declare module '@vue/runtime-core' {
     NotFound: typeof import('./src/components/NotFound.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    User: typeof import('./src/components/User.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

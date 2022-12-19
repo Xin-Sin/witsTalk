@@ -21,7 +21,7 @@
   import {nextTick, onMounted, onUnmounted, reactive, ref} from "vue";
   import {ElLoading, ElMessage} from "element-plus";
   import Message from "../../components/Message.vue";
-  import {MessageData, MessageTypes} from "../../util/MessageData";
+  import {MessageData, MessageTypes} from "../../entities/MessageData";
   import {LoadingInstance} from "element-plus/es/components/loading/src/loading";
 
   const ws = ref<WebSocket>();
