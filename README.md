@@ -21,10 +21,9 @@
 - 6.检查`mysql`数据库版本,并更改`pom.xml`中`JDBC`依赖版本
 - 7.使用`npm install`下载前端项目依赖
 - 8.(可选).配置`nginx`反向代理,和端口号
-- 9.启动前端项目`npm run dev`,启动nginx,启动后端项目:(还用我教吗?-_-):
+- 9.启动前端项目`npm run dev`,启动nginx,启动后端项目
 
 **如何使用** `使用方法`
-- ~~由于该项目还在开发中,暂不提供使用方式,只提供开发方法~~
 - 一开完毕将提供完整的`使用文档`和`release`
 
 **提交代码** `提交方法`
@@ -49,4 +48,4 @@
 
 **鸣谢** `鸣谢`
 - [jetbrains](https://www.jetbrains.com)
-- ![jetbrains](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png?_gl=1*avq98w*_ga*NjQ5OTM0MzUxLjE2NDY1NTIyMzQ.*_ga_V0XZL7QHEB*MTY0Njk2NjY2Mi4zLjAuMTY0Njk2NjY2Mi4w)
+![jetbrains](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png?_gl=1*avq98w*_ga*NjQ5OTM0MzUxLjE2NDY1NTIyMzQ.*_ga_V0XZL7QHEB*MTY0Njk2NjY2Mi4zLjAuMTY0Njk2NjY2Mi4w)
