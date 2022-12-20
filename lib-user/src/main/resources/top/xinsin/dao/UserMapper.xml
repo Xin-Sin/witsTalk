@@ -52,6 +52,10 @@
         from user
         WHERE `online` = 1;
     </select>
+    <select id="selectALLBYIdAndUsername" resultType="top.xinsin.pojo.User">
+        select id, username, auth, base64, exclusiveColor
+        from user where username = #{username} and id = #{id} and ban = 0;
+    </select>
     <update id="setColorById">
         update user
         set exclusiveColor = #{exclusiveColor}

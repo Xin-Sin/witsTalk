@@ -4,7 +4,7 @@ import instance from "./requester";
  * @param idMin 最小id
  * @param pageSize 页面大小
  */
-export function getFiles(idMin: number,pageSize: number) {
+export const getFiles = (idMin: number,pageSize: number) => {
     return instance({
         url: "/file/api/getAllFileNames",
         method: "POST",
@@ -23,7 +23,7 @@ export function getFiles(idMin: number,pageSize: number) {
  * @param name 文件名
  * @param token 用户token 
  */
-export function getShowFile(md5: string,name:string,token:string) {
+export const getShowFile = (md5: string,name:string,token:string) => {
     return instance({
         url: "file/api/downloadFile?md5=" + md5 + "&filename=" + name + "&token=" + token,
         headers: {

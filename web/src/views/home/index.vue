@@ -117,7 +117,7 @@
       userToken.value = window.localStorage.getItem("token") as string;
     }
   })
-  const handlerUserSettingsCommand = function (command: string) {
+  const handlerUserSettingsCommand = (command: string) =>{
     // 处理下拉菜单的指令
     console.log(command)
     switch (command) {
@@ -140,11 +140,11 @@
     }
   }
   // 菜单栏获取鼠标焦点进行动画展示
-  const onMouseEnter = function () {
+  const onMouseEnter = () =>{
     isCollapse.value = false
     max_with.value = 200;
   }
-  const onMouseLeave = function () {
+  const onMouseLeave = () =>{
     isCollapse.value = true
     max_with.value = 64;
   }

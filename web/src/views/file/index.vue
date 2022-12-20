@@ -8,7 +8,10 @@
         <el-table-column label="上传时间" prop="uploadTime" show-overflow-tooltip width="120"/>
         <el-table-column label="上传者" prop="uploaderName" show-overflow-tooltip width="120"/>
         <el-table-column label="MD5" prop="md5" show-overflow-tooltip width="300"/>
-        <el-table-column :fixed="'right'" label="操作" width="120">
+        <el-table-column :fixed="'right'" width="120">
+          <template #header>
+            <el-button type="info" size="small" @click="reload">刷新</el-button>
+          </template>
           <template #default="scope">
             <el-button
                 link
@@ -77,15 +80,19 @@
   const showAudioSrc = ref<string>()
   const showAudio = ref<boolean>(false)
   const loading = ref<boolean>(true)
+  const page = ref<number>(0);
 
   const store = useStore();
 
+  const reload = () => {
+    getFile(page.value);
+  }
   // 创建文件url进行访问或者在线获取文件二进制
-  const connectedFileUrl = function(md5:string, fileName:string){
+  const connectedFileUrl = (md5:string, fileName:string) =>{
     return "http://localhost:8080/file/api/downloadFile?md5=" + md5 + "&filename=" + fileName + "&token=" + window.localStorage.getItem("token");
   }
   // 在线展示文件内容
-  const handleCurrentChange = function(val: object | undefined){
+  const handleCurrentChange = (val: object | undefined) =>{
     showAudio.value = false;
     selectFile.value = val
     // 判断文件后缀，进行相对应的文件格式解析
@@ -110,14 +117,14 @@
     }
   }
   // 下载文件
-  const downloadFile = function (md5:string,name:string){
+  const downloadFile = (md5:string,name:string) =>{
     window.open(connectedFileUrl(md5,name),"_blank");
   }
-  const deleteRow = function (index:object){
+  const deleteRow = (index:object) =>{
   
   }
   // 获取文件列表
-  const getFile = function (id: number) {
+  const getFile = (id: number) =>{
     loading.value = true;
     getFiles(id,pageSize.value).then((response) => {
       pageCount.value = response.data.data.total;
@@ -126,15 +133,16 @@
     })
   }
   onMounted(() => {
-    getFile(0);
+    getFile(page.value);
     // 将用户权限赋值到本页面
     if (store.userinfo !== null){
       auth.value = store.userinfo.auth;
     }
   })
   // 分页钩子
-  const changePage = function (id: number) {
-    getFile((id - 1) * 17);
+  const changePage = (id: number) =>{
+    page.value = (id - 1) * 17;
+    getFile(pageSize.value);
   }
   </script>
   
