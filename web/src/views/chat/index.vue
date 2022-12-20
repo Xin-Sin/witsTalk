@@ -24,10 +24,11 @@
   import {MessageData, MessageTypes} from "../../entities/MessageData";
   import {LoadingInstance} from "element-plus/es/components/loading/src/loading";
   import {useStore} from "../../store";
-  import {useRouter} from "vue-router";
+  import {useRoute, useRouter} from "vue-router";
 
   const store = useStore();
   const router = useRouter();
+  const route = useRoute();
   const ws = ref<WebSocket>();
   const sendContent = ref<string>();
   const waitingPong = function () {
@@ -53,7 +54,7 @@
     ElMessage.error("与服务器沟通出现错误！");
   }
   const websocketClose = function (this: WebSocket, _: Event): any {
-    if (window.location.hash === "#/main") {
+    if (route.path === "/home/chat") {
       ElMessage.error("与服务器连接断开，尝试重连！");
       for (let i = 0; i < messageData.length; i++) {
         messageData.pop();
@@ -154,7 +155,10 @@
       ElMessage.error("出现错误，与服务器未连接")
       return
     }
-    const username = window.sessionStorage.getItem("username");
+    let username = "";
+    if (store.userinfo){
+      username = store.userinfo.username;
+    }
     if (username) {
       ws.value.send(JSON.stringify({
         "op": "send",

@@ -131,4 +131,24 @@ public class UserService {
         userMapper.setColorById(exclusiveColor,username);
         return RData.success(true);
     }
+
+    public RData<JSONObject> autoLogin(HttpServletRequest request) {
+        String token = request.getHeader("Access-Token");
+        DecodedJWT tokenInfo = JwtTokenUtils.getTokenInfo(token);
+        String username = tokenInfo.getClaim("username").asString();
+        String id = tokenInfo.getClaim("id").asString();
+        User user = userMapper.selectALLBYIdAndUsername(username, Integer.parseInt(id));
+        JSONObject jsonObject = new JSONObject();
+        if (user != null){
+            jsonObject.fluentPut("status", true)
+                    .fluentPut("base64", user.getBase64())
+                    .fluentPut("auth",user.getAuth().toString())
+                    .fluentPut("exclusiveColor",user.getExclusiveColor())
+                    .fluentPut("username",user.getUsername())
+                    .fluentPut("id",user.getId());
+        }else{
+            jsonObject.fluentPut("status",false);
+        }
+        return RData.success(jsonObject);
+    }
 }

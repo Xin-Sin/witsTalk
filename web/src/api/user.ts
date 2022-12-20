@@ -6,7 +6,7 @@ import instance from "./requester";
  * @param username 用户名
  * @param password 密码
  */
-export function login(username: string, password: string) {
+export const login = (username: string, password: string) =>{
     return instance({
         url: "/user/api/login",
         method: "post",
@@ -23,7 +23,7 @@ export function login(username: string, password: string) {
 /**
  * 获取每日一言
  */
-export async function getHitokoto() {
+export const getHitokoto = async() =>{
     return instance({
         url: "https://v1.hitokoto.cn/",
         method: "post",
@@ -37,7 +37,7 @@ export async function getHitokoto() {
 /**
  * 获取用户在线状态
  */
-export function getAllUserOnline() {
+export const getAllUserOnline = () =>{
     return instance({
         url: "/user/api/getOnlineUser",
         headers: {
@@ -50,7 +50,7 @@ export function getAllUserOnline() {
  * 获取头像接口
  * @param username 用户名
  */
-export function getHeadImg(username: string) {
+export const getHeadImg = (username: string) =>{
     return instance({
         url: "/user/api/getUserHeadPortrait/" + username,
         headers: {
@@ -64,7 +64,7 @@ export function getHeadImg(username: string) {
  * @param username
  * @param password
  */
-export function changeUserPassword(username: string, password: string) {
+export const changeUserPassword = (username: string, password: string) =>{
     return instance({
         url: "/user/api/changepassword",
         method: "POST",
@@ -78,7 +78,7 @@ export function changeUserPassword(username: string, password: string) {
     })
 }
 
-export function changeUserHeadImg(username: string, base64: string) {
+export const changeUserHeadImg = (username: string, base64: string) =>{
     return instance({
         url: "/user/api/setHeadPortrait",
         method: "POST",
@@ -92,7 +92,7 @@ export function changeUserHeadImg(username: string, base64: string) {
     })
 }
 
-export function changeUsername(username: string) {
+export const changeUsername = (username: string) =>{
     return instance({
         url: "/user/api/changeUsername",
         method: "POST",
@@ -105,7 +105,7 @@ export function changeUsername(username: string) {
     })
 }
 
-export function registerUser(username: string, password: string) {
+export const registerUser = (username: string, password: string) =>{
     return instance({
         url: "/user/api/adduser",
         method: "POST",
@@ -118,13 +118,13 @@ export function registerUser(username: string, password: string) {
         }
     })
 }
-export function getWeather() {
+export const getWeather = () =>{
     return instance({
         url: "/user/api/getWeather",
         method: "get",
     })
 }
-export function setUserExclusiveColor(color:string,username:string) {
+export const setUserExclusiveColor = (color:string,username:string) =>{
     return instance({
         url: "/user/api/setUserExclusiveColor",
         method: "get",
@@ -132,5 +132,11 @@ export function setUserExclusiveColor(color:string,username:string) {
             color:color,
             username:username
         }
+    })
+}
+export const autoLogin = () => {
+    return instance({
+        url: "/user/api/autoLogin",
+        method: "get",
     })
 }
