@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="control-panel-settings">
-        <div class="control-panel-item-text">麦克风：</div>
+        <div class="control-panel-item-text">麦克风选择：</div>
         <el-select @change="onMicrophoneChange" v-model="microphone" class="m-2" placeholder="Select" size="large">
           <el-option
               v-for="item in microphones"
@@ -375,12 +375,18 @@
       display: flex;
       justify-content: flex-start;
       width: 100%;
-      height: 10%;
+      height: 80px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: #409eff;
     }
     .control-panel-item{
       display: flex;
       flex-direction: row;
       width: 100%;
+      color: var(--el-text-color-primary);
+      font-size: 16px;
+      margin-left: 15px;
     }
     .control-panel-item-text{
       margin-left: 10px;
@@ -390,12 +396,15 @@
       display: flex;
       flex-direction: column;
       width: 20%;
+      color: var(--el-text-color-primary);
+      font-size: 16px;
+      margin: 10px 0;
     }
     .control-panel-join{
       display: flex;
       width: 60%;
-      justify-content: flex-start;
-      margin-left: 10px;
+      justify-content: flex-end;
+      margin-left: -25px;
     }
     .control-panel-join-button{
       transform: translate(0,60%);
