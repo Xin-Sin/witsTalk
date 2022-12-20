@@ -2,14 +2,32 @@
   <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <span>{{prop.username}}</span>
+        <span v-if="volume===0" style="color: red">{{prop.username}}</span>
+        <span v-else>{{prop.username}}</span>
+        <el-tooltip
+            v-if="volume===0"
+            content="本地将此用户静音"
+            placement="top"
+        >
+          <Mute style="width: 16px;height: 16px;margin-left: 10px" />
+        </el-tooltip>
       </div>
     </template>
+    <div class="control-panel">
+      <div class="control-panel-item">
+        <div class="control-panel-item-name">音量</div>
+        <div class="control-panel-item-element">
+          <el-slider v-model="volume" @input="onVolumeInput" />
+        </div>
+      </div>
+
+    </div>
   </el-card>
   <audio ref="audio" autoplay style="display: none" />
 </template>
 
 <script lang="ts" setup>
+import {Mute} from '@element-plus/icons-vue'
 import {onMounted, ref} from "vue";
 
 const prop = defineProps<{mediaStream: MediaStream, username: string, webSocket: WebSocket}>();
@@ -17,12 +35,18 @@ import {IceServer} from "../config/GlobalConfig";
 import {ElMessage} from "element-plus";
 let connection: RTCPeerConnection;
 const audio = ref<HTMLAudioElement>();
+const volume = ref<number>(100);
+const onVolumeInput = function (val: number) {
+  if (audio.value) {
+    audio.value.volume = val / 100;
+  }
+}
 /**
  * 处理Offer事件
  * @param offer 数据
  */
 const handlerOffer = function (offer: RTCSessionDescriptionInit) {
-  console.log(prop.username + "-handlerOffer")
+  // console.log(prop.username + "-handlerOffer")
   //设置远端描述为传过来的描述
   connection.setRemoteDescription(new RTCSessionDescription(offer));
   //创建应答数据并广播
@@ -37,7 +61,7 @@ const handlerOffer = function (offer: RTCSessionDescriptionInit) {
  * @param answer 数据
  */
 const handlerAnswer = function (answer: RTCSessionDescriptionInit) {
-  console.log(prop.username + "-handlerAnswer")
+  //console.log(prop.username + "-handlerAnswer")
   //设置远端描述为发过来的
   connection.setRemoteDescription(new RTCSessionDescription(answer));
 }
@@ -46,7 +70,7 @@ const handlerAnswer = function (answer: RTCSessionDescriptionInit) {
  * @param candidate 数据
  */
 const handlerCandidate = function (candidate: RTCIceCandidate) {
-  console.log(prop.username + "-handlerCandidate")
+  //console.log(prop.username + "-handlerCandidate")
   //将远端的STUN服务器选项加入备选名单中
   connection.addIceCandidate(new RTCIceCandidate(candidate));
 }
@@ -56,7 +80,7 @@ const handlerCandidate = function (candidate: RTCIceCandidate) {
  */
 const handlerIceServerIceCandidate = function (event: RTCPeerConnectionIceEvent) {
   if (event.candidate) {
-    console.log("sendCandidate")
+    //console.log("sendCandidate")
     //广播STUN服务器
     prop.webSocket.send(JSON.stringify({"op": "candidate", "data": event.candidate, "to": prop.username}));
   }
@@ -68,6 +92,7 @@ const handlerIceServerTrace = function (evt: RTCTrackEvent) {
   if (audio.value) {
     audio.value.srcObject = audioStream;
   }
+
 }
 onMounted(() => {
   connection = new RTCPeerConnection({"iceServers": [IceServer]});
@@ -80,7 +105,7 @@ onMounted(() => {
   //创建Offer并广播
 })
 const createOffer = function(){
-  console.log("createOffer-" + prop.username);
+  //console.log("createOffer-" + prop.username);
   connection.createOffer()
       .then((offer) => {
         prop.webSocket.send(JSON.stringify({"op": "offer", "data": offer, "to": prop.username}));
@@ -90,9 +115,25 @@ const createOffer = function(){
 const getName = function () {
   return prop.username;
 }
-defineExpose({handlerAnswer, handlerCandidate, handlerOffer, getName, createOffer})
+const close = () => {
+  connection.close();
+}
+defineExpose({handlerAnswer, handlerCandidate, handlerOffer, getName, createOffer, close})
 </script>
 
 <style scoped>
-
+.control-panel{
+  width: 100%;
+}
+.control-panel-item{
+  display: flex;
+}
+.control-panel-item-name{
+  width: max-content;
+  margin-top: 3px;
+}
+.control-panel-item-element{
+  width: 70%;
+  margin-left: 20px;
+}
 </style>
