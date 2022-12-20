@@ -31,13 +31,13 @@
   const store = useStore();
 
   // 更新用户字体颜色
-  const changeColor = function (color:string){
+  const changeColor = (color:string) =>{
     if (usernameColor.value){
       usernameColor.value.style.color = color;
     }
   }
   // 上传用户字体颜色修改
-  const updateColor = function (color:string){
+  const updateColor = (color:string) =>{
     if (usernameColor.value){
       usernameColor.value.style.color = color;
       // 修改用户的专属颜色接口
@@ -55,10 +55,10 @@
     changeColor(textColor.value as string);
   })
   // 修改头像方法前缀
-  const changeHeadimg = function () {
+  const changeHeadimg = () =>{
     fileUploader.value?.click();
   }
-  const selectFile = function (_: Event) {
+  const selectFile = (_: Event) =>{
     // 进行图片处理
     if (!fileUploader.value) {
       return;

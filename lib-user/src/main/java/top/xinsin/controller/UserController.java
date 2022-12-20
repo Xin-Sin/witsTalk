@@ -66,7 +66,6 @@ public class UserController {
      */
     @PostMapping("/user/api/setHeadPortrait")
     public RData<JSONObject> setHeadPortrait(@RequestBody User user, HttpServletRequest request) {
-        System.out.println("anc");
         return userService.setHeadPortrait(user, request);
     }
 
@@ -103,6 +102,8 @@ public class UserController {
     }
     @GetMapping("/user/api/setUserExclusiveColor")
     public RData<Boolean> setUserExclusiveColor(@RequestHeader("color") String color,@RequestHeader("username")String username){return userService.setColorById(color,username);}
+    @GetMapping("/user/api/autoLogin")
+    public RData<JSONObject> autoLogin(HttpServletRequest request){return userService.autoLogin(request);}
     @Value("${map-key}")
     private String key;
     @SneakyThrows
