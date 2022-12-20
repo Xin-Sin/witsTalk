@@ -146,15 +146,15 @@
         handlerUserLeave(jsonData);
         break;
       case "offer":
-        //处理服务端（其他用户）发送的SDP信息
+        //处理信令服务器（即做客户端与客户端之间信息交换的服务端，常作房间管理、登陆验证等功能）（其他用户）发送的SDP信息
         handlerOffer(jsonData);
         break;
       case "candidate":
-        //处理服务端（其他用户）发送的Candidate（即两机器的网络信息）信息
+        //处理信令服务器（其他用户）发送的Candidate（即两机器的网络信息）信息
         handlerCandidate(jsonData);
         break;
       case "answer":
-        //处理服务端（其他用户）发送的Answer（即对于SDP的回应）信息
+        //处理信令服务器（其他用户）发送的Answer（即对于SDP的回应）信息
         handlerAnswer(jsonData);
         break;
       default:
@@ -162,7 +162,7 @@
     }
   }
   /**
-   * 处理服务端（其他用户）发送的SDP信息
+   * 处理信令服务器（其他用户）发送的SDP信息
    * @param jsonData 消息内容，格式为{"type": "offer", "data": Object格式SDP数据, "from": 发送者用户名}
    */
   const handlerOffer = (jsonData: any) => {
@@ -177,7 +177,7 @@
     }
   }
   /**
-   * 处理服务端（其他用户）发送的SDP信息
+   * 处理信令服务器（其他用户）发送的SDP信息
    * @param jsonData 消息内容，格式为{"type": "candidate", "data": Object格式Candidate数据, "from": 发送者用户名}
    */
   const handlerCandidate = (jsonData: any) => {
@@ -192,7 +192,7 @@
     }
   }
   /**
-   * 处理服务端（其他用户）发送的Answer信息
+   * 处理信令服务器（其他用户）发送的Answer信息
    * @param jsonData 消息内容，格式为{"type": "answer", "data": Object格式Answer数据, "from": 发送者用户名}
    */
   const handlerAnswer = (jsonData: any) => {
