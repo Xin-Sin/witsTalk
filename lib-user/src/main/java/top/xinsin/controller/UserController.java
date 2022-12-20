@@ -131,6 +131,7 @@ public class UserController {
             String result = getMethod.getResponseBodyAsString();
             getMethod.releaseConnection();
             String adcode = JSON.parseObject(result).getString("adcode");
+            System.out.println(ipAddr);
             if (adcode != null){
                 GetMethod getWeather = new GetMethod("https://restapi.amap.com/v3/weather/weatherInfo?key=" + key + "&city=" + adcode + "&extensions=base");
                 String getWeatherResult = getWeather.getResponseBodyAsString();
