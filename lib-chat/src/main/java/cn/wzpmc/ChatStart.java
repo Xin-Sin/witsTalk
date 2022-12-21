@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author wzp
@@ -23,7 +24,8 @@ public class ChatStart {
     @SneakyThrows
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(ChatStart.class);
-        springApplication.run(args);
+        ConfigurableApplicationContext run = springApplication.run(args);
+        ChatFrameHandler.setCommandHandler(run);
         springApplication.addListeners(netty);
         netty.start();
     }
