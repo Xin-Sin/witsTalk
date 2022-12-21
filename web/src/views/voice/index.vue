@@ -80,7 +80,7 @@
         //将获取到的MediaStream赋值给ref并传递
         .then((mediaStream) => localMediaStream.value = mediaStream)
         .catch((_) => console.log(_))//ElMessage.error("无法获取用户麦克风，请检查麦克风权限是否给予"))
-    ElMessage.success("连接到语音服务器，开始鉴权")
+    ElMessage.success("连接到语音服务器")
     //登录鉴权
     webSocketConnection.value!.send(JSON.stringify({"op": "login", "token": window.localStorage.getItem("token"), "media": localMediaStream.value?.id}));
   }
@@ -108,11 +108,11 @@
       //添加到组件表中
       users.value.push(i);
     }
-    ElMessage.success("鉴权成功！");
+    ElMessage.success("加入成功")
   }
   /**
    * 处理用户连接事件
-   * @param jsonData 数据l
+   * @param jsonData 数据
    */
   const handlerUserAdd = (jsonData: any) => {
     //将此用户加入组件表中
@@ -214,12 +214,10 @@
     //比对event断开连接时的代码，正常断开为1005
     if(event.code != 1005){
       ElMessage.error("WebSocket连接断开！")
+      leaveVoiceChat()
     }
     //清空组件表
     users.value = [];
-    if(join.value){
-      join.value = false;
-    }
   }
   /**
    * 处理远端WebSocket连接错误事件
@@ -277,6 +275,7 @@
     if(join.value){
       //退出语音
       leaveVoiceChat();
+      ElMessage.success("成功退出")
     }
   }
   /**
@@ -340,7 +339,6 @@
     if(changeStatus){
       join.value = true;
     }
-    ElMessage.success("加入成功")
   }
   /**
    * 退出语音
@@ -358,7 +356,7 @@
     if(changeStatus){
       join.value = false;
     }
-    ElMessage.success("成功退出")
+
   }
   //注册当被挂载的事件
   onMounted(mount)

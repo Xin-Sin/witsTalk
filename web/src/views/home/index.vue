@@ -76,7 +76,7 @@
             </el-menu-item>
           </el-menu>
         </el-aside>
-        <el-main style="width: 100%; height: 80vh; overflow-x: hidden; overflow-y: hidden;">
+        <el-main style="width: 100%; height: 90vh; overflow-x: hidden; overflow-y: hidden;">
           <router-view/>
         </el-main>
       </el-container>

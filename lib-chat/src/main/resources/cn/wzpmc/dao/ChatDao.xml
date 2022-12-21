@@ -16,16 +16,15 @@
         where id = #{id};
     </update>
     <select id="getMessage" resultType="cn.wzpmc.pojo.Message">
-        select *
-        from `v_message_base64_info`
-        where id >= #{id_min}
-          and recall = 0
-        limit #{count};
+        select m.*,u.base64 from message m inner join user u on u.username = m.sender where m.id >= #{id_min} and m.recall = 0 order by m.id desc limit #{count};
     </select>
     <select id="getUserHeadPortrait" resultType="java.lang.String">
         select `base64` from user where BINARY `username`=#{username};
     </select>
     <select id="getCount" resultType="java.lang.Integer">
         select COUNT(*) from message;
+    </select>
+    <select id="getNewMessage" resultType="cn.wzpmc.pojo.Message">
+        select m.*,u.base64 from message m inner join user u on u.username = m.sender where m.id >= #{id_min} and m.id &lt;= #{id_max} and m.recall = 0 order by m.id desc limit #{count};
     </select>
 </mapper>

@@ -16,6 +16,7 @@ public class VoiceStart {
     public VoiceStart(VoiceNetty voiceNetty){
         VoiceStart.voiceNetty = voiceNetty;
     }
+
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(VoiceStart.class);
         springApplication.run(args);
