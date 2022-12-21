@@ -112,14 +112,15 @@ const mount = () => {
  * 创建本地SDP并发送（启动WebRTC连接）
  * WebRTC的沟通流程大概如下图所示：
  * 客户端A ---Offer---> 信令服务器
- * 客户端B <---Offer--- 信令服务器
- * 客户端B ---Answer---> 信令服务器
- * 客户端A <---Answer--- 信令服务器
  * 客户端A ---Candidate（A）---> 信令服务器
- * 客户端B ---Candidate（B）---> 信令服务器
+ * 客户端B <---Offer--- 信令服务器
  * 客户端B <---Candidate（A）--- 信令服务器
- * 客户端B ---RTC---> TURN服务器
+ * 客户端B ---Answer---> 信令服务器
+ * 客户端B ---Candidate（B）---> 信令服务器
+ * 客户端A <---Answer--- 信令服务器
+ * 客户端A <---Candidate（B）--- 信令服务器
  * 客户端A ---RTC---> TURN服务器
+ * 客户端B ---RTC---> TURN服务器
  * 客户端A <---（TURN服务器）P2P（RTC）---> 客户端B（若两客户端无法直接交流）
  * 客户端A <---P2P（RTC）---> 客户端B（若两客户端可以直接交流）
  */

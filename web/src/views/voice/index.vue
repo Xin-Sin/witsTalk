@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="control-panel-settings">
-        <div class="control-panel-item-text">麦克风选择：</div>
+        <div class="control-panel-item-text">麦克风：</div>
         <el-select @change="onMicrophoneChange" v-model="microphone" class="m-2" placeholder="Select" size="large">
           <el-option
               v-for="item in microphones"
@@ -217,6 +217,9 @@
     }
     //清空组件表
     users.value = [];
+    if(join.value){
+      join.value = false;
+    }
   }
   /**
    * 处理远端WebSocket连接错误事件
@@ -271,20 +274,26 @@
    * 当卸载
    */
   const unmounted = () => {
-    //退出语音
-    leaveVoiceChat();
+    if(join.value){
+      //退出语音
+      leaveVoiceChat();
+    }
   }
   /**
    * 用于刷新连接
    */
   const refreshConnection = () => {
+
+    //加入了语音
+    if(join.value){
       ElMessage.success("成功修改，正在重连")
       //退出语音
       leaveVoiceChat(false)
-      //若在退出前加入了，则加入语音
-    if(join.value){
+      //加入语音
       joinVoiceChat(false)
+      return;
     }
+    ElMessage.success("成功修改！")
   }
   /**
    * 当噪声消除的开关状态被改变
@@ -390,7 +399,7 @@
     }
     .control-panel-item-text{
       margin-left: 10px;
-      margin-top: 5px;
+      margin-bottom: 5px;
     }
     .control-panel-settings{
       display: flex;

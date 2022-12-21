@@ -93,7 +93,7 @@
   import {Weather} from "../../entities/Weather";
   
   const max_with = ref<number>(64);
-  const active = ref<string>("1");
+  const active = ref<string>("/home/chat");
   //主逻辑
   const isCollapse = ref<boolean>(true);
   const headimgBase64 = ref<string>();
@@ -116,6 +116,7 @@
       headimgBase64.value = "data:image/png;base64," + store.userinfo.headimg;
       userToken.value = window.localStorage.getItem("token") as string;
     }
+    active.value = window.location.hash.replace("#","")
   })
   const handlerUserSettingsCommand = (command: string) =>{
     // 处理下拉菜单的指令

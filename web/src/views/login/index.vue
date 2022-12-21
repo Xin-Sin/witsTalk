@@ -61,7 +61,7 @@ const router = useRouter();
 // 对输入的账号密码进行正则验证
 const verify = (value:string,type:string) => {
   if (type === "u"){
-    const verifyUsername = 	/^[a-zA-Z0-9_-]{5,16}$/;
+    const verifyUsername = 	/^[a-zA-Z0-9_-]{3,16}$/;
     let a = verifyUsername.test(value);
     if (a){
       usernameRef.value!.input!.style.color = "black"

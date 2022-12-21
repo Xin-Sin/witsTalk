@@ -12,7 +12,6 @@ const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
-
 const piniaPlugin = (context: PiniaPluginContext) => {
     const { store } = context;
     // $subscribe state值发生变化时会执行传入的回调

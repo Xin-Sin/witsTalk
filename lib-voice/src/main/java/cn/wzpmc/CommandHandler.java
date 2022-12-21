@@ -1,7 +1,6 @@
 package cn.wzpmc;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import io.netty.channel.Channel;
@@ -86,6 +85,9 @@ public class CommandHandler {
         String from = usernames.get(id);
         JSONObject send = new JSONObject().fluentPut("op", "answer").fluentPut("from", from).fluentPut("data", data);
         sendTo(username, send);
+    }
+    public static void handlerUsers(ChannelHandlerContext channelHandlerContext,JSONObject data){
+
     }
     private static void sendTo(String username,JSONObject send){
         for (Map.Entry<ChannelId, String> entry : usernames.entrySet()) {
