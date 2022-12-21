@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wzp
@@ -32,7 +33,7 @@ public interface ChatDao {
      * get all messages count
      * @return count of message
      */
-    ArrayList<Integer> getCount();
+    Integer getCount();
 
     /**
      * get a user's head portrait with username
@@ -43,7 +44,9 @@ public interface ChatDao {
 
     /**
      * recall a message
-     * @param message a message object
+     * @param id the id of the message you want to recall
      */
-    void recall(Message message);
+    void recall(@Param("id") Integer id);
+
+    List<Message> getNewMessage(@Param("id_min") Integer minId,@Param("id_max") Integer maxId,@Param("count") Integer count);
 }

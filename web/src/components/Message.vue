@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div class="message">
     <div :class="div_class">
       <el-avatar :size="52" :src='"data:image/png;base64," + props.data.base64' style="margin-top: 15px"/>
       <div :class="in_div_class">
         <el-tag v-if="show" :type="tag_type">{{ props.data.sender }}</el-tag>
-        <div :style="message_box_style"><img v-if="isSelf" alt="" class="angle" src="src/assets/95ec69.svg"/>
+        <div :style="message_box_style"><img v-if="self" alt="" class="angle" src="src/assets/95ec69.svg"/>
           <img v-else alt="" class="angle" src="src/assets/ffffff.svg">
           <div :class="message_div">
             <el-popover :visible="visible" placement="top" :width="160">
-              <el-link type="info">撤回</el-link>
+              <el-link type="info" @click="recall">撤回</el-link>
               <template #reference>
                 <div style="border: 5px solid rgba(255,255,255,0%);" @click="visibleMethod(props.data.sender)">{{ props.data.content }}</div>
               </template>
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import {MessageData} from "../entities/MessageData";
+import {isSelf, MessageData} from "../entities/MessageData";
 import {ref} from "vue";
 import {useStore} from "../store";
 
@@ -37,15 +37,16 @@ const visibleMethod = (sender:string) =>{
   }
 }
 const visible = ref(false)
-const props = defineProps({data: MessageData})
+const props = defineProps<{data: MessageData}>()
+const emit = defineEmits(["remove"])
 const tag_type = ref<string>("success");
 const div_class = ref<string>("message-out-div");
 const in_div_class = ref<string>("message-in-div");
 const message_div = ref<string>("message-div");
 const message_box_style = ref<string>("display:flex; flex-direction: row;");
 const show = ref<boolean>(false);
-let isSelf = props.data?.isSelf()
-if (isSelf) {
+let self = isSelf(props.data);
+if (self) {
   tag_type.value = "danger"
   div_class.value = "message-out-div self";
   in_div_class.value = "message-in-div self-in";
@@ -53,6 +54,10 @@ if (isSelf) {
   message_box_style.value = "display:flex; flex-direction: row-reverse;"
 }
 show.value = true;
+const recall = () => {
+  emit("remove", props.data.id);
+  visible.value = false;
+}
 </script>
 
 <style scoped>
@@ -93,6 +98,9 @@ div.message-div {
   font-size: 2vh;
   border-radius: 0 4px 4px 4px;
   background-color: #FFFFFF;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
 }
 
 div.message-self {
@@ -100,11 +108,17 @@ div.message-self {
   flex-direction: row-reverse;
   border-radius: 4px 0 4px 4px;
   background-color: #71c346;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow: hidden;
 }
 
 img.angle {
   width: 16px;
   height: 16px;
   margin-top: 10px;
+}
+.message {
+  margin-bottom: 10px;
 }
 </style>
