@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class NettyUtils {
     public static WebSocketFrame handler(Class<?> handler,ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame){
@@ -24,14 +25,18 @@ public class NettyUtils {
         List<Object> args = new ArrayList<>();
         types.add(ChannelHandlerContext.class);
         args.add(channelHandlerContext);
+        AtomicBoolean hasNull = new AtomicBoolean(false);
         jsonObject.forEach((key , value) -> {
             if(value == null){
-                System.out.println(key);
+                hasNull.set(true);
             }else{
                 types.add(value.getClass());
                 args.add(value);
             }
         });
+        if(hasNull.get()){
+            return null;
+        }
         Method declaredMethod;
         try {
             declaredMethod = handler.getDeclaredMethod("handler" + s, types.toArray(new Class[0]));
