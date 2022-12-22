@@ -8,16 +8,17 @@
         <el-table-column label="上传时间" prop="uploadTime" show-overflow-tooltip width="120"/>
         <el-table-column label="上传者" prop="uploaderName" show-overflow-tooltip width="120"/>
         <el-table-column label="MD5" prop="md5" show-overflow-tooltip width="300"/>
-        <el-table-column :fixed="'right'" width="120">
+        <el-table-column :fixed="'right'" width="140">
           <template #header>
             <el-button type="info" size="small" @click="reload">刷新</el-button>
+            <el-button type="info" size="small" @click="dialogFileUploader = true">上传</el-button>
           </template>
           <template #default="scope">
             <el-button
                 link
                 size="small"
                 type="primary"
-                @click.prevent="deleteRow(scope.$index)"
+                @click.prevent="deleteRow(scope.row.md5,scope.row.id)"
                 v-if="auth === 'admin'"
             >
               删除
@@ -61,14 +62,42 @@
             </audio>
           </div>
         </el-main>
+      <el-dialog v-model="dialogFileUploader" title="文件上传窗口">
+        <el-upload
+            class="upload-demo"
+            drag
+            action="http://localhost:8080/file/api/fileUpload"
+            multiple
+            :headers="headers"
+            :on-success="fileUploadSuccess"
+            :before-upload="fileUploadBefore"
+            :on-progress="fileUploadProgress"
+        >
+          <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+          <div class="el-upload__text">
+            将文件拖到此处或者 <em>点击来上传</em>
+          </div>
+          <template #tip>
+            <div class="el-upload__tip">
+              不要上传超过20G的文件
+            </div>
+          </template>
+        </el-upload>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dialogFileUploader = false">关闭</el-button>
+          </span>
+        </template>
+      </el-dialog>
       </el-container>
   </template>
   
   <script lang="ts" setup>
-  import {onMounted, ref} from "vue";
-  import {getFiles,getShowFile} from "../../api/file";
+  import {onMounted, reactive, ref} from "vue";
+  import {fileDelete, getFiles, getShowFile} from "../../api/file";
   import {useStore} from "../../store";
-  import {ElMessage} from "element-plus";
+  import {ElMessage, UploadProgressEvent} from "element-plus";
+  import {MessageHandler} from "element-plus/es/components/message/src/message";
   
   const files = ref([]);
   const pageCount = ref<number>(1)
@@ -81,9 +110,38 @@
   const showAudio = ref<boolean>(false)
   const loading = ref<boolean>(true)
   const page = ref<number>(0);
+  const dialogFileUploader = ref<boolean>(false);
+  const headers = reactive<Object>({"Access-Token":window.localStorage.getItem("token")})
+  const messageHandler = ref<MessageHandler | null>(null);
+  const messageHandler1 = ref<MessageHandler | null>(null);
 
   const store = useStore();
 
+  // 文件上传时回调方法
+  const fileUploadProgress = (evt: UploadProgressEvent) => {
+    if (evt.percent === 100){
+      messageHandler1.value! = ElMessage.warning({"message":"文件已交由后端进行处理,请耐心等待,","duration":0})
+    }
+    dialogFileUploader.value = true;
+  }
+  // 文件上传前回调方法
+  // 不做文件相关处理，对用户进行响应提示
+  const fileUploadBefore = () => {
+     messageHandler.value! = ElMessage.warning({"message":"文件上传中,请不要关闭该窗口","duration":0})
+  }
+  // 文件上传成功回调方法
+  const fileUploadSuccess = (response: any) => {
+    if (response.status === 200){
+      ElMessage.success("上传成功,文件MD5值为:" + response.data + ",即将为您关闭该窗口")
+    }else{
+      ElMessage.success(response.data)
+    }
+    messageHandler.value!.close();
+    messageHandler1.value!.close();
+    dialogFileUploader.value = false;
+    setTimeout(getFile,100,page.value)
+  }
+  // 刷新页面
   const reload = () => {
     getFile(page.value);
   }
@@ -120,8 +178,17 @@
   const downloadFile = (md5:string,name:string) =>{
     window.open(connectedFileUrl(md5,name),"_blank");
   }
-  const deleteRow = (index:object) =>{
-  
+  // 文件删除
+  const deleteRow = (md5:string,id:number) =>{
+    console.log(md5,id)
+    fileDelete(md5,id).then(res =>{
+      if (res.data.status === 200){
+        ElMessage.success(res.data.data)
+        getFile(page.value);
+      }else{
+        ElMessage.error(res.data.data)
+      }
+    })
   }
   // 获取文件列表
   const getFile = (id: number) =>{

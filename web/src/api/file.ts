@@ -31,3 +31,16 @@ export const getShowFile = (md5: string,name:string,token:string) => {
         },
     });
 }
+export const fileDelete = (md5: string,id:number) => {
+    return instance({
+        url: "/file/fileDelete",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        method: "GET",
+        params:{
+            "md5": md5,
+            "id": id
+        }
+    });
+}
