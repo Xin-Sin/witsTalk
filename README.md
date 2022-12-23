@@ -1,12 +1,22 @@
-<div align="center"><img alt="Logo" height="128" src="./filesave/logo.png" width="128"/></div>
+<div align="center"><img alt="Logo" height="128" src="web/src/assets/logo.png" width="128"/></div>
 
 <h2 align="center">🌟项目名称: WitsTalk</h2>
-<h5 align="center">一个帮助网页语音的一个项目.</h5>
+<h5 align="center">一个能在网页语音的项目.</h5>
 <h5 align="center">🚧 WitsTalk还在开发状态下,请勿当作主力使用.</h5>
 
 <div align="center">
     <img alt="GitHub" src="https://img.shields.io/github/license/xin-sin/WitsTalk?style=for-the-badge">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/xin-sin/WitsTalk/Experimental-UI?style=for-the-badge">
+</div>
+
+<div align="center">
+    <img src="https://img.shields.io/badge/Node-%3E%3Dv14.18.1-green">
+    <img src="https://img.shields.io/badge/Vue-v3.0-blue">
+    <img src="https://img.shields.io/badge/yarn-v1.22.19-yellow">
+    <img src="https://img.shields.io/badge/Java-%3E%3Dv1.8-orange">
+    <img src="https://img.shields.io/badge/SPRING%20BOOT-v2.7-green">
+    <img src="https://img.shields.io/badge/Nety-v4.1.86.Final-lightgrey">
+
 </div>
 
 ## ✨ WitsTalk是什么项目？
