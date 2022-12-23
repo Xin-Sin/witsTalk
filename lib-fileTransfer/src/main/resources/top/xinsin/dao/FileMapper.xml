@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.xinsin.dao.FileMapper">
+
+    <delete id="deleteByIdAndMd5">
+        delete
+        from file
+        where id = #{id} and md5 = #{md5};
+    </delete>
+    <select id="selectByMD5" resultType="top.xinsin.pojo.FileObject">
+        select *
+        from file where md5 = #{md5};
+    </select>
+</mapper>
