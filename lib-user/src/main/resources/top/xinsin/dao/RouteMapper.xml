@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.xinsin.dao.RouteMapper">
+    <insert id="insert">
+        insert into route (path, name, parentId, component, title, auth, remark, createId, createTime)
+        values (#{path},#{name},#{parentId},#{component},#{title},#{auth},#{remark},#{createId},now());
+    </insert>
+    <update id="updateStatusById">
+        update route
+        set status = #{status}
+        where id = #{id};
+    </update>
+    <update id="updateRouteById">
+        update route
+        set path = #{path},name=#{name},parentId=#{parentId},component=#{component},title=#{title},auth=#{auth},remark=#{remark},
+            updateId=#{updateId},updateTime=now()
+        where id=#{id}
+    </update>
+    <select id="selectRoute" resultType="top.xinsin.pojo.Route">
+        select * from route r limit #{page},#{pageNum};
+    </select>
+    <select id="selectCount" resultType="java.lang.Integer">
+        select count(*) from route;
+    </select>
+    <select id="SelectRouteByAuth" resultType="top.xinsin.pojo.Vo.RouteVO">
+        select r.id,r.name,r.parentId,r.path,r.component,r.title from route r where auth = #{auth};
+    </select>
+</mapper>
