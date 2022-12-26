@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import top.xinsin.dao.FileMapper;
 import top.xinsin.dao.FileUploadMapper;
 import top.xinsin.enums.HttpCodes;
 import top.xinsin.pojo.FileObject;
@@ -30,8 +31,8 @@ import java.security.NoSuchAlgorithmException;
 @Slf4j
 public class FileUpLoadService {
 
-    final
-    FileUploadMapper fileUploadMapper;
+    private final FileUploadMapper fileUploadMapper;
+    private final FileMapper fileMapper;
 
     /**
      * 文件保存的目录
@@ -39,8 +40,9 @@ public class FileUpLoadService {
     @Value("${saveFolder}")
     private String fileSaveFolder;
     @Autowired
-    public FileUpLoadService(FileUploadMapper fileUploadMapper) {
+    public FileUpLoadService(FileUploadMapper fileUploadMapper,FileMapper fileMapper) {
         this.fileUploadMapper = fileUploadMapper;
+        this.fileMapper = fileMapper;
     }
 
     /**
@@ -70,6 +72,11 @@ public class FileUpLoadService {
         IOUtils.copy(input,out);
         //计算磁盘中文件的md5
         String md5 = FileUtils.calcMd5(file1);
+//        去重
+        FileObject fileObject1 = fileMapper.selectByMD5(md5);
+        if (fileObject1 != null){
+            return RData.failed(HttpCodes.HTTP_CODES500,"请不要上传相同的文件");
+        }
         log.info("fileSaved,SavedName:{},md5:{}",savePath,md5);
         //关闭输入流
         input.close();

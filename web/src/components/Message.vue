@@ -3,7 +3,10 @@
     <div :class="div_class">
       <el-avatar :size="52" :src='"data:image/png;base64," + props.data.base64' style="margin-top: 15px"/>
       <div :class="in_div_class">
-        <el-tag v-if="show" :type="tag_type">{{ props.data.sender }}</el-tag>
+        <div>
+          <el-tag v-if="show" :type="tag_type">{{ props.data.sender }}</el-tag>
+          <el-tag v-if="show" :type="tag_type">发送时间 : {{ props.data.sendtime }}</el-tag>
+        </div>
         <div :style="message_box_style"><img v-if="self" alt="" class="angle" src="src/assets/95ec69.svg"/>
           <img v-else alt="" class="angle" src="src/assets/ffffff.svg">
           <div :class="message_div">

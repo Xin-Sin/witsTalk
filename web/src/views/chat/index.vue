@@ -10,11 +10,12 @@
       :disabled="!hasConnection"
       class="input-area"
       maxlength="500"
-      placeholder=""
+      placeholder="请输入..."
       rows="4"
       show-word-limit
       type="textarea"
   />
+<!--  粘贴上传照片-->
   <div class="button-div">
     <el-button :disabled="!hasConnection" class="send-button" plain type="warning" @click="sendMessage">发送</el-button>
   </div>
@@ -119,6 +120,7 @@
     sendData("send",{
       content: content.value,
       sender: store.userinfo!.username,
+      // 消息
       type: MessageTypes.text})
     content.value = ""
   }
@@ -206,6 +208,9 @@
   }
   onMounted(mount)
   onUnmounted(unmount)
+
+
+
 </script>
   
 <style scoped>

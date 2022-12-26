@@ -74,6 +74,12 @@
               </el-icon>
               <template #title>个人设置</template>
             </el-menu-item>
+            <el-menu-item index="/home/adminRoute">
+              <el-icon>
+                <Setting/>
+              </el-icon>
+              <template #title>管理</template>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main style="width: 100%; height: 90vh; overflow-x: hidden; overflow-y: hidden;">

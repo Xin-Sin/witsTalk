@@ -244,6 +244,7 @@
       return;
     }
     //获取所有可用麦克风
+    navigator.mediaDevices.getUserMedia({audio: true, video: false});
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       //是否有设备判断
       let hasDevice: boolean = false
