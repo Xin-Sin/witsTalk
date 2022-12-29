@@ -68,6 +68,12 @@
               </el-icon>
               <template #title>文件传输</template>
             </el-menu-item>
+            <el-menu-item index="/home/gameWitsMusic">
+              <el-icon>
+                <Grid/>
+              </el-icon>
+              <template #title>音游</template>
+            </el-menu-item>
             <el-menu-item index="/home/setting">
               <el-icon>
                 <Setting/>
@@ -90,7 +96,7 @@
   </template>
   
   <script lang="ts" setup>
-  import {ArrowDown, ChatDotRound, Files, Mic, Setting} from '@element-plus/icons-vue'
+  import {ArrowDown, ChatDotRound, Files, Mic, Setting, Grid} from '@element-plus/icons-vue'
   import { onMounted, ref} from 'vue'
   import {ElMessage} from "element-plus";
   import {getWeather} from "../../api/user";

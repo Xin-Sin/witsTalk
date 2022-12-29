@@ -51,6 +51,7 @@ router.beforeEach((to, from)=>{
         router.addRoute("home",{path: 'voice', name:'voice', component: voicePage, meta: {title: '语音频道'}})
         router.addRoute("home",{path: 'setting', name:'setting', component: settingPage, meta: {title: '个人设置'}})
         router.addRoute("home",{path: 'adminRoute', name:'adminRoute', component: ()=>import("../views/admin/routeManage/index.vue"), meta: {title: '管理员'}})
+        router.addRoute("home",{path: 'gameWitsMusic', name:'gameWitsMusic', component: ()=>import("../views/game/witsMusic/index.vue"), meta: {title: '游戏-音游'}})
         return to.fullPath;
     }
     // 验证用户是否输入了正确的地址
