@@ -115,6 +115,7 @@ const push = async (data:any) => {
     router.addRoute("home",{path: 'file', name:'file', component: filePage, meta: {title: '文件分享'}})
     router.addRoute("home",{path: 'voice', name:'voice', component: voicePage, meta: {title: '语音频道'}})
     router.addRoute("home",{path: 'setting', name:'setting', component: settingPage, meta: {title: '个人设置'}})
+    router.addRoute("home",{path: 'gameWitsMusic', name:'gameWitsMusic', component: ()=>import("../game/witsMusic/index.vue"), meta: {title: '游戏-音游'}})
     await router.replace(router.currentRoute.value.fullPath)
     await router.push("/home/chat");
   }else{
