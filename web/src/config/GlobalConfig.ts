@@ -6,4 +6,4 @@ const IceServer: RTCIceServer = {
     "credentialType": "password",
     "urls": "turn:xinsin.top:3478",
     "username": "xinsin"
-}
+};

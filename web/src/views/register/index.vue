@@ -16,8 +16,14 @@ import {ElMessage} from "element-plus";
 const username = ref<string>();
 const password = ref<string>();
 const register = function () {
-  registerUser(username.value as string, password.value as string).then(_ => ElMessage.success("成功")).catch(_ => ElMessage.error("失败"))
-}
+  registerUser(
+      username.value as string,
+      password.value as string).then(
+          (_resp) => ElMessage.success("成功")
+  ).catch(
+      (_err) => ElMessage.error("失败")
+  );
+};
 </script>
 
 <style scoped>

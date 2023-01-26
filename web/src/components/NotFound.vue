@@ -1,7 +1,7 @@
 <template>
   <img alt="" class="bg" src="../assets/404.png"/>
 </template>
-<script>
+<script lang="ts" setup>
 </script>
 <style scoped>
 .bg {

@@ -1,19 +1,32 @@
 <template>
   <div class="message">
     <div :class="div_class">
-      <el-avatar :size="52" :src='"data:image/png;base64," + props.data.base64' style="margin-top: 15px"/>
+      <el-avatar
+          :size="52"
+          :src='"data:image/png;base64," + props.data.base64'
+          style="margin-top: 15px"
+      />
       <div :class="in_div_class">
         <div>
           <el-tag v-if="show" :type="tag_type">{{ props.data.sender }}</el-tag>
-          <el-tag v-if="show" :type="tag_type">发送时间 : {{ props.data.sendtime }}</el-tag>
+          <el-tag
+              v-if="show"
+              :type="tag_type"
+          >发送时间 : {{ props.data.sendtime }}</el-tag>
         </div>
-        <div :style="message_box_style"><img v-if="self" alt="" class="angle" src="src/assets/95ec69.svg"/>
+        <div
+            :style="message_box_style"
+        >
+          <img v-if="self" alt="" class="angle" src="src/assets/95ec69.svg"/>
           <img v-else alt="" class="angle" src="src/assets/ffffff.svg">
           <div :class="message_div">
             <el-popover :visible="visible" placement="top" :width="160">
               <el-link type="info" @click="recall">撤回</el-link>
               <template #reference>
-                <div style="border: 5px solid rgba(255,255,255,0%);" @click="visibleMethod(props.data.sender)">{{ props.data.content }}</div>
+                <div
+                    style="border: 5px solid rgba(255,255,255,0%);"
+                    @click="visibleMethod(props.data.sender)"
+                >{{ props.data.content }}</div>
               </template>
             </el-popover>
           </div>
@@ -30,18 +43,20 @@ import {useStore} from "../store";
 
 const store = useStore();
 
-const visibleMethod = (sender:string) =>{
+const visibleMethod = (sender:string) => {
   let name = null;
-  if (store.userinfo != null){
+  if (store.userinfo !== null){
     name = store.userinfo.username;
   }
   if (name === sender){
     visible.value = visible.value != true;
   }
-}
-const visible = ref(false)
-const props = defineProps<{data: MessageData}>()
-const emit = defineEmits(["remove"])
+};
+const visible = ref(false);
+const props = defineProps<{data: MessageData}>();
+const emit = defineEmits([
+"remove"
+]);
 const tag_type = ref<string>("success");
 const div_class = ref<string>("message-out-div");
 const in_div_class = ref<string>("message-in-div");
@@ -50,17 +65,17 @@ const message_box_style = ref<string>("display:flex; flex-direction: row;");
 const show = ref<boolean>(false);
 let self = isSelf(props.data);
 if (self) {
-  tag_type.value = "danger"
+  tag_type.value = "danger";
   div_class.value = "message-out-div self";
   in_div_class.value = "message-in-div self-in";
-  message_div.value = "message-div message-self"
-  message_box_style.value = "display:flex; flex-direction: row-reverse;"
+  message_div.value = "message-div message-self";
+  message_box_style.value = "display:flex; flex-direction: row-reverse;";
 }
 show.value = true;
 const recall = () => {
   emit("remove", props.data.id);
   visible.value = false;
-}
+};
 </script>
 
 <style scoped>

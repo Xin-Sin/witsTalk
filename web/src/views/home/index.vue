@@ -5,7 +5,12 @@
           <el-icon><img alt="" class="logo" src="/logo.svg"/></el-icon>
         </div>
         <div>
-          <span v-if="weather.city === undefined" style="color: #f56c6c">未查询到您当地的天气信息</span>
+          <span
+              v-if="weather.city === undefined"
+              style="color: #f56c6c"
+          >
+            未查询到您当地的天气信息
+          </span>
           <span v-if="weather.city !== undefined">
             <span style="color: #FFCC33">
               {{weather.city}}
@@ -26,7 +31,11 @@
           </span>
         </div>
         <div class="user">
-          <el-avatar :size="50" :src="headimgBase64" style="margin-right: 10px"/>
+          <el-avatar
+              :size="50"
+              :src="headimgBase64"
+              style="margin-right: 10px"
+          />
           <el-dropdown @command="handlerUserSettingsCommand">
           <span class="el-dropdown-link" style="color: #000000">
             {{ username }}<el-icon class="el-icon--right"><ArrowDown/></el-icon>
@@ -88,7 +97,12 @@
             </el-menu-item>
           </el-menu>
         </el-aside>
-        <el-main style="width: 100%; height: 90vh; overflow-x: hidden; overflow-y: hidden;">
+        <el-main
+            style="width: 100%;
+            height: 90vh;
+            overflow-x: hidden;
+            overflow-y: hidden;"
+        >
           <router-view/>
         </el-main>
       </el-container>
@@ -96,8 +110,15 @@
   </template>
   
   <script lang="ts" setup>
-  import {ArrowDown, ChatDotRound, Files, Mic, Setting, Grid} from '@element-plus/icons-vue'
-  import { onMounted, ref} from 'vue'
+  import {
+    ArrowDown,
+    ChatDotRound,
+    Files,
+    Mic,
+    Setting,
+    Grid
+  } from '@element-plus/icons-vue';
+  import { onMounted, ref} from 'vue';
   import {ElMessage} from "element-plus";
   import {getWeather} from "../../api/user";
   import {useStore} from "../../store";
@@ -111,28 +132,39 @@
   const headimgBase64 = ref<string>();
   const userToken = ref<string>();
   const username = ref<string>();
-  const weather = ref<Weather>({adcode: undefined, city: undefined, humidity: undefined, province: undefined, reporttime: undefined, temperature: undefined, weather: undefined, winddirection: undefined, windpower: undefined});
+  const weather = ref<Weather>(
+      {adcode: undefined,
+        city: undefined,
+        humidity: undefined,
+        province: undefined,
+        reporttime: undefined,
+        temperature: undefined,
+        weather: undefined,
+        winddirection: undefined,
+        windpower: undefined
+      }
+  );
   const store = useStore();
   const router = useRouter();
 
   onMounted(() => {
     // 获取天气
-    getWeather().then(res =>{
-      weather.value = res.data.data.lives[0] as Weather
-    }).catch(_ =>{
-      ElMessage.error("获取天气时出现了错误")
-    })
+    getWeather().then((res) => {
+      weather.value = res.data.data.lives[0] as Weather;
+    }).catch((_error) => {
+      ElMessage.error("获取天气时出现了错误");
+    });
     // 将store中数据存入当前页面
     if (store.userinfo !== null){
       username.value = store.userinfo.username;
       headimgBase64.value = "data:image/png;base64," + store.userinfo.headimg;
       userToken.value = window.localStorage.getItem("token") as string;
     }
-    active.value = window.location.hash.replace("#","")
-  })
-  const handlerUserSettingsCommand = (command: string) =>{
+    active.value = window.location.hash.replace("#", "");
+  });
+  const handlerUserSettingsCommand = (command: string) => {
     // 处理下拉菜单的指令
-    console.log(command)
+    console.log(command);
     switch (command) {
       case "settings":
         // 跳转至个人设置页面
@@ -142,25 +174,25 @@
         // 清空pinia中userinfo数据
         store.$reset();
         //   清空token
-        window.localStorage.clear()
+        window.localStorage.clear();
         ElMessage.success("成功退出登录，返回登陆页面");
-        router.push('/')
+        router.push('/');
         break;
       //   出现未知指令进行处理
       default:
-        ElMessage.error("CNM出问题了，请将此消息内容复制并发送给网站管理员   command=" + command)
+        ElMessage.error("CNM出问题了，请将此消息内容复制并发送给网站管理员   command=" + command);
         break;
     }
-  }
+  };
   // 菜单栏获取鼠标焦点进行动画展示
-  const onMouseEnter = () =>{
-    isCollapse.value = false
+  const onMouseEnter = () => {
+    isCollapse.value = false;
     max_with.value = 200;
-  }
-  const onMouseLeave = () =>{
-    isCollapse.value = true
+  };
+  const onMouseLeave = () => {
+    isCollapse.value = true;
     max_with.value = 64;
-  }
+  };
   </script>
   
   <style scoped>

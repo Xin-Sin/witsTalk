@@ -1,22 +1,41 @@
 <template>
   <div class="main">
     <div class="audios-div">
-      <User ref="userComponents" v-for="(username, index) in users" :key="index" :username="username" :media-stream="localMediaStream" :web-socket="webSocketConnection" />
+      <User
+          ref="userComponents"
+          v-for="(username, index) in users"
+          :key="index"
+          :username="username"
+          :media-stream="localMediaStream"
+          :web-socket="webSocketConnection"
+      />
     </div>
     <div class="control-panel">
       <div class="control-panel-settings">
         <div class="control-panel-item">
-          <el-switch @change="onNoiseSuppressionChange" v-model="noiseSuppression" />
+          <el-switch
+              @change="onNoiseSuppressionChange"
+              v-model="noiseSuppression"
+          />
           <div class="control-panel-item-text">噪声消除</div>
         </div>
         <div class="control-panel-item">
-          <el-switch @change="onEchoCancellationChange" v-model="echoCancellation" />
+          <el-switch
+              @change="onEchoCancellationChange"
+              v-model="echoCancellation"
+          />
           <div class="control-panel-item-text">回声消除</div>
         </div>
       </div>
       <div class="control-panel-settings">
         <div class="control-panel-item-text">麦克风：</div>
-        <el-select @change="onMicrophoneChange" v-model="microphone" class="m-2" placeholder="Select" size="large">
+        <el-select
+            @change="onMicrophoneChange"
+            v-model="microphone"
+            class="m-2"
+            placeholder="Select"
+            size="large"
+        >
           <el-option
               v-for="item in microphones"
               :key="item.deviceId"
@@ -26,23 +45,42 @@
         </el-select>
       </div>
       <div class="control-panel-join">
-        <el-button class="control-panel-join-button" v-if="join" type="danger" :icon="PhoneFilled" @click="leaveVoiceChat">退出语音</el-button>
-        <el-button class="control-panel-join-button" v-else type="primary" :icon="Phone" @click="joinVoiceChat">加入语音</el-button>
+        <el-button
+            class="control-panel-join-button"
+            v-if="join"
+            type="danger"
+            :icon="PhoneFilled"
+            @click="leaveVoiceChat"
+        >
+          退出语音
+        </el-button>
+        <el-button
+            class="control-panel-join-button"
+            v-else
+            type="primary"
+            :icon="Phone"
+            @click="joinVoiceChat"
+        >
+          加入语音
+        </el-button>
       </div>
     </div>
   </div>
   </template>
   
   <script lang="ts" setup>
+  /*global MediaStreamConstraints */
+  /*eslint no-undef: "error"*/
   //导入外部库
   import {nextTick, onMounted, onUnmounted, reactive, ref} from "vue";
   import {ElMessage} from "element-plus";
-  import User from "../../components/User.vue"
+  import User from "../../components/UserComponent.vue";
   import {Phone, PhoneFilled} from "@element-plus/icons-vue";
   import {useStore} from "../../store";
   import {storeToRefs} from "pinia";
   //所有用户的用户名
-  const users = ref<Array<string>>([]);
+  const users = ref<Array<string>>([
+]);
   //噪声消除是否启用
   const noiseSuppression = ref<boolean>(true);
   //回声消除是否启用
@@ -54,12 +92,15 @@
   //初始化websocket变量
   const webSocketConnection = ref<WebSocket>();
   //获取语音的所有用户的实例
-  const userComponents = ref<Array<InstanceType<typeof User>>>([]);
+  const userComponents = ref<Array<InstanceType<typeof User>>>([
+]);
   //本地音频流
   const localMediaStream = ref<MediaStream>();
   //所有麦克风
-  const microphones = reactive<Array<MediaDeviceInfo>>([]);
+  const microphones = reactive<Array<MediaDeviceInfo>>([
+]);
   const microphone = ref<string>();
+
   /**
    * 处理WebSocket连接事件
    * @param _ 事件
@@ -68,30 +109,60 @@
     //若navigator.mediaDevices为空，则说明网站未使用https或浏览器不支持WebRTC
     if(!navigator.mediaDevices){
       //进行提示
-      ElMessage.error("emm，你使用的网站似乎没有使用https，请在chrome://flags/#unsafely-treat-insecure-origin-as-secure将unsafely-treat-insecure-origin-as-secure功能启用并将此网站域名（" + window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "）加入信任列表")
+      ElMessage.error(
+          "emm，" +
+          "你使用的网站似乎没有使用https，" +
+          "请在" +
+          "chrome://flags/#unsafely-treat-insecure-origin-as-secure" +
+          "将" +
+          "unsafely-treat-insecure-origin-as-secure" +
+          "功能启用，" +
+          "并将此网站域名（" +
+          window.location.protocol +
+          "//" + window.location.hostname +
+          ":" +
+          window.location.port +
+          "）加入信任列表");
       //关闭WebSocket连接
-      webSocketConnection.value?.close()
+      webSocketConnection.value?.close();
       return;
     }
     //构造器
-    const constraints: MediaStreamConstraints = {audio: {deviceId: microphone.value, echoCancellation: echoCancellation.value, noiseSuppression: noiseSuppression.value}}
+    const constraints:
+        MediaStreamConstraints =
+        {audio:
+              {
+                deviceId: microphone.value,
+                echoCancellation: echoCancellation.value,
+                noiseSuppression: noiseSuppression.value
+              }
+        };
     //获取用户音频流
     await navigator.mediaDevices.getUserMedia(constraints)
         //将获取到的MediaStream赋值给ref并传递
         .then((mediaStream) => localMediaStream.value = mediaStream)
-        .catch((_) => console.log(_))//ElMessage.error("无法获取用户麦克风，请检查麦克风权限是否给予"))
-    ElMessage.success("连接到语音服务器")
+        .catch((_) => console.log(_));
+    ElMessage.success("连接到语音服务器");
     //登录鉴权
-    webSocketConnection.value!.send(JSON.stringify({"op": "login", "token": window.localStorage.getItem("token"), "media": localMediaStream.value?.id}));
-  }
+    webSocketConnection.value?.send(
+        JSON.stringify(
+            {"op": "login",
+              "token": window.localStorage.getItem("token"),
+              "media": localMediaStream.value?.id
+            }
+          )
+    );
+  };
+
   /**
    * 用户退出事件
    * @param jsonData 数据
    */
   const handlerUserLeave = (jsonData: any) => {
     //将用户从组件中移除
-    users.value = users.value.filter((data) => data !== jsonData.username)
-  }
+    users.value = users.value.filter((data) => data !== jsonData.username);
+  };
+
   /**
    * 处理用户登录成功事件
    * @param jsonData 数据
@@ -99,7 +170,7 @@
   const handlerUserLoginSuccessCallback = async (jsonData: any) => {
     //是否登录成功
     if (!jsonData.data.success) {
-      ElMessage.error("鉴权失败，请重新登录后重试！")
+      ElMessage.error("鉴权失败，请重新登录后重试！");
       return;
     }
     //jsonData.data.data为已经加入的用户列表
@@ -108,8 +179,9 @@
       //添加到组件表中
       users.value.push(i);
     }
-    ElMessage.success("加入成功")
-  }
+    ElMessage.success("加入成功");
+  };
+
   /**
    * 处理用户连接事件
    * @param jsonData 数据
@@ -121,8 +193,8 @@
     nextTick(() => {
       //取出最后加入语音的用户并交换SDP（Session Description Protocol，即两机器的编码器类型和解码器类型）
       userComponents.value[userComponents.value.length - 1].createOffer();
-    })
-  }
+    });
+  };
 
   /**
    * 处理websocket消息事件
@@ -160,10 +232,12 @@
       default:
         break;
     }
-  }
+  };
+
   /**
    * 处理信令服务器（其他用户）发送的SDP信息
-   * @param jsonData 消息内容，格式为{"type": "offer", "data": Object格式SDP数据, "from": 发送者用户名}
+   * @param jsonData 消息内容
+   * 格式为{"type": "offer", "data": Object格式SDP数据, "from": 发送者用户名}
    */
   const handlerOffer = (jsonData: any) => {
     for (let i of userComponents.value) {
@@ -175,10 +249,12 @@
         return;
       }
     }
-  }
+  };
+
   /**
    * 处理信令服务器（其他用户）发送的SDP信息
-   * @param jsonData 消息内容，格式为{"type": "candidate", "data": Object格式Candidate数据, "from": 发送者用户名}
+   * @param jsonData 消息内容
+   * 格式为{"type": "candidate", "data": Object格式Candidate数据, "from": 发送者用户名}
    */
   const handlerCandidate = (jsonData: any) => {
     for (let i of userComponents.value) {
@@ -190,10 +266,12 @@
         return;
       }
     }
-  }
+  };
+
   /**
    * 处理信令服务器（其他用户）发送的Answer信息
-   * @param jsonData 消息内容，格式为{"type": "answer", "data": Object格式Answer数据, "from": 发送者用户名}
+   * @param jsonData 消息内容
+   * 格式为{"type": "answer", "data": Object格式Answer数据, "from": 发送者用户名}
    */
   const handlerAnswer = (jsonData: any) => {
     for (let i of userComponents.value) {
@@ -205,7 +283,8 @@
         return;
       }
     }
-  }
+  };
+
   /**
    * 处理远端WebSocket连接丢失事件
    * @param event 事件
@@ -213,22 +292,26 @@
   const handlerWebSocketClose = (event: CloseEvent) => {
     //比对event断开连接时的代码，正常断开为1005
     if(event.code != 1005){
-      ElMessage.error("WebSocket连接断开！")
-      leaveVoiceChat()
+      ElMessage.error("WebSocket连接断开！");
+      leaveVoiceChat();
     }
     //清空组件表
-    users.value = [];
-  }
+    users.value = [
+];
+  };
+
   /**
    * 处理远端WebSocket连接错误事件
    * @param err
    */
   const handlerWebSocketError = (err: Event) => {
-    ElMessage.error("WebSocket连接错误！" + err)
-  }
+    ElMessage.error("WebSocket连接错误！" + err);
+  };
+
   /**
    * 当加载
    */
+      // eslint-disable-next-line max-lines-per-function
   const mount = () => {
     //提取出数据并向ref中绑定
     let {settings} = storeToRefs(store);
@@ -238,8 +321,21 @@
     //若navigator.mediaDevices为空，则说明网站未使用https或浏览器不支持WebRTC
     if(!navigator.mediaDevices) {
       //进行提示
-      microphone.value = ""
-      ElMessage.error("emm，你使用的网站似乎没有使用https，请在chrome://flags/#unsafely-treat-insecure-origin-as-secure将unsafely-treat-insecure-origin-as-secure功能启用并将此网站域名（" + window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "）加入信任列表")
+      microphone.value = "";
+      ElMessage.error("emm，" +
+          "你使用的网站似乎没有使用https，" +
+          "请在" +
+          "chrome://flags/#unsafely-treat-insecure-origin-as-secure" +
+          "将" +
+          "unsafely-treat-insecure-origin-as-secure" +
+          "功能启用" +
+          "并" +
+          "将此网站域名（" +
+          window.location.protocol +
+          "//" +
+          window.location.hostname +
+          ":" + window.location.port +
+          "）加入信任列表");
       //关闭WebSocket连接
       return;
     }
@@ -247,10 +343,14 @@
     navigator.mediaDevices.getUserMedia({audio: true, video: false});
     navigator.mediaDevices.enumerateDevices().then((devices) => {
       //是否有设备判断
-      let hasDevice: boolean = false
+      let hasDevice = false;
       for (let device of devices) {
         //for循环取设备信息
-        //判断为音频输入设备（MediaDeviceInfo.kind有三种类型，videoinput即视频输入, audioinput即音频输入 audiooutput即音频输出）
+        //判断为音频输入设备
+        //MediaDeviceInfo.kind有三种类型
+        //videoinput即视频输入
+        //audioinput即音频输入
+        //audiooutput即音频输出
         if (device.kind === "audioinput"){
           //添加到麦克风表中
           microphones.push(device);
@@ -265,10 +365,11 @@
       if(!hasDevice){
         //设置为默认设备（若deviceId为default则使用默认设备）
         microphone.value = "default";
-        store.$patch({settings: {mediaDevice: "default"}})
+        store.$patch({settings: {mediaDevice: "default"}});
       }
-    })
-  }
+    });
+  };
+
   /**
    * 当卸载
    */
@@ -276,9 +377,10 @@
     if(join.value){
       //退出语音
       leaveVoiceChat();
-      ElMessage.success("成功退出")
+      ElMessage.success("成功退出");
     }
-  }
+  };
+
   /**
    * 用于刷新连接
    */
@@ -286,52 +388,61 @@
 
     //加入了语音
     if(join.value){
-      ElMessage.success("成功修改，正在重连")
+      ElMessage.success("成功修改，正在重连");
       //退出语音
-      leaveVoiceChat(false)
+      leaveVoiceChat(false);
       //加入语音
-      joinVoiceChat(false)
+      joinVoiceChat(false);
       return;
     }
-    ElMessage.success("成功修改！")
-  }
+    ElMessage.success("成功修改！");
+  };
+
   /**
    * 当噪声消除的开关状态被改变
    * @param val 新状态
    */
   const onNoiseSuppressionChange = (val: boolean) => {
     //写入存储
-    store.$patch({settings: {noiseSuppression: val}})
+    store.$patch({settings: {noiseSuppression: val}});
     //刷新连接
-    refreshConnection()
-  }
+    refreshConnection();
+  };
+
   /**
    * 当回声消除的开关状态被改变
    * @param val 新状态
    */
   const onEchoCancellationChange = (val: boolean) => {
     //写入存储
-    store.$patch({settings: {echoCancellation: val}})
+    store.$patch({settings: {echoCancellation: val}});
     //刷新连接
-    refreshConnection()
-  }
+    refreshConnection();
+  };
+
   /**
    * 当麦克风被改变
    * @param val 新麦克风
    */
   const onMicrophoneChange = (val: string) => {
     //写入存储
-    store.$patch({settings: {mediaDevice: val}})
+    store.$patch({settings: {mediaDevice: val}});
     //刷新连接
-    refreshConnection()
-  }
+    refreshConnection();
+  };
+
   /**
    * 加入语音
    * @param changeStatus 是否改变加入状态
    */
-  const joinVoiceChat = (changeStatus: boolean = true) => {
+  const joinVoiceChat = (changeStatus = true) => {
     //初始化WebSocket连接
-    webSocketConnection.value = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/voice");
+    webSocketConnection.value =
+        new WebSocket("ws://" +
+            window.location.hostname +
+            ":" +
+            window.location.port +
+            "/voice");
     //绑定事件
     webSocketConnection.value.onmessage = handlerWebSocketMessage;
     webSocketConnection.value.onopen = handlerWebSocketConnect;
@@ -340,29 +451,30 @@
     if(changeStatus){
       join.value = true;
     }
-  }
+  };
+
   /**
    * 退出语音
    * @param changeStatus 是否改变加入状态
    */
-  const leaveVoiceChat = (changeStatus: boolean = true) => {
+  const leaveVoiceChat = (changeStatus = true) => {
     //关闭WebSocket连接
     if (webSocketConnection.value) {
-      webSocketConnection.value.close()
+      webSocketConnection.value.close();
     }
     //关闭每一个用户的WebRTC连接
     userComponents.value.forEach((c) => {
       c.close();
-    })
+    });
     if(changeStatus){
       join.value = false;
     }
 
-  }
+  };
   //注册当被挂载的事件
-  onMounted(mount)
+  onMounted(mount);
   //注册当被卸载的事件
-  onUnmounted(unmounted)
+  onUnmounted(unmounted);
   </script>
   
   <style scoped>
