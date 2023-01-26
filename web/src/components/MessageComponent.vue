@@ -43,13 +43,15 @@ import {useStore} from "../store";
 
 const store = useStore();
 
-const visibleMethod = (sender:string) => {
-  let name = null;
-  if (store.userinfo !== null){
-    name = store.userinfo.username;
-  }
-  if (name === sender){
-    visible.value = visible.value != true;
+const visibleMethod = (sender:string | undefined) => {
+  if (sender) {
+    let name = null;
+    if (store.userinfo !== null){
+      name = store.userinfo.username;
+    }
+    if (name === sender){
+      visible.value = visible.value != true;
+    }
   }
 };
 const visible = ref(false);

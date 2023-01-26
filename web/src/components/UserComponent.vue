@@ -38,9 +38,9 @@ import {ElMessage} from "element-plus";
 const prop =
     defineProps<
         {
-          mediaStream: MediaStream,
+          mediaStream: MediaStream | undefined,
           username: string,
-          webSocket: WebSocket
+          webSocket: WebSocket | undefined
         }>();
 //WebRTC连接
 let connection: RTCPeerConnection | null = null;
@@ -73,7 +73,7 @@ const handlerOffer = (offer: RTCSessionDescriptionInit) => {
     //设置本地SDP为answer
     connection?.setLocalDescription(answer);
     //发送（数据解释：op为操作，此处为answer，data为数据，即要发送的answer数据，to为发送到，此处为发送到的用户的用户名）
-    prop.webSocket.send(
+    prop.webSocket?.send(
         JSON.stringify(
             {
               "op": "answer",
@@ -111,7 +111,7 @@ const handlerCandidate = (candidate: RTCIceCandidate) => {
  */
 const handlerIceServerIceCandidate = (event: RTCPeerConnectionIceEvent) => {
   //将定好的沟通线路发送给远端
-  prop.webSocket.send(
+  prop.webSocket?.send(
       JSON.stringify(
           {
             "op": "candidate",
@@ -136,13 +136,16 @@ const mount = () => {
   connection = new RTCPeerConnection({"iceServers": [
 IceServer
 ]});
-  for (let track of prop.mediaStream.getTracks()) {
-    connection.addTrack(track, prop.mediaStream);
+  if (prop.mediaStream){
+    for (let track of prop.mediaStream.getTracks()) {
+      connection.addTrack(track, prop.mediaStream);
+    }
+    //初始化STUN服务器
+    connection.ontrack = handlerIceServerTrace;
+    connection.onicecandidate = handlerIceServerIceCandidate;
+    //创建Offer并广播
+    createOffer();
   }
-  //初始化STUN服务器
-  connection.ontrack = handlerIceServerTrace;
-  connection.onicecandidate = handlerIceServerIceCandidate;
-  //创建Offer并广播
 };
 
 /**
@@ -167,7 +170,7 @@ const createOffer = () => {
   connection?.createOffer()
       .then((offer) => {
         //发送SDP数据
-        prop.webSocket.send(
+        prop.webSocket?.send(
             JSON.stringify(
                 {
                   "op": "offer",

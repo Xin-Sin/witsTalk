@@ -103,33 +103,36 @@ const store = useStore();
 const router = useRouter();
 
 // 对输入的账号密码进行正则验证
-const verify = (value:string, type:string) => {
-  if (type === "u"){
-    const verifyUsername = 	/^[a-zA-Z0-9_-]{3,16}$/;
-    let a = verifyUsername.test(value);
-    if (usernameRef.value && usernameRef.value.input){
-      if (a){
-        usernameRef.value.input.style.color = "black";
+const verify = (value:string | undefined, type:string) => {
+  if (value){
+    if (type === "u"){
+      const verifyUsername = 	/^[a-zA-Z0-9_-]{3,16}$/;
+      let a = verifyUsername.test(value);
+      if (usernameRef.value && usernameRef.value.input){
+        if (a){
+          usernameRef.value.input.style.color = "black";
+        }
+        else{
+          usernameRef.value.input.style.color = "red";
+        }
       }
-      else{
-        usernameRef.value.input.style.color = "red";
-      }
+      return a;
     }
-    return a;
-  }
-  if (type === "p"){
-    const verifyPassword = 	/^[a-zA-Z0-9_-~!@#$%^&*+=:><,./]{5,128}$/;
-    let a = verifyPassword.test(value);
-    if (passwordRef.value && passwordRef.value.input) {
-      if (a) {
-        passwordRef.value.input.style.color = "black";
+    if (type === "p"){
+      const verifyPassword = 	/^[a-zA-Z0-9_-~!@#$%^&*+=:><,./]{5,128}$/;
+      let a = verifyPassword.test(value);
+      if (passwordRef.value && passwordRef.value.input) {
+        if (a) {
+          passwordRef.value.input.style.color = "black";
+        }
+        else {
+          passwordRef.value.input.style.color = "red";
+        }
       }
-     else {
-            passwordRef.value.input.style.color = "red";
-          }
+      return a;
     }
-    return a;
   }
+  return null;
 };
 
 // 登陆验证
