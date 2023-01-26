@@ -1,12 +1,6 @@
-import {createRouter, createWebHashHistory, RouteRecordRaw} from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 import {useStore} from "../store";
 import {ElMessage} from "element-plus";
-import HomePage from "../views/home/index.vue";
-import chatPage from "../views/chat/index.vue";
-import filePage from "../views/file/index.vue";
-import voicePage from "../views/voice/index.vue";
-import settingPage from "../views/setting/index.vue";
-import {getRouter} from "../api/user";
 
 const router = createRouter({ 
     history: createWebHashHistory(),
