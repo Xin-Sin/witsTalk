@@ -74,7 +74,7 @@
               </el-icon>
               <template #title>个人设置</template>
             </el-menu-item>
-            <el-menu-item index="/home/adminRoute">
+            <el-menu-item index="/home/adminRouter">
               <el-icon>
                 <Setting/>
               </el-icon>

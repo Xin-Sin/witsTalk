@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.xinsin.pojo.Route;
 import top.xinsin.pojo.Vo.RouteVO;
+import top.xinsin.pojo.Vo.RouterNameVO;
 import top.xinsin.services.RouteService;
 import top.xinsin.utils.RData;
 
@@ -33,4 +34,6 @@ public class RouteController {
     public RData<String> updateRoute(@RequestBody Route route){return routeService.updateRoute(route);}
     @GetMapping("/user/api/getRouter")
     public RData<List<RouteVO>> getRouter(@RequestParam("auth")String auth){return routeService.getRouter(auth);}
+    @GetMapping("/user/sys/getRouteName")
+    public RData<List<RouterNameVO>> getRouteName(){return routeService.getRouteName();}
 }

@@ -17,12 +17,35 @@
         where id=#{id}
     </update>
     <select id="selectRoute" resultType="top.xinsin.pojo.Route">
-        select * from route r limit #{page},#{pageNum};
+        SELECT
+            r1.id,
+            r1.path,
+            r1.`name`,
+            r2.`name` AS parentId,
+            r1.component,
+            r1.title,
+            r1.auth,
+            r1.`status`,
+            r1.remark,
+            r1.createTime,
+            r1.updateTime,
+            u1.username AS createId,
+            u2.username AS updateId
+        FROM
+            route r1
+                LEFT JOIN route r2 ON r2.id = r1.parentId
+                LEFT JOIN USER u1 ON u1.id = r1.createId
+                LEFT JOIN USER u2 ON u2.id = r1.updateId
+        LIMIT #{page},#{pageNum};
     </select>
     <select id="selectCount" resultType="java.lang.Integer">
         select count(*) from route;
     </select>
     <select id="SelectRouteByAuth" resultType="top.xinsin.pojo.Vo.RouteVO">
-        select r.id,r.name,r.parentId,r.path,r.component,r.title from route r where auth = #{auth};
+        select r1.id,r1.name,r2.name as parentId,r1.path,r1.component,r1.title from route r1 left join route r2 on r2.id=r1.parentId where r1.auth = #{auth} and r1.status = 0;
+    </select>
+    <select id="getRouteName" resultType="top.xinsin.pojo.Vo.RouterNameVO">
+        select id,name
+        from route where status = 0;
     </select>
 </mapper>

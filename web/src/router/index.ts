@@ -1,4 +1,4 @@
-import {createRouter, createWebHashHistory} from 'vue-router'
+import {createRouter, createWebHashHistory, RouteRecordRaw} from 'vue-router'
 import {useStore} from "../store";
 import {ElMessage} from "element-plus";
 import HomePage from "../views/home/index.vue";
@@ -6,51 +6,53 @@ import chatPage from "../views/chat/index.vue";
 import filePage from "../views/file/index.vue";
 import voicePage from "../views/voice/index.vue";
 import settingPage from "../views/setting/index.vue";
+import {getRouter} from "../api/user";
 
 const router = createRouter({ 
     history: createWebHashHistory(),
     routes: [
         {
-            path: '/',
-            name: 'login',
-            component: () => import(`../views/login/index.vue`),
-            meta: {
-                title: '登陆',
-            },
+            path:"/",
+            name:"login",
+            component: () =>import("../views/login/index.vue"),
+            meta:{
+                title:'登陆'
+            }
         },
         {
-            path: '/reg',
+            path: "/reg",
             name: 'register',
-            component: () => import(`../views/register/index.vue`),
-            meta: {
-                title: '注册',
-            },
+            component: () => import("../views/register/index.vue"),
+            meta:{
+                title: "注册"
+            }
         },
         {
-            path: '/404',
+            path: "/404",
             name: '404',
-            component: () => import(`../components/NotFound.vue`),
+            component: () => import("../components/NotFound.vue"),
             meta: {
-                title: '哎呦，页面找不到了',
+                title: "哎呦! 你要找的页面被外星人抓走啦"
             }
         }
     ]
 })
 // 全局路由守卫
-router.beforeEach((to, from)=>{
+router.beforeEach(async (to, from)=>{
     // 设置网页标题
     document.title =  "智慧语音-" + `${to.meta.title}`;
     // 获取状态管理器
     let store = useStore();
     let routers = router.getRoutes();
-    // 判断用户是否已登陆，并且刷新页面
-    if (store.userinfo !== null && routers.length === 3){
-        router.addRoute({path: '/home', name: 'home', component: HomePage, meta: {title: '首页'}});
-        router.addRoute("home",{path: 'chat', name:'chat', component: chatPage, meta: {title: '聊天频道'}})
-        router.addRoute("home",{path: 'file', name:'file', component: filePage, meta: {title: '文件分享'}})
-        router.addRoute("home",{path: 'voice', name:'voice', component: voicePage, meta: {title: '语音频道'}})
-        router.addRoute("home",{path: 'setting', name:'setting', component: settingPage, meta: {title: '个人设置'}})
-        router.addRoute("home",{path: 'adminRoute', name:'adminRoute', component: ()=>import("../views/admin/routeManage/index.vue"), meta: {title: '管理员'}})
+    // 用户刷新页面时重新加载路由
+    if (routers.length === 3 && store.userinfo !== null){
+        for (const datum of store.userRoute!) {
+            if (datum.parentId === null){
+                router.addRoute({path: datum.path, name: datum.name, component: () => import(datum.component), meta: {title: datum.title}})
+            }else{
+                router.addRoute(datum.parentId, {path: datum.path, name: datum.name, component: () => import(datum.component), meta: {title: datum.title}})
+            }
+        }
         return to.fullPath;
     }
     // 验证用户是否输入了正确的地址

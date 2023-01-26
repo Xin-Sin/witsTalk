@@ -32,7 +32,7 @@
 import {onMounted, ref} from "vue";
 import SlideVerify, {SlideVerifyInstance} from "vue3-slide-verify";
 import "vue3-slide-verify/dist/style.css";
-import {login, getHitokoto, autoLogin} from '../../api/user'
+import {login, getHitokoto, autoLogin, getRouter} from '../../api/user'
 import {ElInput, ElMessage} from "element-plus";
 import {useStore} from "../../store";
 import {UserInfo} from "../../entities/UserInfo";
@@ -110,11 +110,30 @@ const push = async (data:any) => {
   })
   // 确认电脑端和手机端
   if(window.innerWidth > 800){
-    router.addRoute({path: '/home', name: 'home', component: HomePage, meta: {title: '首页'}});
-    router.addRoute("home",{path: 'chat', name:'chat', component: chatPage, meta: {title: '聊天频道'}})
-    router.addRoute("home",{path: 'file', name:'file', component: filePage, meta: {title: '文件分享'}})
-    router.addRoute("home",{path: 'voice', name:'voice', component: voicePage, meta: {title: '语音频道'}})
-    router.addRoute("home",{path: 'setting', name:'setting', component: settingPage, meta: {title: '个人设置'}})
+    let data: any[] = [];
+    await getRouter("user").then(res =>{
+      for (const datum of res.data.data) {
+        data.push(datum)
+        if (datum.parentId === null){
+          router.addRoute({path: datum.path, name: datum.name, component: () => import("../" + datum.component), meta: {title: datum.title}})
+        }else{
+          router.addRoute(datum.parentId, {path: datum.path, name: datum.name, component: () => import("../" + datum.component), meta: {title: datum.title}})
+        }
+      }
+    })
+    if (store.userinfo!.auth === "admin"){
+      await getRouter("admin").then(res =>{
+        for (const datum of res.data.data) {
+          data.push(datum)
+          if (datum.parentId === null){
+            router.addRoute({path: datum.path, name: datum.name, component: () => import("../" + datum.component), meta: {title: datum.title}})
+          }else{
+            router.addRoute(datum.parentId, {path: datum.path, name: datum.name, component: () => import("../" + datum.component), meta: {title: datum.title}})
+          }
+        }
+      })
+    }
+    store.$patch({userRoute: data})
     await router.replace(router.currentRoute.value.fullPath)
     await router.push("/home/chat");
   }else{
@@ -152,8 +171,9 @@ onMounted(async () => {
 })
 // 图形验证码成功回调方法
 const onSlideSuccess = () =>{
+  showSlideWindow.value = false;
+  ElMessage.info("正在登陆中，请稍后");
   login(username.value as string, password.value as string).then(res => {
-    showSlideWindow.value = false;
     let canLogin: boolean = res.data.data.canLogin;
     if (canLogin) {
       push(res.data.data);

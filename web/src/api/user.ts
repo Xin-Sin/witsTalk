@@ -140,3 +140,12 @@ export const autoLogin = () => {
         method: "get",
     })
 }
+export const getRouter = (auth:string) => {
+    return instance({
+        url: "/user/api/getRouter",
+        method: "get",
+        params:{
+            "auth":auth
+        }
+    })
+}
