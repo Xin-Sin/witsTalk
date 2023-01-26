@@ -1,8 +1,8 @@
 <div align="center"><img alt="Logo" height="128" src="web/src/assets/logo.png" width="128"/></div>
 
-<h2 align="center">🌟项目名称: WitsTalk</h2>
-<h5 align="center">一个能在网页语音的项目.</h5>
-<h5 align="center">🚧 WitsTalk还在开发状态下,请勿当作主力使用.</h5>
+<h2 align="center">🌟Project Name: WitsTalk</h2>
+<h5 align="center">A project that can speak on the web.</h5>
+<h5 align="center">🚧 Do not use the WitsTalk as the main force while it is still under development</h5>
 
 <div align="center">
     <img alt="GitHub" src="https://img.shields.io/github/license/xin-sin/WitsTalk?style=for-the-badge">
@@ -16,96 +16,95 @@
     <img src="https://img.shields.io/badge/Java-%3E%3Dv1.8-orange">
     <img src="https://img.shields.io/badge/SPRING%20BOOT-v2.7-green">
     <img src="https://img.shields.io/badge/Nety-v4.1.86.Final-lightgrey">
-
 </div>
 
-## ✨ WitsTalk是什么项目？
-- `WitsTalk`是我们项目团队在2021/12/11制作的开源项目,项目的构思是在群语音的时候发现了一些缺点,才开发此项目.
-- 实现在语音聊天中群员可以调节任何群员的`输出音量`以及自己的`输入音量`.
-- 管理员拥有最高权限,可以开关群员的`麦克风`,也可以调节群员的`输入音量`. (...暂定是这些功能)
-- 项目的初衷是给Minecraft玩家一个更舒服的语音环境,更好的交流环境.
+<div>
+    <a href="./README_zh.md">[中文 Readme]</a>
+</div>
 
-## 💡️ WitsTalk该如何使用？
-- ~~由于该项目还在开发中,暂不提供使用方式,只提供开发方法~~
-- 一开完毕将提供完整的`使用文档`和`release`
+## ✨ What is the mobile WitsTalk project？
+- Mobile `WitsTalk` is an open source project made by our project team on December 11, 2021/12/11. The idea of the project is to develop this project after finding some shortcomings in the group voice.
+- In the voice chat group members can adjust any group members' mobile `Output volume` and their own mobile `Input volume`.
+- Administrators have the highest privileges to switch on and off the group member's `microphone` or to adjust the group member's `input volume`. (... tentatively for these functions)
+- The original purpose of the project is to give Minecraft players a more comfortable voice environment and a better communication environment.
 
-## ✏️ 如何向WitsTalk提交代码?
+## 💡️ How to use WitsTalk？
+- ~~As the project is still under development, the use method is not provided temporarily, only the development method is provided~~
+- The complete "Use Document" and "Release" will be provided after the opening`
+
+## ✏️ How do I submit code to WitsTalk?
 - 1.Fork`WitsTalk`
-- 2.维护代码~
-- 3.请遵守以下提交格式:
+- 2.Maintenance code~
+- 3.Please follow the following submission format:
 - `🚧 Fix`,`➕ Feat`,`🔨 Refactor`,`📝 Docs`,`✨ Style`,`🍱 Perf`,`🔧 Test`,`⚡️ Chore`,`🐛 Bug`
-- 4.提交到`主仓库`的修改的`相应分支`.
+- 4.The modified corresponding branch submitted to the main warehouse
 
-## ✅ 如何发送Issues?
-- 请遵守以下提交格式:
+## ✅ How do I send Issues?
+- Please follow the following submission format:
 - `🐛 Bug`,`✨ Style`,`🎨 Proposai`.
 
-## 👥 本项目开发人员
-- `[UI设计、前端]Mo_Yi`  `[后端、前端]xinxin`  `[后端、前端]wzp`
+## 👥 Developers of the project
+- `[UI design、Web Developer] Mo_Yi`
+- `[Server Developer、Web Developer] Xin-Sin`
+- `[Server Developer、Web Developer] Wzp-2008`
 - [Dongyifengs 的 GitHub](https://github.com/Dongyifengs)
-- [XinSin-top 的 GitHub](https://github.com/xin-sin)
+- [Xin-Sin 的 GitHub](https://github.com/xin-sin)
 - [Wzp-2008 的 GitHub](https://github.com/Wzp-2008)
 
-## ⚖️ 开源协议
-- 本项目是面向大众的，所以我们会进行开源,请遵循相关开源协议 [Apache License 2.0](https://github.com/XinSin-top/witsTalk/blob/main/LICENSE) 的规则.
-- 众人拾柴火焰高，开源需要依靠大家的努力，请自觉遵守开源协议，弘扬开源精神，共建开源社区！
+## ⚖️ Open source agreement
+- This project is for the public, so we will open source, please follow the relevant open source agreement [Apache License 2.0](https://github.com/XinSin-top/witsTalk/blob/main/LICENSE) 的规则.
 
-## 🍀 鸣谢
+## 🍀 Acknowledgement
 <div align="center"><img alt="Logo" height="256" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png?_gl=1*avq98w*_ga*NjQ5OTM0MzUxLjE2NDY1NTIyMzQ.*_ga_V0XZL7QHEB*MTY0Njk2NjY2Mi4zLjAuMTY0Njk2NjY2Mi4w" width="256"/></div>
 
 
-## 🧑‍💻如何开发?
-- 1.使用`git clone https://github.com/xin-sin/witsTalk.git` 下载我们的项目
-- 2.我们建议您使用`idea`来进行开发,那样将会为您省去很多配置环境时间
-- 3.在数据库中创建`user`表
+## 🧑‍💻How to develop?
+- 1.Use `git clone https://github.com/xin-sin/witsTalk.git` Download our project
+- 2.We recommend that you use `idea` for development, which will save you a lot of time in configuring the environment
+- 3.Create a `user` table in the database
+
 
 ``` mysql
   CREATE TABLE `user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户表id',
-  `username` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户表用户名',
-  `password` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户表密码',
-  `auth` enum('admin','user') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'user' COMMENT '用户表用户权限',
-  `online` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户表用户是否在线',
-  `last_login` datetime NULL DEFAULT NULL COMMENT '用户表用户最后上线时间',
-  `base64` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '用户表用户头像',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'User table id',
+  `username` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'User table user name',
+  `password` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'User table password',
+  `auth` enum('admin','user') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'user' COMMENT 'User table user permissions',
+  `online` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'User table whether the user is online',
+  `last_login` datetime NULL DEFAULT NULL COMMENT 'User table user's last online time',
+  `base64` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'User table user avatar',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `username`(`username`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 ```
-- 4.在数据库中创建`message`表
+- 4.Create a `message` table in the database
 ``` mysql
 CREATE TABLE `message`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '消息表id',
-  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '消息表消息内容',
-  `sender` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '消息表发送者',
-  `recall` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '消息表是否撤回',
-  `sendtime` datetime NOT NULL COMMENT '消息表消息发送时间',
-  `type` enum('text','img') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'text' COMMENT '消息表消息类型',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Message table id',
+  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Message Table Message Content',
+  `sender` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Message table sender',
+  `recall` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT 'Whether the message table is recalled',
+  `sendtime` datetime NOT NULL COMMENT 'Message table message sending time',
+  `type` enum('text','img') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'text' COMMENT 'Message Table Message Type',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `sender`(`sender`) USING BTREE,
   CONSTRAINT `message_ibfk_1` FOREIGN KEY (`sender`) REFERENCES `witstalk`.`user` (`username`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 ```
-- 5.在数据库中创建`file`表
+- 5.Create a `file` table in the database
 ``` mysql
 CREATE TABLE `file`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文件表id',
-  `size` double NOT NULL COMMENT '文件表文件大小',
-  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件表文件名',
-  `md5` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件表文件md5',
-  `uploadTime` datetime NOT NULL COMMENT '文件表文件上传时间',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'File table id',
+  `size` double NOT NULL COMMENT 'File Table File Size',
+  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'File table file name',
+  `md5` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'File table file md5',
+  `uploadTime` datetime NOT NULL COMMENT 'File table file upload time',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 ```
-- 7.调整每一个模块的数据库`url`
-- 8.使用`maven`来下载后端项目依赖
-- 9.检查`mysql`数据库版本,并更改`pom.xml`中`JDBC`依赖版本
-- 10.使用`npm install`下载前端项目依赖
-- 11.(可选).配置`nginx`反向代理,和端口号
-- 12.启动前端项目`npm run dev`,启动nginx,启动后端项目:(还用我教吗?-_-):
-
-
-
-
-
-
+- 7.Adjust database for each module `url`
+- 8.Use `maven` to download backend project dependencies
+- 9.Check the `mysql` database version and change the 'JDBC' dependent version in `pom.xml`
+- 10.Use `npm install` to download front-end project dependencies
+- 11.(Optional). Configure `nginx` reverse proxy and port number
+- 12.Start the front-end project `npm run dev`, start nginx, and start the back-end project: (Do you still use me to teach? - _ -):
