@@ -47,12 +47,12 @@
 - `[UI design、Web Developer] Mo_Yi`
 - `[Server Developer、Web Developer] Xin-Sin`
 - `[Server Developer、Web Developer] Wzp-2008`
-- [Dongyifengs 的 GitHub](https://github.com/Dongyifengs)
-- [Xin-Sin 的 GitHub](https://github.com/xin-sin)
-- [Wzp-2008 的 GitHub](https://github.com/Wzp-2008)
+- [Dongyifengs's GitHub](https://github.com/Dongyifengs)
+- [Xin-Sin's GitHub](https://github.com/xin-sin)
+- [Wzp-2008's GitHub](https://github.com/Wzp-2008)
 
 ## ⚖️ Open source agreement
-- This project is for the public, so we will open source, please follow the relevant open source agreement [Apache License 2.0](https://github.com/XinSin-top/witsTalk/blob/main/LICENSE) 的规则.
+- This project is for the public, so we will open source, please follow the relevant open source agreement [Apache License 2.0](https://github.com/XinSin-top/witsTalk/blob/main/LICENSE)'s rules.
 
 ## 🍀 Acknowledgement
 <div align="center"><img alt="Logo" height="256" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png?_gl=1*avq98w*_ga*NjQ5OTM0MzUxLjE2NDY1NTIyMzQ.*_ga_V0XZL7QHEB*MTY0Njk2NjY2Mi4zLjAuMTY0Njk2NjY2Mi4w" width="256"/></div>
