@@ -48,5 +48,7 @@ public interface ChatDao {
      */
     void recall(@Param("id") Integer id);
 
-    List<Message> getNewMessage(@Param("id_min") Integer minId,@Param("id_max") Integer maxId,@Param("count") Integer count);
+    List<Message> getNewMessage(@Param("id_min") Integer minId, @Param("id_max") Integer maxId, @Param("count") Integer count);
+
+    void initTable();
 }

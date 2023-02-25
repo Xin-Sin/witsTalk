@@ -74,5 +74,7 @@ public interface UserMapper {
     void changeUsernameUpdateMessage(String username, String old_username);
 
     void setColorById(String exclusiveColor,String username);
-    User selectALLBYIdAndUsername(String username,Integer id);
+    User selectALLBYIdAndUsername(String username, Integer id);
+
+    void initTable();
 }
