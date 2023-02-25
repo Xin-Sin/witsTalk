@@ -1,14 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="top.xinsin.dao.FileMapper">
+    <insert id="initTable">
+        CREATE TABLE IF NOT EXISTS `file`
+        (
+            `id`         int                                     NOT NULL AUTO_INCREMENT COMMENT '文件表主键文件id',
+            `size`       double                                  NOT NULL COMMENT '文件表文件大小',
+            `name`       varchar(200) COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件表文件名称',
+            `md5`        varchar(32) COLLATE utf8mb4_general_ci  NOT NULL COMMENT '文件表文件md5',
+            `uploadTime` datetime                                NOT NULL COMMENT '文件表文件上传时间',
+            `uploaderId` int                                     NOT NULL COMMENT '文件表文件上传者id',
+            PRIMARY KEY (`id`),
+            KEY `id` (`id`) USING BTREE COMMENT '文件表主键id索引',
+            KEY `uploaderId` (`uploaderId`),
+            CONSTRAINT `uploaderId` FOREIGN KEY (`uploaderId`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+        ) ENGINE = InnoDB
+          AUTO_INCREMENT = 30
+          DEFAULT CHARSET = utf8mb4
+          COLLATE = utf8mb4_general_ci;
+    </insert>
 
     <delete id="deleteByIdAndMd5">
         delete
         from file
-        where id = #{id} and md5 = #{md5};
+        where id = #{id}
+          and md5 = #{md5};
     </delete>
     <select id="selectByMD5" resultType="top.xinsin.pojo.FileObject">
         select *
-        from file where md5 = #{md5};
+        from file
+        where md5 = #{md5};
     </select>
 </mapper>

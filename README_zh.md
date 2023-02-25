@@ -63,43 +63,72 @@
 - 3.在数据库中创建`user`表
 
 ``` mysql
-  CREATE TABLE `user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户表id',
-  `username` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户表用户名',
-  `password` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户表密码',
-  `auth` enum('admin','user') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'user' COMMENT '用户表用户权限',
-  `online` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户表用户是否在线',
-  `last_login` datetime NULL DEFAULT NULL COMMENT '用户表用户最后上线时间',
-  `base64` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '用户表用户头像',
+CREATE TABLE `user` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '用户表主键id',
+  `username` varchar(25) COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户表用户名',
+  `password` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户表用户密码',
+  `auth` enum('admin','user') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'user' COMMENT '用户表用户类型',
+  `online` bit(1) NOT NULL DEFAULT b'0' COMMENT '用户表用户在线',
+  `last_login` datetime DEFAULT NULL COMMENT '用户表用户最后上线时间',
+  `base64` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '用户表用户头像',
+  `exclusiveColor` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '000000',
+  `ban` int DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+  KEY `id` (`id`) USING BTREE COMMENT '主键id索引'
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
 - 4.在数据库中创建`message`表
+
 ``` mysql
-CREATE TABLE `message`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '消息表id',
-  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '消息表消息内容',
-  `sender` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '消息表发送者',
-  `recall` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT '消息表是否撤回',
+CREATE TABLE `message` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '消息表主键消息id',
+  `content` longtext COLLATE utf8mb4_general_ci NOT NULL COMMENT '消息表消息内容',
+  `sender` varchar(25) COLLATE utf8mb4_general_ci NOT NULL COMMENT '消息表消息发送者',
+  `recall` bit(1) NOT NULL DEFAULT b'0' COMMENT '消息表消息是否撤回',
   `sendtime` datetime NOT NULL COMMENT '消息表消息发送时间',
-  `type` enum('text','img') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'text' COMMENT '消息表消息类型',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `sender`(`sender`) USING BTREE,
-  CONSTRAINT `message_ibfk_1` FOREIGN KEY (`sender`) REFERENCES `witstalk`.`user` (`username`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+  `type` enum('text','img') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'text' COMMENT '消息表消息类型',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE COMMENT '主键id索引'
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
 - 5.在数据库中创建`file`表
+
 ``` mysql
-CREATE TABLE `file`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文件表id',
+CREATE TABLE `file` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '文件表主键文件id',
   `size` double NOT NULL COMMENT '文件表文件大小',
-  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件表文件名',
-  `md5` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件表文件md5',
+  `name` varchar(200) COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件表文件名称',
+  `md5` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '文件表文件md5',
   `uploadTime` datetime NOT NULL COMMENT '文件表文件上传时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+  `uploaderId` int NOT NULL COMMENT '文件表文件上传者id',
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`) USING BTREE COMMENT '文件表主键id索引',
+  KEY `uploaderId` (`uploaderId`),
+  CONSTRAINT `uploaderId` FOREIGN KEY (`uploaderId`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 ```
+
+- 6.在数据库中创建`route`表
+
+```mysql
+CREATE TABLE `route` (
+                         `id` int NOT NULL AUTO_INCREMENT COMMENT '#',
+                         `path` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '路由路径',
+                         `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL COMMENT '路由名',
+                         `parentId` int DEFAULT NULL COMMENT '父级id',
+                         `component` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '组件路径',
+                         `title` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标题',
+                         `auth` varchar(5) COLLATE utf8mb4_general_ci NOT NULL COMMENT '权限',
+                         `status` int DEFAULT '0' COMMENT '状态',
+                         `remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+                         `createId` int DEFAULT NULL COMMENT '创建者id',
+                         `createTime` datetime DEFAULT NULL COMMENT '创建时间',
+                         `updateId` int DEFAULT NULL COMMENT '更新者id',
+                         `updateTime` datetime DEFAULT NULL COMMENT '更新时间',
+                         PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+```
+
 - 7.调整每一个模块的数据库`url`
 - 8.使用`maven`来下载后端项目依赖
 - 9.检查`mysql`数据库版本,并更改`pom.xml`中`JDBC`依赖版本

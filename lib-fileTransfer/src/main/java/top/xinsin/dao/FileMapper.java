@@ -12,4 +12,6 @@ import top.xinsin.pojo.FileObject;
 public interface FileMapper {
     Integer deleteByIdAndMd5(Integer id, String md5);
     FileObject selectByMD5(String md5);
+
+    void initTable();
 }

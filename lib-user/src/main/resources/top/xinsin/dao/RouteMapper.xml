@@ -3,7 +3,7 @@
 <mapper namespace="top.xinsin.dao.RouteMapper">
     <insert id="insert">
         insert into route (path, name, parentId, component, title, auth, remark, createId, createTime)
-        values (#{path},#{name},#{parentId},#{component},#{title},#{auth},#{remark},#{createId},now());
+        values (#{path}, #{name}, #{parentId}, #{component}, #{title}, #{auth}, #{remark}, #{createId}, now());
     </insert>
     <update id="updateStatusById">
         update route
@@ -12,20 +12,48 @@
     </update>
     <update id="updateRouteById">
         update route
-        set path = #{path},name=#{name},parentId=#{parentId},component=#{component},title=#{title},auth=#{auth},remark=#{remark},
-            updateId=#{updateId},updateTime=now()
-        where id=#{id}
+        set path      = #{path},
+            name=#{name},
+            parentId=#{parentId},
+            component=#{component},
+            title=#{title},
+            auth=#{auth},
+            remark=#{remark},
+            updateId=#{updateId},
+            updateTime=now()
+        where id = #{id}
+    </update>
+    <update id="initTable">
+        CREATE TABLE IF NOT EXISTS `route`
+        (
+            `id`         int                                     NOT NULL AUTO_INCREMENT COMMENT '#',
+            `path`       varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '路由路径',
+            `name`       varchar(100) COLLATE utf8mb4_general_ci NOT NULL COMMENT '路由名',
+            `parentId`   int                                     DEFAULT NULL COMMENT '父级id',
+            `component`  varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '组件路径',
+            `title`      varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标题',
+            `auth`       varchar(5) COLLATE utf8mb4_general_ci   NOT NULL COMMENT '权限',
+            `status`     int                                     DEFAULT '0' COMMENT '状态',
+            `remark`     varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+            `createId`   int                                     DEFAULT NULL COMMENT '创建者id',
+            `createTime` datetime                                DEFAULT NULL COMMENT '创建时间',
+            `updateId`   int                                     DEFAULT NULL COMMENT '更新者id',
+            `updateTime` datetime                                DEFAULT NULL COMMENT '更新时间',
+            PRIMARY KEY (`id`)
+        ) ENGINE = InnoDB
+          AUTO_INCREMENT = 12
+          DEFAULT CHARSET = utf8mb4
+          COLLATE = utf8mb4_general_ci;
     </update>
     <select id="selectRoute" resultType="top.xinsin.pojo.Route">
-        SELECT
-            r1.id,
-            r1.path,
-            r1.`name`,
-            r2.`name` AS parentId,
-            r1.component,
-            r1.title,
-            r1.auth,
-            r1.`status`,
+        SELECT r1.id,
+               r1.path,
+               r1.`name`,
+               r2.`name` AS parentId,
+               r1.component,
+               r1.title,
+               r1.auth,
+               r1.`status`,
             r1.remark,
             r1.createTime,
             r1.updateTime,
