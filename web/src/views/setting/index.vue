@@ -15,8 +15,7 @@
           word-wrap: break-word;
           left: 9px;
           top: 4px"
-          >
-            更换 头像
+          >更换头像
           </span>
         </div>
         <div style="width: 50px;height: 50px;">
