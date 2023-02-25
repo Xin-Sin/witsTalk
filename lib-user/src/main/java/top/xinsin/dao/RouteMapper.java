@@ -27,4 +27,6 @@ public interface RouteMapper {
     List<RouteVO> SelectRouteByAuth(String auth);
 
     List<RouterNameVO> getRouteName();
+
+    void initTable();
 }

@@ -64,47 +64,93 @@
 - 3.Create a `user` table in the database
 
 
-``` mysql
-  CREATE TABLE `user`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'User table id',
-  `username` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'User table user name',
-  `password` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'User table password',
-  `auth` enum('admin','user') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'user' COMMENT 'User table user permissions',
-  `online` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'User table whether the user is online',
-  `last_login` datetime NULL DEFAULT NULL COMMENT 'User table user's last online time',
-  `base64` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'User table user avatar',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `username`(`username`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+```mysql
+CREATE TABLE `user`
+(
+    `id`             int                                                           NOT NULL AUTO_INCREMENT,
+    `username`       varchar(25) COLLATE utf8mb4_general_ci                        NOT NULL,
+    `password`       varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    `auth`           enum ('admin','user') COLLATE utf8mb4_general_ci              NOT NULL DEFAULT 'user',
+    `online`         bit(1)                                                        NOT NULL DEFAULT b'0',
+    `last_login`     datetime                                                               DEFAULT NULL,
+    `base64`         longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+    `exclusiveColor` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci            DEFAULT '000000',
+    `ban`            int                                                                    DEFAULT '0',
+    PRIMARY KEY (`id`) USING BTREE,
+    KEY `id` (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 8
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 ```
 - 4.Create a `message` table in the database
-``` mysql
-CREATE TABLE `message`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Message table id',
-  `content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Message Table Message Content',
-  `sender` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'Message table sender',
-  `recall` tinyint(1) UNSIGNED ZEROFILL NOT NULL DEFAULT 0 COMMENT 'Whether the message table is recalled',
-  `sendtime` datetime NOT NULL COMMENT 'Message table message sending time',
-  `type` enum('text','img') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'text' COMMENT 'Message Table Message Type',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `sender`(`sender`) USING BTREE,
-  CONSTRAINT `message_ibfk_1` FOREIGN KEY (`sender`) REFERENCES `witstalk`.`user` (`username`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+```mysql
+CREATE TABLE `message`
+(
+    `id`       int                                            NOT NULL AUTO_INCREMENT,
+    `content`  longtext COLLATE utf8mb4_general_ci            NOT NULL,
+    `sender`   varchar(25) COLLATE utf8mb4_general_ci         NOT NULL,
+    `recall`   bit(1)                                         NOT NULL DEFAULT b'0',
+    `sendtime` datetime                                       NOT NULL,
+    `type`     enum ('text','img') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'text',
+    PRIMARY KEY (`id`),
+    KEY `id` (`id`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 35
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 ```
 - 5.Create a `file` table in the database
-``` mysql
-CREATE TABLE `file`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'File table id',
-  `size` double NOT NULL COMMENT 'File Table File Size',
-  `name` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'File table file name',
-  `md5` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'File table file md5',
-  `uploadTime` datetime NOT NULL COMMENT 'File table file upload time',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+```mysql
+CREATE TABLE `file`
+(
+    `id`         int                                     NOT NULL AUTO_INCREMENT,
+    `size`       double                                  NOT NULL,
+    `name`       varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+    `md5`        varchar(32) COLLATE utf8mb4_general_ci  NOT NULL,
+    `uploadTime` datetime                                NOT NULL,
+    `uploaderId` int                                     NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `id` (`id`) USING BTREE,
+    KEY `uploaderId` (`uploaderId`),
+    CONSTRAINT `uploaderId` FOREIGN KEY (`uploaderId`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 30
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
 ```
+
+- 6.Create a `route` table in the database
+
+```mysql
+CREATE TABLE `route`
+(
+    `id`         int                                     NOT NULL AUTO_INCREMENT,
+    `path`       varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `name`       varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+    `parentId`   int                                     DEFAULT NULL,
+    `component`  varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `title`      varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `auth`       varchar(5) COLLATE utf8mb4_general_ci   NOT NULL,
+    `status`     int                                     DEFAULT '0',
+    `remark`     varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `createId`   int                                     DEFAULT NULL,
+    `createTime` datetime                                DEFAULT NULL,
+    `updateId`   int                                     DEFAULT NULL,
+    `updateTime` datetime                                DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 12
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+```
+
 - 7.Adjust database for each module `url`
 - 8.Use `maven` to download backend project dependencies
 - 9.Check the `mysql` database version and change the 'JDBC' dependent version in `pom.xml`
 - 10.Use `npm install` to download front-end project dependencies
 - 11.(Optional). Configure `nginx` reverse proxy and port number
-- 12.Start the front-end project `npm run dev`, start nginx, and start the back-end project: (Do you still use me to teach? - _ -):
+- 12.Start the front-end project `npm run dev`, start nginx, and start the back-end project: (Do you still use me to
+  teach? - _ -):
