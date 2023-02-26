@@ -79,7 +79,7 @@
 import {onMounted, ref} from "vue";
 import SlideVerify, {SlideVerifyInstance} from "vue3-slide-verify";
 import "vue3-slide-verify/dist/style.css";
-import {login, getHitokoto, autoLogin, getRouter} from '../../api/user';
+import {autoLogin, getHitokoto, getRouter, login} from '../../api/user';
 import {ElInput, ElMessage} from "element-plus";
 import {useStore} from "../../store";
 import {UserInfo} from "../../entities/UserInfo";
@@ -341,7 +341,7 @@ const onSlideSuccess = () => {
 .img {
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-color: rgba(203, 193, 193, 0.3);
+  background-image: url("../../assets/img.png");
   backdrop-filter: blur(6px);
   border-left: 2px var(--el-border-color);
   border-top-left-radius: var(--el-border-radius-round);
@@ -353,7 +353,6 @@ const onSlideSuccess = () => {
   backdrop-filter: blur(1px);
   transform: scale(1);
   transition: all 0.3s linear;
-  background-image: url("../web/public/logo.svg");
 }
 
 
@@ -389,7 +388,7 @@ div.background {
   width: 100%;
   height: 100vh;
   background-repeat: no-repeat;
-  background-image: url("../../assets/img.png");
   background-size: 100% 100%;
+  background-image: linear-gradient(175deg, rgba(179, 192, 175, 100%) 15%, rgba(224, 201, 165, 100%), rgba(113, 118, 110, 100%), rgba(140, 146, 125, 100%), rgba(118, 133, 137, 100%), rgba(136, 134, 120, 100%));
 }
 </style>
