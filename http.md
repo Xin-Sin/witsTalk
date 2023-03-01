@@ -1,7 +1,7 @@
-# 该文件将列出所有接口以及使用
+# this file show all interface
 
-## user模块
-### 用户登录
+## user module
+### user login
 - url:`/user/api/login`
 - method:`post`
 - requestParameter:
@@ -16,8 +16,7 @@
   ~~~json
   {
       "username":"admin",
-      "password":"21232f297a57a5a743894a0e4a801fc3",
-      "//":"password是前端MD5加密后"
+      "password":"21232f297a57a5a743894a0e4a801fc3"
   }
   ~~~
 
@@ -38,8 +37,19 @@
   
   }
   ~~~
+- response headers
 
-### 添加用户
+| 参数名称  | 注释    |
+|-------|-------|
+ | token | token |
+- example:
+  ~~~json
+    {
+    "Access-Token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJleHAiOjE2NzYwOTk0NzYsImFjY291bnQiOiIxMTk5NDcyNDMiLCJ1c2VybmFtZSI6InpoYW5nc2FuIn0.3IUC63Y01sBalf87LfPttt6YDSqJpiZBh4vVb8nuE94lrbFTXLV3AyQA1vNqRZVZ-R2cDM79SpvSAnGVwdWuzw"
+  }
+  ~~~
+
+### register user
 - url:`/user/api/adduser`
 - method:`post`
 - requestParameter:
@@ -54,12 +64,10 @@
 
   ~~~json
   {
-      "username":"user",
+      "username":"example",
       "password":"21232f297a57a5a743894a0e4a801fc3",
       "auth": "user",
-      "base64": "去头的base64",
-      "//":"password是前端MD5加密后",
-      "/*": "base64是去除{data:image/png;base64,}"
+      "base64": "base64是去除 data:image/png;base64,"
   }
   ~~~
 
@@ -76,8 +84,21 @@
       "status":200
   }
   ~~~
+`注: 以下接口访问都需要使用token访问`
+- request headers
+  
+| 参数名称  | 注释                                                                                                                                                                                                                          |
+|-------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| token | eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJleHAiOjE2NzYwOTk0NzYsImFjY291bnQiOiIxMTk5NDcyNDMiLCJ1c2VybmFtZSI6InpoYW5nc2FuIn0.3IUC63Y01sBalf87LfPttt6YDSqJpiZBh4vVb8nuE94lrbFTXLV3AyQA1vNqRZVZ-R2cDM79SpvSAnGVwdWuzw |
 
-### 修改密码
+- example:
+  ~~~json
+    {
+      "token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpZCI6IjYiLCJleHAiOjE2NzYwOTk0NzYsImFjY291bnQiOiIxMTk5NDcyNDMiLCJ1c2VybmFtZSI6InpoYW5nc2FuIn0.3IUC63Y01sBalf87LfPttt6YDSqJpiZBh4vVb8nuE94lrbFTXLV3AyQA1vNqRZVZ-R2cDM79SpvSAnGVwdWuzw"
+    }
+  ~~~
+
+### modify password
 - url:`/user/api/changepassword`
 - method:`post`
 - requestParameter:
@@ -91,8 +112,7 @@
   ~~~json
   {
       "username":"user",
-      "password":"21232f297a57a5a743894a0e4a801fc3",
-      "//":"password是前端MD5加密后"
+      "password":"21232f297a57a5a743894a0e4a801fc3"
   }
   ~~~
 
@@ -110,7 +130,7 @@
   }
   ~~~
   
-### 修改头像
+### modify portrait
 - url:`/user/api/setHeadPortrait`
 - method:`post`
 - requestParameter:
@@ -124,7 +144,7 @@
   ~~~json
   {
       "username":"user",
-      "base64": "去头的base64"
+      "base64": "base64是去除 data:image/png;base64,"
   }
   ~~~
 
@@ -142,7 +162,7 @@
   }
   ~~~
   
-### 获取头像
+### get porttait
 - url:`/user/api/getUserHeadPortrait`
 - method:`get`
 - requestParameter:
@@ -169,12 +189,12 @@
 
   ~~~json
   {
-      "data": "去头的base64",
+      "data": "base64是去除 data:image/png;base64,",
       "status":200
   }
   ~~~
   
-### 获取在线人数
+### get online user
 - url:`/user/api/getOnlineUser`
 - method:`get`
 
@@ -194,9 +214,9 @@
   }
   ~~~
 
-## fileTransfer模块
+## fileTransfer module
 
-### 文件上传
+### file upload
 - url:`/file/api/fileUpload`
 - method:`post`
 - requestParameter:
@@ -208,7 +228,7 @@
 
   ~~~json
   {
-      "file":"file"
+      "file":"briny"
   }
   ~~~
 
@@ -228,7 +248,7 @@
   }
   ~~~
 
-### 获取文件名字
+### get file name
 - url:`/file/api/getName`
 - method:`get`
 - requestParameter:
@@ -248,12 +268,12 @@
 
   ~~~json
   {
-      "data": "文件名字",
+      "data": "file name",
       "status":200
   }
   ~~~
 
-### 下载文件
+### download file
 - url:`/file/api/downloadFile`
 - method:`get`
 - requestParameter:
@@ -266,11 +286,11 @@
 
 - responseParameter:
 
-| 参数名称           | 注释  |
-|----------------|-----|
-| ResponseEntity | 文件流 |  
+| 参数名称           | 注释          |
+|----------------|-------------|
+| ResponseEntity | file stream |  
 
-### 获取全部文件名字
+### get all file names
 - url:`/file/api/getAllFileNames`
 - method:`post`
   
@@ -285,7 +305,17 @@
 
   ~~~json
   {
-      "data": "全部文件名字",
+      "data": "all file names",
       "status":200
   }
   ~~~
+  
+`以下为websocket接口`
+
+## chat module
+
+- address
+  `ws://address:8005/chat`
+    - login `在用户第一次连接时进行登陆验签
+            ,使用token作为参数进行验证`
+    - 
