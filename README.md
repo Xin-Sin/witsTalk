@@ -55,8 +55,9 @@
 - This project is for the public, so we will open source, please follow the relevant open source agreement [Apache License 2.0](https://github.com/XinSin-top/witsTalk/blob/main/LICENSE)'s rules.
 
 ## 🍀 Acknowledgement
-![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png)
-
+<div style="width: 256px;height: 256px;text-align: center">
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
+</div>
 
 ## 🧑‍💻How to develop?
 - 1.Use `git clone https://github.com/xin-sin/witsTalk.git` Download our project
