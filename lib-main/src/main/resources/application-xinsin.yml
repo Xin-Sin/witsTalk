@@ -1,0 +1,33 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    username: root
+    password: XinSin123
+    url: jdbc:mysql://localhost:3306/witstalk?serverTimezone=UTC-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    static-path-pattern: /static/**
+  mybatis:
+    mapper-locations: classpath:top/xinsin/mapper/**.xml
+    type-aliases-package: top.xinsin.mapper
+    configuration:
+      map-underscore-to-camel-case: true
+  redis:
+    host: localhost
+    port: 6379
+    database: 3
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 500
+        min-idle: 0
+      lettuce:
+        shutdown-timeout: 0
+jwt:
+  tokenHeader: X-Token #JWT存储的请求头
+  tokenHead: Bearer-  #令牌前缀
+  secret: Q2fW1fQ2fdfEd4fR8c6bf7fY3c2f4b3bfUbv7I8Ef8wOP8Pd8A3S4D5F6G5H7J8K9V8C0B8H9N7J6X5f4Zf4M4f6K2f3d3sf43aj4d4q3w5o4se48u9q78327198er12f3jDc4sD2a1kmDxz #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间秒(60*60*24)
+  redis_token_key: user:token:%s #存储token的redis路由键
