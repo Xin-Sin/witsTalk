@@ -55,6 +55,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20.5.0'
+      - name: tab
+        run: cd web
       - name: Install dependencies
         run: yarn
       - name: Build dependencies
@@ -66,7 +68,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           tag_name: beta-1.${{github.run_number}}
-          release_name: beta-2.${{github.run_number}}
+          release_name: beta-1.${{github.run_number}}
       - name: upload jar to release
         uses: actions/upload-release-asset@v1
         env:
@@ -74,5 +76,5 @@ jobs:
         with:
           upload_url: ${{steps.cr.outputs.upload_url}}
           asset_path: ./web/dist
-          asset_name: witsTalk-front-1.${{github.run_number}}.jar
-          asset_content_type: application/jar
+          asset_name: witsTalk-front-1.${{github.run_number}}.zip
+          asset_content_type: application/zip
