@@ -29,7 +29,7 @@ jobs:
       - name: Build dependencies
         run: cd web && yarn build
       - name: run zip
-        run: zip -r dist.zip *
+        run: cd web/dist && zip -rm dist.zip *
       - name: create release
         id: cr
         uses: actions/create-release@v1
