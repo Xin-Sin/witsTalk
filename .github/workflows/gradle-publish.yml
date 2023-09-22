@@ -59,6 +59,8 @@ jobs:
         run: cd web && yarn
       - name: Build dependencies
         run: cd web && yarn build
+      - name: run zip
+        run: zip -r dist.zip *
       - name: create release
         id: cr
         uses: actions/create-release@v1
@@ -73,6 +75,6 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           upload_url: ${{steps.cr.outputs.upload_url}}
-          asset_path: ./web/dist
+          asset_path: ./web/dist/dist.zip
           asset_name: witsTalk-front-1.${{github.run_number}}.zip
           asset_content_type: application/zip
