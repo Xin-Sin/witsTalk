@@ -17,9 +17,9 @@ jobs:
     name: build witsTalk backend
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -29,10 +29,24 @@ jobs:
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         with:
           arguments: lib-main:bootjar
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: Package
-          path: build/libs
-#  forntend:
-#    name: build witsTalk frontend
-#    runs-on: ubuntu-latest
+          path: lib-main/build/libs
+  forntend:
+    name: build witsTalk frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.5.0'
+      - name: Install dependencies
+        run: yarn
+      - name: Build dependencies
+        run: yarn build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Package
+          path: web/dist

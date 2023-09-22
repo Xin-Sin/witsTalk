@@ -4,11 +4,11 @@
       <h2>注册</h2>
       <form>
         <div class="user-box">
-          <input v-model="username" type="text" name="" required="">
+          <input v-model="username" type="text">
           <label>用户名称</label>
         </div>
         <div class="user-box">
-          <input v-model="password" type="password" name="" required="">
+          <input v-model="password" type="password">
           <label>密码</label>
         </div>
         <el-button type="primary" @click="register()">注册账号</el-button>
