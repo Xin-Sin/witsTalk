@@ -1,19 +1,6 @@
-plugins {
-    id("java")
-}
-
-group = "top.xinsin"
-version = "1.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.9.1"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-}
+    implementation("org.springframework.boot:spring-boot-starter-websocket")
 
-tasks.test {
-    useJUnitPlatform()
+    implementation(project(mapOf("path" to ":lib-common")))
+    implementation(project(mapOf("path" to ":lib-user")))
 }

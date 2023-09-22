@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import top.xinsin.pojo.User;
 import top.xinsin.pojo.Vo.UserVo;
@@ -55,12 +56,10 @@ public class SecurityTokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        //从请求头部获取授权令牌
-        final String authHead = request.getHeader(this.tokenHeader);
-        //验证授权令牌是否为空，不为空再验证传入授权令牌字符串中手头存在指定的前缀（特定的字符序列）
-        if (authHead != null && authHead.startsWith(tokenHead)) {
-            //删除请求的授权令牌中的特定字符序列
-            final String authToken = authHead.substring(tokenHead.length());
+
+        try {
+            String authToken = parseJwt(request);
+            assert authToken != null;
             String username = jwtTokenUtil.getTokenAsUsername(authToken);
             //判断redis中是否存在相应的token信息
             if (Boolean.TRUE.equals(redisTemplate.hasKey(String.format(redisTokenKey, username)))) {
@@ -78,7 +77,22 @@ public class SecurityTokenAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }
             }
+        } catch (Exception e) {
+            log.error("无法设置用户认证:", e);
         }
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * 从 Authorization 标头中，提取令牌
+     *
+     */
+    private String parseJwt(HttpServletRequest request) {
+        String headerAuth = request.getHeader(tokenHeader);
+
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(tokenHead)) {
+            return headerAuth.substring(tokenHead.length());
+        }
+        return null;
     }
 }

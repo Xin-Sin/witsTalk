@@ -20,6 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import top.xinsin.filter.MyAccessDeniedHandler;
+import top.xinsin.filter.MyAuthenticationEntryPoint;
 import top.xinsin.filter.SecurityTokenAuthenticationFilter;
 import top.xinsin.service.impl.UserServiceImpl;
 
@@ -38,31 +40,37 @@ import java.util.List;
 public class SpringSecurityConfig {
     private final SecurityTokenAuthenticationFilter securityTokenAuthenticationFilter;
     private final UserServiceImpl userService;
+    private final MyAccessDeniedHandler accessDeniedHandler;
+    private final MyAuthenticationEntryPoint authenticationEntryPoint;
 
-    public SpringSecurityConfig(SecurityTokenAuthenticationFilter securityTokenAuthenticationFilter, UserServiceImpl userService) {
+    public SpringSecurityConfig(SecurityTokenAuthenticationFilter securityTokenAuthenticationFilter, UserServiceImpl userService, MyAccessDeniedHandler accessDeniedHandler, MyAuthenticationEntryPoint authenticationEntryPoint) {
         this.securityTokenAuthenticationFilter = securityTokenAuthenticationFilter;
         this.userService = userService;
+        this.accessDeniedHandler = accessDeniedHandler;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(e -> e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(e -> e.requestMatchers(getUrls()).permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                        .anyRequest().authenticated()
-                );
-        http.headers(e -> e.cacheControl(HeadersConfigurer.CacheControlConfig::disable));
-        http.addFilterBefore(securityTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        http.headers(e -> e.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+            .sessionManagement(e -> e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(e -> e.requestMatchers(getUrls()).permitAll()
+                    .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                    .anyRequest().authenticated()
+            )
+            .headers(e -> e.cacheControl(HeadersConfigurer.CacheControlConfig::disable))
+            .headers(e -> e.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+            .addFilterBefore(securityTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling(e -> e.authenticationEntryPoint(authenticationEntryPoint).accessDeniedHandler(accessDeniedHandler));
         return http.build();
     }
 
     private String[] getUrls() {
         List<String> list = new ArrayList<>();
-        list.add("/login");
-        list.add("/register");
+        list.add("/user/login");
+        list.add("/user/register");
+        list.add("/chat/**");
         return list.toArray(new String[0]);
     }
 

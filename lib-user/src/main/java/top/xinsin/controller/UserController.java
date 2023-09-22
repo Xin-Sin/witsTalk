@@ -48,8 +48,8 @@ public class UserController {
     }
 
     @RequestMapping(path = "/debug",method = RequestMethod.GET)
-    public Result<User> debug(){
-        return Result.success(UserUtils.getCurrentUserDTO());
+    public Result<Integer> debug(){
+        return Result.success(1/0);
     }
 
     @RequestMapping(path = "/login", method =  RequestMethod.POST)
