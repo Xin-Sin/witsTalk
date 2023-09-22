@@ -29,10 +29,23 @@ jobs:
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         with:
           arguments: lib-main:bootjar
-      - uses: actions/upload-artifact@v2
+      - name: create release
+        id: cr
+        uses: actions/create-release@v2
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
-          name: Package
-          path: lib-main/build/libs
+          tag_name: beta-1.${{github.run_number}}
+          release_name: beta-2.${{github.run_number}}
+      - name: upload jar to release
+        uses: actions/upload-release-asset@v2
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{steps.cr.outputs.upload_url}}
+          asset_path: ./lib-main/build/libs/lib-main-1.2.jar
+          asset_name: witsTalk-backend-1.${{github.run_number}}.jar
+          asset_content_type: application/jar
   forntend:
     name: build witsTalk frontend
     runs-on: ubuntu-latest
@@ -46,7 +59,20 @@ jobs:
         run: yarn
       - name: Build dependencies
         run: yarn build
-      - uses: actions/upload-artifact@v4
+      - name: create release
+        id: cr
+        uses: actions/create-release@v2
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
-          name: Package
-          path: web/dist
+          tag_name: beta-1.${{github.run_number}}
+          release_name: beta-2.${{github.run_number}}
+      - name: upload jar to release
+        uses: actions/upload-release-asset@v2
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{steps.cr.outputs.upload_url}}
+          asset_path: ./web/dist
+          asset_name: witsTalk-front-1.${{github.run_number}}.jar
+          asset_content_type: application/jar
