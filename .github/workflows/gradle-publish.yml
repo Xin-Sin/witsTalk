@@ -29,24 +29,7 @@ jobs:
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         with:
           arguments: lib-main:bootjar
-      - name: create release
-        id: crBackend
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        with:
-          tag_name: beta-1.${{github.run_number}}
-          release_name: beta-2.${{github.run_number}}
-      - name: upload jar to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        with:
-          upload_url: ${{steps.crBackend.outputs.upload_url}}
-          asset_path: ./lib-main/build/libs/lib-main-1.2.jar
-          asset_name: witsTalk-backend-1.${{github.run_number}}.jar
-          asset_content_type: application/jar
-  forntend:
+  frontend:
     name: build witsTalk frontend
     runs-on: ubuntu-latest
     steps:
@@ -61,12 +44,36 @@ jobs:
         run: cd web && yarn build
       - name: run zip
         run: zip -r dist.zip *
+  upload:
+    name: upload to release
+    runs-on: ubuntu-latest
+    needs:
+      - backend
+      - frontend
+    steps:
+      - name: create release
+        id: cr
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: beta-1.${{github.run_number}}
+          release_name: beta-2.${{github.run_number}}
+      - name: upload jar to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{steps.cr.outputs.upload_url}}
+          asset_path: ./lib-main/build/libs/lib-main-1.2.jar
+          asset_name: witsTalk-backend-1.${{github.run_number}}.jar
+          asset_content_type: application/jar
       - name: upload zip to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
-          upload_url: ${{steps.crBackend.outputs.upload_url}}
+          upload_url: ${{jobs.cr.outputs.upload_url}}
           asset_path: ./web/dist/dist.zip
           asset_name: witsTalk-front-1.${{github.run_number}}.zip
           asset_content_type: application/zip
