@@ -31,14 +31,14 @@ jobs:
           arguments: lib-main:bootjar
       - name: create release
         id: cr
-        uses: actions/create-release@v2
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           tag_name: beta-1.${{github.run_number}}
           release_name: beta-2.${{github.run_number}}
       - name: upload jar to release
-        uses: actions/upload-release-asset@v2
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
@@ -61,14 +61,14 @@ jobs:
         run: yarn build
       - name: create release
         id: cr
-        uses: actions/create-release@v2
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           tag_name: beta-1.${{github.run_number}}
           release_name: beta-2.${{github.run_number}}
       - name: upload jar to release
-        uses: actions/upload-release-asset@v2
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
