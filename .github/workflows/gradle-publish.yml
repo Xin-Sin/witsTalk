@@ -30,7 +30,7 @@ jobs:
         with:
           arguments: lib-main:bootjar
       - name: create release
-        id: cr
+        id: crBackend
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -62,7 +62,7 @@ jobs:
       - name: run zip
         run: zip -r dist.zip *
       - name: create release
-        id: cr
+        id: crFront
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
