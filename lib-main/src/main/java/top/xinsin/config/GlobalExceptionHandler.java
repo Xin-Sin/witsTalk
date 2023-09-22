@@ -19,7 +19,7 @@ import top.xinsin.util.Result;
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    @ExceptionHandler(value =Exception.class)
+    @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public Result<String> exceptionHandler(HttpServletRequest req, Exception e){
         log.error("发生异常原因是:",e);
