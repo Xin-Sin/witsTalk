@@ -55,12 +55,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20.5.0'
-      - name: tab
-        run: cd web
       - name: Install dependencies
-        run: yarn
+        run: cd web && yarn
       - name: Build dependencies
-        run: yarn build
+        run: cd web && yarn build
       - name: create release
         id: cr
         uses: actions/create-release@v1
