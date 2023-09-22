@@ -5,31 +5,40 @@ on:
       - witstalk-feature
 jobs:
   backend:
-    name: build witsTalk backend
+#    开始构建
+    name: build witsTalk
     runs-on: ubuntu-latest
     steps:
+#      设置 jdk17 运行
       - uses: actions/checkout@v2
-      - name: Set up JDK 17
+      - name: set up jdk 17
         uses: actions/setup-java@v2
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Validate Gradle wrapper
+#          验证 gradle wrapper 完整性
+      - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@ccb4328a959376b642e027874838f60f8e596de3
-      - name: Run the Gradle package task
+#        下载并编译构建项目
+      - name: download package and build project
         uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
         with:
           arguments: lib-main:bootjar
-      - name: Use Node.js
+#          设置 node.js 20.5.0 运行
+      - name: set up node.js 20.5.0
         uses: actions/setup-node@v2
         with:
           node-version: '20.5.0'
-      - name: Install dependencies
+#          安装仓库
+      - name: install dependencies
         run: cd web && yarn
-      - name: Build dependencies
+#        构建项目
+      - name: build frontend project
         run: cd web && yarn build
-      - name: run zip
+#        编译出产物打包成zip
+      - name: build files to zip
         run: cd web/dist && zip -rm dist.zip *
+#        创建发布分支
       - name: create release
         id: cr
         uses: actions/create-release@v1
@@ -37,8 +46,9 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           tag_name: beta-1.${{github.run_number}}
-          release_name: beta-2.${{github.run_number}}
-      - name: upload jar to release
+          release_name: beta-1.${{github.run_number}}
+#          上传后端jar包
+      - name: upload backend.jar to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -47,7 +57,8 @@ jobs:
           asset_path: ./lib-main/build/libs/lib-main-1.2.jar
           asset_name: witsTalk-backend-1.${{github.run_number}}.jar
           asset_content_type: application/jar
-      - name: upload zip to release
+#          上传前端压缩包
+      - name: upload frontend.zip to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
