@@ -61,7 +61,7 @@ jobs:
         run: cd web && yarn build
       - name: run zip
         run: zip -r dist.zip *
-      - name: create release
+      - name: create front release
         id: crFront
         uses: actions/create-release@v1
         env:
@@ -69,7 +69,7 @@ jobs:
         with:
           tag_name: beta-1.${{github.run_number}}
           release_name: beta-1.${{github.run_number}}
-      - name: upload jar to release
+      - name: upload zip to release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
