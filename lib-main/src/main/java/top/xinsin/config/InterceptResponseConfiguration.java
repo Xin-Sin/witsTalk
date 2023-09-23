@@ -1,6 +1,8 @@
 package top.xinsin.config;
 
+import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -12,6 +14,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import top.xinsin.pojo.Log;
+import top.xinsin.service.impl.LogServiceImpl;
 import top.xinsin.util.Result;
 
 import java.util.Objects;
@@ -20,6 +24,12 @@ import java.util.Objects;
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class InterceptResponseConfiguration implements ResponseBodyAdvice<Object> {
+    private final LogServiceImpl logService;
+
+    public InterceptResponseConfiguration(LogServiceImpl logService) {
+        this.logService = logService;
+    }
+
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
         return true;
@@ -43,6 +53,16 @@ public class InterceptResponseConfiguration implements ResponseBodyAdvice<Object
                     controllerUrlMethod,
                     r.getStatus(),
                     r.getData());
+            logService.save(new Log(
+                    controllerClassName,
+                    controllerMethodName,
+                    controllerClassURlPath + controllerUrlPath,
+                    controllerUrlMethod,
+                    r.getStatus(),
+                    JSON.toJSONString(r.getData()),
+                    r.getTimestamp(),
+                    r.getMessage()
+            ));
             response.setStatusCode(HttpStatusCode.valueOf(r.getStatus()));
         }
         return body;

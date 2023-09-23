@@ -13,3 +13,21 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.bootJar {
+    val env = "prod"
+    val current = "xinsin"
+    doFirst {
+        val file = File("${buildDir}/resources/main/application.properties")
+        var allText = ""
+        file.forEachLine { line ->
+            allText += if (line.endsWith(current) && line.replace(current, env) != "") {
+                line.replace(current, env)
+            }else{
+                line
+            }
+        }
+        file.writeText(allText)
+    }
+    dependsOn("compileJava", "processResources", "classes")
+}
