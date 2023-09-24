@@ -1,0 +1,13 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    username: witstalk
+    password: witsTalk
+    url: jdbc:mysql://192.168.1.2:3306/witstalk?serverTimezone=UTC-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: 192.168.1.2
+      port: 6379
+      database: 3

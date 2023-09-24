@@ -1,10 +1,13 @@
 package top.xinsin.enums;
 
+import lombok.Getter;
+
 /**
  * @author xinsin
  * Created On 2023/4/3 15:47
  * @version 1.0
  */
+@Getter
 public enum HttpCodes {
     /**
      * 200
@@ -51,11 +54,4 @@ public enum HttpCodes {
         this.message = message;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }
