@@ -56,7 +56,7 @@
 
 ## 🍀 Acknowledgement
 <div style="width: 256px;height: 256px;text-align: center">
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
+<img src="https://resource.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
 </div>
 
 ## 🧑‍💻How to develop?
@@ -116,7 +116,7 @@ CREATE TABLE `file`
     PRIMARY KEY (`id`),
     KEY `id` (`id`) USING BTREE,
     KEY `uploaderId` (`uploaderId`),
-    CONSTRAINT `uploaderId` FOREIGN KEY (`uploaderId`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `uploaderId` FOREIGN KEY (`uploaderId`) REFERENCES old_user (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 30
   DEFAULT CHARSET = utf8mb4

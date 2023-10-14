@@ -1,18 +1,10 @@
 package top.xinsin;
 
-import org.apache.ibatis.session.ExecutorType;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Value;
+import org.mybatis.spring.annotation.MapperScans;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
 
 /**
  * @author xinsin
@@ -20,7 +12,7 @@ import javax.naming.InitialContext;
  * @version 1.0
  */
 @SpringBootApplication
-@MapperScan("top.xinsin.mapper")
+@MapperScans({@MapperScan("top.xinsin.mapper"), @MapperScan("cn.wzpmc.mapper")})
 @ServletComponentScan("top.xinsin")
 public class LaunchWitsTalk {
     public static void main(String[] args) {

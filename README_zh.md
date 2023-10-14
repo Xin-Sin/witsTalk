@@ -55,7 +55,7 @@
 
 ## 🍀 鸣谢
 <div style="width: 256px;height: 256px;text-align: center">
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
+<img src="https://resource.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo.">
 </div>
 
 
