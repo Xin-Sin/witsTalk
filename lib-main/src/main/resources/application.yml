@@ -5,8 +5,9 @@ jwt:
   expiration: 604800
   redis_token_key: user:token:%s
 mybatis-flex:
-  mapper-locations: classpath:top/xinsin/mapper/**.xml
-  type-aliases-package: top.xinsin.mapper
+  mapper-locations:
+    - classpath:top/xinsin/mapper/**.xml
+    - classpath:cn/wzpmc/mapper/**.xml
   configuration:
     map-underscore-to-camel-case: true
 spring:

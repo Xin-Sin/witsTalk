@@ -46,6 +46,8 @@ subprojects {
         implementation("com.zaxxer:HikariCP:5.0.1")
         implementation("io.jsonwebtoken:jjwt-api:0.11.5")
         implementation("com.alibaba.fastjson2:fastjson2:2.0.40")
+        // https://mvnrepository.com/artifact/com.google.guava/guava
+        implementation("com.google.guava:guava:32.1.3-jre")
 
         runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
         runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")

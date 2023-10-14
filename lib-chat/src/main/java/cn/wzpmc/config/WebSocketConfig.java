@@ -1,4 +1,4 @@
-package top.xinsin.config;
+package cn.wzpmc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
