@@ -1,0 +1,19 @@
+# Example Configuration File
+server:
+  port: 8080 # The port used by backend
+spring:
+  datasource:
+    username: root # datasource username
+    password: 123456 # datasource password
+    url: jdbc:mysql://localhost:3306/witstalk?serverTimezone=UTC-8 # datasource url
+    driver-class-name: com.mysql.cj.jdbc.Driver # datasource driver
+  mvc:
+    static-path-pattern: /static/** # web application saves (after build)
+  data:
+    redis:
+      host: localhost # redis host
+      port: 6379 # redis port
+      password: 123456 # redis password
+      database: 3 # redis database
+jwt:
+  secret: Q2fW1fQ2fdfEd4fR8c6bf7fY3c2f4b3bfUbv7I8Ef8wOP8Pd8A3S4D5F6G5H7J8K9V8C0B8H9N7J6X5f4Zf4M4f6K2f3d3sf43aj4d4q3w5o4se48u9q78327198er12f3jDc4sD2a1kmDxz #secret used by jwt
