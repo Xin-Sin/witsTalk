@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +28,10 @@ public class JwtTokenUtil {
     private String secret;
     @Value("${jwt.expiration}")
     private Long expire;
-
+    private final SignatureAlgorithm alg = SignatureAlgorithm.HS512;
+    private Key getKeyFromSecret(){
+        return new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), alg.getJcaName());
+    }
     /**
      * 根据用户信息生成token
      */
@@ -46,7 +52,7 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(getKeyFromSecret())
                 .compact();
     }
     /**
@@ -59,7 +65,7 @@ public class JwtTokenUtil {
         Claims claims = null;
         try {
             claims = Jwts.parserBuilder()
-                    .setSigningKey(secret)
+                    .setSigningKey(getKeyFromSecret())
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
@@ -77,7 +83,7 @@ public class JwtTokenUtil {
     }
     public boolean validateJwtToken(String token){
         try {
-            Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(getKeyFromSecret()).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException e) {
             log.error("Invalid JWT signature: {}", e.getMessage());
