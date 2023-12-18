@@ -1,0 +1,23 @@
+mybatis-flex:
+  mapper-locations:
+    - classpath:top/xinsin/mapper/**.xml
+    - classpath:cn/wzpmc/mapper/**.xml
+  configuration:
+    map-underscore-to-camel-case: true
+spring:
+  mvc:
+    static-path-pattern: /static/**
+  data:
+    redis:
+      jedis:
+        pool:
+          max-active: 8
+          max-wait: -1
+          max-idle: 500
+          min-idle: 0
+jwt:
+  tokenHeader: X-Token
+  tokenHead: Bearer-
+  secret: Q2fW1fQ2fdfEd4fR8c6bf7fY3c2f4b3bfUbv7I8Ef8wOP8Pd8A3S4D5F6G5H7J8K9V8C0B8H9N7J6X5f4Zf4M4f6K2f3d3sf43aj4d4q3w5o4se48u9q78327198er12f3jDc4sD2a1kmDxz
+  expiration: 604800
+  redis_token_key: user:token:%s

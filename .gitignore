@@ -4,20 +4,6 @@ out
 *.class
 *.iml
 web/node_modules
-nginx/nginx.exe
-nginx/temp
-nginx/logs
-nginx/docs
-nginx/contrib
-nginx/auto
-nginx/man
-nginx/src
-nginx/CHANGES
-nginx/CHANGES.ru
-nginx/configure
-nginx/LICENSE
-nginx/README
-filesave
 
 .gradle
 build/
@@ -60,3 +46,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+/run
